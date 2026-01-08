@@ -1,0 +1,193 @@
+/******************************
+*
+******************************/
+@import "fragments/variables";
+@import "fragments/components_mixin";
+@import "fragments/media_mixin";
+@import "fragments/fonts_mixin";
+/* Часто повторяющиеся элементы */
+
+/* Normalize */
+:root {
+}
+
+* {
+    box-sizing: border-box;
+}
+
+// - html и body
+html {
+    font-size: var(--st-fs);
+    padding: 0;
+    margin: 0;
+
+    body {
+        font-size: var(--st-fs);
+        padding: 0;
+        margin: 0;
+        line-height: $st-base-font-line-height;
+        @include st-font-style(
+            (
+                style: "regular",
+                prop: "font-family",
+            )
+        );
+        background: $st-bg-site;
+        color: $st-text-color;
+        position: relative;
+    }
+}
+
+// - Оформление отображения кода <pre>, <code>
+pre,
+code {
+    background: #1f1f1f !important;
+    color: $st-color-site !important;
+    padding: 25px 15px;
+    width: 100%;
+    display: block;
+    margin: 25px 0;
+}
+
+// - Настройка контейнера .container
+.container {
+}
+
+// Параграф
+p {
+    padding: 0;
+    margin: 0;
+}
+
+// - Заголовки h1, .h1, h2, .h2, h3, .h3,
+h1,
+.h1,
+h2,
+.h2 {
+}
+
+// - Перенос текста
+.whiteSpace {
+    &_nowrap {
+        white-space: nowrap;
+    }
+}
+
+// - Ссылки
+a {
+    transition: all 0.3s linear;
+    color: $st-text-color;
+    position: relative;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+        color: $st-color-site;
+        text-decoration: none;
+        outline: none;
+        cursor: $st-cursor-hover;
+    }
+}
+
+button {
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+// - Цвета по умолчанию
+
+// - Картинки
+img {
+    height: auto;
+    max-width: 100%;
+
+    &.lazy {
+        opacity: 0;
+    }
+
+    &:not([src]):not([srcset]) {
+        visibility: hidden;
+    }
+
+    &:not(.initial) {
+        transition: opacity 1s;
+    }
+
+    &.initial,
+    &.loaded,
+    &.error {
+        opacity: 1;
+    }
+
+    &.max-width-100 {
+        max-width: 100%;
+    }
+}
+
+object {
+    width: 100%;
+}
+
+// - Списки
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+}
+
+ol {
+}
+
+// - Секции
+section,
+.section {
+}
+
+// - Заливка - background
+.bg {
+}
+
+// - Grid
+.grid {
+    display: grid;
+}
+
+.d-none {
+    display: none !important;
+}
+
+/* Header */
+header#header.header {
+}
+
+// - Мобильное меню
+#mobileMenu {
+}
+
+/* Body */
+// - Шаблоны страниц
+main {
+    &.page-404 {
+    }
+}
+
+// - Кнопки
+.btn {
+}
+
+// - Формы
+form {
+}
+
+/* Footer */
+footer.footer#footer {
+}
+
+/* Дополнительные модули */
+@import "modules";

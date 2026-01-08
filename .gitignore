@@ -1,0 +1,25 @@
+# Проверка на игнорирование файлов git status --ignored
+
+# Игнорируем все папки и файлы кроме указанных
+/*
+
+!themes/
+themes/twenty*/
+themes/rst*/
+
+!imports
+
+# Favicon
+!/uploads
+/uploads/*
+!/uploads/fbrfg/
+
+!.github
+!.gitignore
+!README.md
+
+node_modules/
+
+*.log
+*.sql
+*.sqlite

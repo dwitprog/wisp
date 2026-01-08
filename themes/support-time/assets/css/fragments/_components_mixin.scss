@@ -1,0 +1,138 @@
+@use "sass:math";
+/******************************
+*
+******************************/
+@import "_variables";
+@import "_media_mixin";
+@import "fonts_mixin";
+
+$breakpoints: (
+    xs: null,
+    sm: 576,
+    md: 768,
+    lg: 992,
+    xl: 1200,
+    xxl: 1400,
+);
+
+// Карта для преобразования сокращений в CSS-свойства
+$spacing-properties: (
+    mb: margin-bottom,
+    mt: margin-top,
+    ml: margin-left,
+    mr: margin-right,
+    mx: margin-left margin-right,
+    my: margin-top margin-bottom,
+    pb: padding-bottom,
+    pt: padding-top,
+    pl: padding-left,
+    pr: padding-right,
+    px: padding-left padding-right,
+    py: padding-top padding-bottom,
+);
+
+// Миксин для генерации классов колонок гридов
+@mixin st-grid-column($columns-list: ()) {
+    // Базовые классы
+    @each $i in $columns-list {
+        .st-grid-column-#{$i} {
+            grid-template-columns: repeat($i, 1fr);
+        }
+    }
+
+    // Адаптивные классы
+    @each $name, $size in $breakpoints {
+        @if $size {
+            @include min_definite_width($size) {
+                @each $i in $columns-list {
+                    .st-grid-column-#{$name}-#{$i} {
+                        grid-template-columns: repeat($i, 1fr);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Миксин для генерации классов gap, row-gap и column-gap
+@mixin generate-gap-classes($gap-values: ()) {
+    // Базовые классы (без медиа-запросов)
+    @each $value in $gap-values {
+        // Класс для общего gap
+        .gap-#{$value} {
+            gap: #{$value}px !important;
+        }
+
+        // Класс для row-gap
+        .row-gap-#{$value} {
+            row-gap: #{$value}px !important;
+        }
+
+        // Класс для column-gap
+        .column-gap-#{$value} {
+            column-gap: #{$value}px !important;
+        }
+    }
+
+    // Адаптивные классы
+    @each $name, $size in $breakpoints {
+        @if $size {
+            @include min_definite_width($size) {
+                @each $value in $gap-values {
+                    // Класс для общего gap
+                    .gap-#{$name}-#{$value} {
+                        gap: #{$value}px !important;
+                    }
+
+                    // Класс для row-gap
+                    .row-gap-#{$name}-#{$value} {
+                        row-gap: #{$value}px !important;
+                    }
+
+                    // Класс для column-gap
+                    .column-gap-#{$name}-#{$value} {
+                        column-gap: #{$value}px !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Миксин для генерации адаптивных классов margin и padding
+@mixin generate-spacing-classes($property, $values: ()) {
+    // Преобразуем сокращение в CSS-свойство
+    $css-property: map-get($spacing-properties, $property);
+
+    // Базовые классы (без медиа-запросов)
+    @each $value in $values {
+        .#{$property}-#{$value} {
+            @if type-of($css-property) == list {
+                @each $prop in $css-property {
+                    #{$prop}: #{$value}px !important;
+                }
+            } @else {
+                #{$css-property}: #{$value}px !important;
+            }
+        }
+    }
+
+    // Адаптивные классы
+    @each $name, $size in $breakpoints {
+        @if $size {
+            @include min_definite_width($size) {
+                @each $value in $values {
+                    .#{$property}-#{$name}-#{$value} {
+                        @if type-of($css-property) == list {
+                            @each $prop in $css-property {
+                                #{$prop}: #{$value}px !important;
+                            }
+                        } @else {
+                            #{$css-property}: #{$value}px !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

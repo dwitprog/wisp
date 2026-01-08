@@ -1,0 +1,65 @@
+/******************************
+* Устройства до 1400px
+* Устройства до 1200px
+* Устройства до 992px
+* Устройства до 768px
+* Устройства до 576px
+* Устройства до <СВОЁ_ЗНАЧЕНИЕ>
+* Устройства от <СВОЁ_ЗНАЧЕНИЕ>
+* Устройства от <СВОЁ_ЗНАЧЕНИЕ> до <СВОЁ_ЗНАЧЕНИЕ>
+******************************/
+
+/* Устройства до 1400px */
+@mixin max_1400 {
+    @media screen and (max-width: 1399.98px) {
+        @content;
+    }
+}
+/* Устройства до 1200px */
+@mixin max_1200 {
+    @media screen and (max-width: 1199.98px) {
+        @content;
+    }
+}
+/* Устройства до 992px */
+@mixin max_992 {
+    @media screen and (max-width: 991.98px) {
+        @content;
+    }
+}
+/* Устройства до 768px */
+@mixin max_768 {
+    @media screen and (max-width: 767.98px) {
+        @content;
+    }
+}
+/* Устройства до 576px */
+@mixin max_576 {
+    @media screen and (max-width: 575.98px) {
+        @content;
+    }
+}
+/* Устройства до <СВОЁ_ЗНАЧЕНИЕ> */
+@mixin max_definite_width($width) {
+    @media screen and (max-width: $width + "px") {
+        @content;
+    }
+}
+/* Устройства до <СВОЁ_ЗНАЧЕНИЕ> */
+@mixin max_definite_height($height) {
+    @media screen and (max-height: $height + "px") {
+        @content;
+    }
+}
+/* Устройства от <СВОЁ_ЗНАЧЕНИЕ> */
+@mixin min_definite_width($width) {
+    @media screen and (min-width: $width + "px") {
+        @content;
+    }
+}
+/* Устройства от <СВОЁ_ЗНАЧЕНИЕ> до <СВОЁ_ЗНАЧЕНИЕ> */
+@mixin min_max_definite_width($min_width, $max_width) {
+    @media screen and (min-width: $min_width + "px") and (max-width: $max_width + "px") {
+        @content;
+    }
+}

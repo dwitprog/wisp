@@ -1,0 +1,25 @@
+{
+    "semi": true,
+    "singleQuote": false,
+    "jsxSingleQuote": false,
+    "bracketSpacing": true,
+    "trailingComma": "all",
+    "printWidth": 120,
+    "tabWidth": 4,
+    "arrowParens": "avoid",
+    "useTabs": false,
+    "endOfLine": "lf",
+    "htmlWhitespaceSensitivity": "ignore",
+    "embeddedLanguageFormatting": "auto",
+    "plugins": ["@prettier/plugin-php"],
+    "overrides": [
+        {
+            "files": "*.php",
+            "options": {
+                "tabWidth": 4,
+                "printWidth": 80,
+                "requirePragma": true
+            }
+        }
+    ]
+}

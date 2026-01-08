@@ -1,0 +1,94 @@
+@use "sass:math";
+@import "variables";
+
+/******************************
+* Размеры шрифтов
+* Шрифты в виде переменных
+* Шрифты в виде миксина
+* Конвертер px в rem
+******************************/
+/* Размеры шрифтов */
+$st-base-font-size: 16px;
+$st-base-font-line-height: 140%;
+/* Шрифты в виде переменных  */
+$st-font-name: "Inter";
+$st-font-name-second: "GraphikLCG";
+$st-font-style-regular:
+    $st-font-name + "-Regular",
+    sans-serif;
+$st-font-style-medium:
+    $st-font-name + "-Medium",
+    sans-serif;
+$st-font-style-bold:
+    $st-font-name + "-Bold",
+    sans-serif;
+$st-font-style-second-medium:
+    $st-font-name-second + "-Medium",
+    sans-serif;
+
+/* Конвертер px в rem */
+// @include px-to-rem((pxValue: 20, base: 25));
+@mixin px-to-rem($args) {
+    $defaults: (
+        fs: 16,
+        prop: "font-size",
+        important: 0,
+        base: 16,
+    );
+    $config: map-merge($defaults, $args);
+    $pxValue: map-get($config, fs);
+    $property: map-get($config, prop);
+    $important: map-get($config, important);
+    $base: map-get($config, base);
+    @if $important > 0 {
+        #{$property}: math.div($pxValue, $base) + rem !important;
+    } @else {
+        #{$property}: math.div($pxValue, $base) + rem;
+    }
+}
+
+/* Шрифты в виде миксина  */
+// @include st-font-style('regular');
+// Выведет: font: 1rem "Inter-Regular", "sans-serif";
+// @include st-font-style('regular', 'font-family');
+// Выведет: font-family: "Inter-Regular", "sans-serif";
+// @include st-font-style('semibold','font', 40, 140%);
+// Выведет:	font: 3rem/140% Inter-SemiBold,"sans-serif";
+@mixin st-font-style($args) {
+    $defaults: (
+        style: "light",
+        prop: "font",
+        fs: 16,
+        lh: 140%,
+        othr-fs: "sans-serif",
+        fname: "Inter",
+        base: 16,
+    );
+    $config: map-merge($defaults, $args);
+    $style: map-get($config, style);
+    $property: map-get($config, prop);
+    $font-size: map-get($config, fs);
+    $line-height: map-get($config, lh);
+    $other-fonts: map-get($config, othr-fs);
+    $font-name: map-get($config, fname);
+    $base: map-get($config, base);
+
+    @if $style == "regular" {
+        $style: "-Regular";
+    } @else if $style == "medium" {
+        $style: "-Medium";
+    } @else if $style == "bold" {
+        $style: "-Bold";
+    } @else {
+        $style: "-Regular";
+    }
+    @if $property == "font-family" {
+        #{$property}:
+            $font-name + $style,
+            $other-fonts;
+    } @else {
+        #{$property}:
+            math.div($font-size, $base) + rem / $line-height $font-name + $style,
+            $other-fonts;
+    }
+}
