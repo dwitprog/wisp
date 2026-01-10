@@ -9,21 +9,17 @@
 ******************************/
 /* Размеры шрифтов */
 $st-base-font-size: 16px;
-$st-base-font-line-height: 140%;
+$st-base-font-line-height: 105%;
 /* Шрифты в виде переменных  */
-$st-font-name: "Inter";
-$st-font-name-second: "GraphikLCG";
+$st-font-name: "Aeroport";
 $st-font-style-regular:
     $st-font-name + "-Regular",
-    sans-serif;
-$st-font-style-medium:
-    $st-font-name + "-Medium",
     sans-serif;
 $st-font-style-bold:
     $st-font-name + "-Bold",
     sans-serif;
-$st-font-style-second-medium:
-    $st-font-name-second + "-Medium",
+$st-font-style-black:
+    $st-font-name + "-Black",
     sans-serif;
 
 /* Конвертер px в rem */
@@ -49,19 +45,19 @@ $st-font-style-second-medium:
 
 /* Шрифты в виде миксина  */
 // @include st-font-style('regular');
-// Выведет: font: 1rem "Inter-Regular", "sans-serif";
+// Выведет: font: 1rem "Aeroport-Regular", "sans-serif";
 // @include st-font-style('regular', 'font-family');
-// Выведет: font-family: "Inter-Regular", "sans-serif";
+// Выведет: font-family: "Aeroport-Regular", "sans-serif";
 // @include st-font-style('semibold','font', 40, 140%);
-// Выведет:	font: 3rem/140% Inter-SemiBold,"sans-serif";
+// Выведет:	font: 3rem/140% Aeroport-SemiBold,"sans-serif";
 @mixin st-font-style($args) {
     $defaults: (
-        style: "light",
+        style: "regular",
         prop: "font",
         fs: 16,
         lh: 140%,
         othr-fs: "sans-serif",
-        fname: "Inter",
+        fname: "Aeroport",
         base: 16,
     );
     $config: map-merge($defaults, $args);
@@ -75,8 +71,8 @@ $st-font-style-second-medium:
 
     @if $style == "regular" {
         $style: "-Regular";
-    } @else if $style == "medium" {
-        $style: "-Medium";
+    } @else if $style == "black" {
+        $style: "-Black";
     } @else if $style == "bold" {
         $style: "-Bold";
     } @else {

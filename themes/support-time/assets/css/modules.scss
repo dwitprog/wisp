@@ -120,10 +120,6 @@
                     fname: "GraphikLCG",
                 )
             );
-
-            span {
-                color: $st-color-site;
-            }
         }
 
         .item_soglasie {
@@ -209,56 +205,6 @@
 /* [Библиотека] Слайдеры swiper */
 
 .swiper {
-    .swiper-pagination.swiper-pagination-bullets.swiper-pagination-horizontal {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        position: relative;
-        top: 0;
-        bottom: 0;
-
-        .swiper-pagination-bullet {
-            width: 8px;
-            height: 8px;
-            opacity: 1;
-            margin: 0;
-            background: #e6e8eb;
-
-            &.swiper-pagination-bullet-active {
-                background: $st-color-site;
-            }
-        }
-    }
-
-    .swiper-button-prev,
-    .swiper-button-next {
-        &.swiper-button-disabled {
-            opacity: 1;
-
-            svg {
-                path {
-                    fill: #687077;
-                }
-            }
-        }
-
-        position: static;
-        width: auto;
-        margin: 0;
-        height: auto;
-        opacity: 1;
-
-        svg {
-            path {
-                fill: $st-color-site;
-            }
-        }
-
-        &:after {
-            content: none;
-        }
-    }
 }
 
 /* [WP Plugin] CF7 */

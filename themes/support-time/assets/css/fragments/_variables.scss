@@ -1,13 +1,33 @@
 //Цвета элементов
 $st-bg-site: #fff;
-$st-color-site: #5e91a8;
 $st-color-green: #07ca75;
 $st-color-grey: #687077;
 //Заливка
 $st-bg-light-grey: #f5f5f5;
 
+// Градиенты
+
+$st-gradient-main: linear-gradient(
+    180deg,
+    rgba(18.7, 7.7, 57.21, 1),
+    rgba(40, 34, 81, 1) 36%,
+    rgba(121, 57, 113, 1) 76%,
+    rgba(204, 120, 151, 1) 100%
+);
+$st-gradient-text-one: linear-gradient(180deg, rgba(5, 3, 12, 1), rgba(40, 34, 81, 1) 97%);
+$st-gradient-text-two: linear-gradient(
+    90deg,
+    rgba(18.7, 7.7, 57.21, 1),
+    rgba(40, 34, 81, 1) 36%,
+    rgba(121, 57, 113, 1) 76%,
+    rgba(204, 120, 151, 1) 100%
+);
 //Текст
-$st-text-color: #141414;
+$st-text-color: #26204f;
 $st-color-red: #f72b1c;
 $st-color-site-black: #141414;
 $st-cursor-hover: pointer;
+
+// Transition
+
+$transition-default: all 0.3s ease;

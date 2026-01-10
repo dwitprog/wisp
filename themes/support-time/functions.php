@@ -34,14 +34,11 @@ require __DIR__ . '/vendor/autoload.php';
  */
 function st_get_font_face_styles(): string
 {
-    $font_name = 'Inter';
-    $font_name_second = 'GraphikLCG';
+    $font_name = 'Aeroport';
     $code = "
         @font-face {
             font-family: '" . $font_name . "-Regular';
-            src: url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Regular.eot') . "');
             src: local('" . $font_name . "'), local('" . $font_name . "-Regular'),
-                url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Regular.eot?#iefix') . "') format('embedded-opentype'),
                 url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Regular.woff2') . "') format('woff2'),
                 url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Regular.woff') . "') format('woff'),
                 url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Regular.ttf') . "') format('truetype');
@@ -50,46 +47,23 @@ function st_get_font_face_styles(): string
             font-display: swap;
         }
         @font-face {
-            font-family: '" . $font_name . "-Medium';
-             src: url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Medium.eot') . "');
-            src: local('" . $font_name . "'), local('" . $font_name . "-Medium'),
-                url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Medium.eot?#iefix') . "') format('embedded-opentype'),
-                url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Medium.woff2') . "') format('woff2'),
-                url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Medium.ttf') . "') format('truetype');
-            font-weight: 500;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
-            font-family: '" . $font_name . "-SemiBold';
-             src: url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-SemiBold.eot') . "');
-            src: local('" . $font_name . "'), local('" . $font_name . "-SemiBold'),
-                url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-SemiBold.eot?#iefix') . "') format('embedded-opentype'),
-                url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-SemiBold.woff2') . "') format('woff2'),
-                url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-SemiBold.ttf') . "') format('truetype');
-            font-weight: 600;
-            font-style: normal;
-            font-display: swap;
-        }
-        @font-face {
             font-family: '" . $font_name . "-Bold';
-            src: url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Bold.eot') . "');
             src: local('" . $font_name . "'), local('" . $font_name . "-Bold'),
-                url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Bold.eot?#iefix') . "') format('embedded-opentype'),
                 url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Bold.woff2') . "') format('woff2'),
+                url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Bold.woff') . "') format('woff'),
                 url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Bold.ttf') . "') format('truetype');
             font-weight: 700;
             font-style: normal;
             font-display: swap;
         }
         @font-face {
-            font-family: '" . $font_name_second . "-Medium';
-            src: url('" . get_theme_file_uri('assets/fonts/' . $font_name_second . '-Medium.eot') . "');
-            src: local('" . $font_name_second . "'), local('" . $font_name_second . "-Medium'),
-                url('" . get_theme_file_uri('assets/fonts/' . $font_name_second . '-Medium.eot?#iefix') . "') format('embedded-opentype'),
-                url('" . get_theme_file_uri('assets/fonts/' . $font_name_second . '-Medium.woff2') . "') format('woff2'),
-                url('" . get_theme_file_uri('assets/fonts/' . $font_name_second . '-Medium.ttf') . "') format('truetype');
-            font-weight: 500;
+            font-family: '" . $font_name . "-Black';
+       
+            src: local('" . $font_name . "'), local('" . $font_name . "-Bold'),
+                url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Black.woff2') . "') format('woff2'),
+                url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Black.woff') . "') format('woff'),
+                url('" . get_theme_file_uri('assets/fonts/' . $font_name . '-Black.ttf') . "') format('truetype');
+            font-weight: 900;
             font-style: normal;
             font-display: swap;
         }
@@ -101,7 +75,7 @@ function st_get_font_face_styles(): string
 // Предварительно загружаем основной веб-шрифт для повышения производительности.
 function st_preload_webfonts(): void
 {
-    $font_name = 'Inter';
+    $font_name = 'Aeroport';
     ?>
     <link rel="preload" href="<?= esc_url(get_theme_file_uri('assets/fonts/' . $font_name . '-Regular.woff2')); ?>"
           as="font" crossorigin>
@@ -116,24 +90,24 @@ add_action('wp_head', 'st_preload_webfonts');
 function st_css_and_js(): void
 {
     // CSS
-    wp_enqueue_style('styles', get_stylesheet_directory_uri() . '/assets/min/css/styles.min.css', [], '_rgbld_8_1_2026');
+    wp_enqueue_style('styles', get_stylesheet_directory_uri() . '/assets/min/css/styles.min.css', [], '_rgbld_11_1_2026');
     wp_add_inline_style('styles', st_get_font_face_styles());
 
     // Для страниц и новостей подключаем стили отдельно
     if (is_category() || is_archive() || is_single() || str_contains($_SERVER['REQUEST_URI'], 'components')) {
-        wp_enqueue_style('posts', get_stylesheet_directory_uri() . '/assets/min/css/posts.min.css', [], '_rgbld_8_1_2026');
+        wp_enqueue_style('posts', get_stylesheet_directory_uri() . '/assets/min/css/posts.min.css', [], '_rgbld_11_1_2026');
         wp_enqueue_script('comment-reply', [], null, true);
         // Подключаем стили конкретного поста
         $patch_page_style = get_stylesheet_directory() . '/assets/min/css/style-post-';
         if (file_exists($patch_page_style . get_the_ID() . '.min.css') && (is_single() || is_category() || is_archive())) {
-            wp_enqueue_style('style-post-' . get_the_ID(), get_stylesheet_directory_uri() . '/assets/min/css/style-post-' . get_the_ID() . '.min.css', [], '_rgbld_8_1_2026');
+            wp_enqueue_style('style-post-' . get_the_ID(), get_stylesheet_directory_uri() . '/assets/min/css/style-post-' . get_the_ID() . '.min.css', [], '_rgbld_11_1_2026');
         }
     } else {
-        wp_enqueue_style('pages', get_stylesheet_directory_uri() . '/assets/min/css/pages.min.css', [], '_rgbld_8_1_2026');
+        wp_enqueue_style('pages', get_stylesheet_directory_uri() . '/assets/min/css/pages.min.css', [], '_rgbld_11_1_2026');
         // Подключаем стили конкретной страницы
         $patch_page_style = get_stylesheet_directory() . '/assets/min/css/style-page-';
         if (file_exists($patch_page_style . get_the_ID() . '.min.css') && (!is_single() && !is_category() && !is_archive())) {
-            wp_enqueue_style('style-page-' . get_the_ID(), get_stylesheet_directory_uri() . '/assets/min/css/style-page-' . get_the_ID() . '.min.css', [], '_rgbld_8_1_2026');
+            wp_enqueue_style('style-page-' . get_the_ID(), get_stylesheet_directory_uri() . '/assets/min/css/style-page-' . get_the_ID() . '.min.css', [], '_rgbld_11_1_2026');
         }
     }
 
@@ -144,7 +118,7 @@ function st_css_and_js(): void
     foreach ($arr_display_styles as $d) {
         foreach ($arr_name_files_mobile_style as $f) {
             if (file_exists($patch_mobile_styles . $f . '-max-' . $d . '.css')) {
-                wp_enqueue_style($f . '-max-' . $d, get_stylesheet_directory_uri() . '/assets/min/css/' . $f . '-max-' . $d . '.css', [], '_rgbld_8_1_2026', 'screen and (max-width:' . $d . 'px)');
+                wp_enqueue_style($f . '-max-' . $d, get_stylesheet_directory_uri() . '/assets/min/css/' . $f . '-max-' . $d . '.css', [], '_rgbld_11_1_2026', 'screen and (max-width:' . $d . 'px)');
                 if (is_single() || is_category() || is_archive() || str_contains($_SERVER['REQUEST_URI'], 'components')) {
                     wp_deregister_style('pages-max-' . $d);
                 } else {
@@ -160,9 +134,9 @@ function st_css_and_js(): void
     }
     $vendorsLibsWebpack = file_exists(get_template_directory() . '/assets/min/js/vendors.min.js');
     if (!empty($vendorsLibsWebpack)) {
-        wp_enqueue_script('vendors', get_stylesheet_directory_uri() . '/assets/min/js/vendors.min.js', [], '_rgbld_8_1_2026', true);
+        wp_enqueue_script('vendors', get_stylesheet_directory_uri() . '/assets/min/js/vendors.min.js', [], '_rgbld_11_1_2026', true);
     }
-    wp_register_script('main', get_stylesheet_directory_uri() . '/assets/min/js/main.min.js', !empty($vendorsLibsWebpack) ? ['vendors'] : [], '_rgbld_8_1_2026', true);
+    wp_register_script('main', get_stylesheet_directory_uri() . '/assets/min/js/main.min.js', !empty($vendorsLibsWebpack) ? ['vendors'] : [], '_rgbld_11_1_2026', true);
     wp_localize_script(
         'main',
         'rgData',
@@ -176,12 +150,12 @@ function st_css_and_js(): void
         wp_enqueue_script('posts', get_stylesheet_directory_uri() . '/assets/min/js/postsScripts.min.js', !empty($vendorsLibsWebpack) ? [
             'main',
             'vendors'
-        ] : ['main'], '_rgbld_8_1_2026', true);
+        ] : ['main'], '_rgbld_11_1_2026', true);
     } else {
         wp_enqueue_script('pages', get_stylesheet_directory_uri() . '/assets/min/js/pagesScripts.min.js', !empty($vendorsLibsWebpack) ? [
             'main',
             'vendors'
-        ] : ['main'], '_rgbld_8_1_2026', true);
+        ] : ['main'], '_rgbld_11_1_2026', true);
     }
 }
 
@@ -226,10 +200,10 @@ add_action('wp_enqueue_scripts', 'theme_dequeue_vendor_if_needed', 20);
 function st_css_and_js_admin(): void
 {
     // CSS
-    wp_enqueue_style('admin-styles', get_stylesheet_directory_uri() . '/assets/min/css/admin.min.css', [], '_rgbld_8_1_2026');
+    wp_enqueue_style('admin-styles', get_stylesheet_directory_uri() . '/assets/min/css/admin.min.css', [], '_rgbld_11_1_2026');
     wp_add_inline_style('admin-styles', st_get_font_face_styles());
     // JS
-    wp_enqueue_script('admin-scripts', get_stylesheet_directory_uri() . '/assets/min/js/admin.min.js', [], '_rgbld_8_1_2026');
+    wp_enqueue_script('admin-scripts', get_stylesheet_directory_uri() . '/assets/min/js/admin.min.js', [], '_rgbld_11_1_2026');
 }
 
 add_action('admin_enqueue_scripts', 'st_css_and_js_admin');
