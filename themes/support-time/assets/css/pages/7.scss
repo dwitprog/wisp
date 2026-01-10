@@ -29,6 +29,8 @@
         }
 
         .offer {
+            position: relative;
+            z-index: 5;
             padding-top: 222px;
             margin-bottom: 174px;
             padding-left: 66px;
@@ -214,7 +216,7 @@
 
     &.platforms {
         position: relative;
-
+        padding-bottom: 195px;
         background: linear-gradient(
             180deg,
             rgba(18.7, 7.7, 57.21, 1),
@@ -323,10 +325,56 @@
             }
         }
 
-        .swiper-container {
+        .swiper-content {
             .line {
                 display: block;
                 margin: 0 auto 17px;
+            }
+
+            .swiper-wrapper {
+                margin-bottom: 63px;
+
+                .swiper-slide {
+                    text-align: center;
+                    display: flex;
+                    height: auto;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    min-height: 105px;
+
+                    .title {
+                        transition: all 1s ease;
+                        font-size: 30px;
+                        color: #fff;
+                        opacity: 0.5;
+                        line-height: $st-base-font-line-height;
+                    }
+
+                    .desc {
+                        font-size: 20px;
+                        height: 0;
+                        transition: all 1s ease;
+                        opacity: 0;
+                        max-width: 244px;
+                        margin: 0 auto;
+                    }
+
+                    &-active {
+                        color: #fff;
+
+                        .title {
+                            opacity: 1;
+                            font-size: 40px;
+                        }
+
+                        .desc {
+                            height: 100%;
+                            margin: 25px auto 0;
+
+                            opacity: 1;
+                        }
+                    }
+                }
             }
 
             .navigation {
@@ -343,6 +391,20 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
+                }
+
+                .swiper-bullets {
+                    display: flex;
+                    width: max-content;
+                    gap: 11px;
+
+                    span {
+                        width: 7px;
+                        border-radius: 100%;
+                        display: block;
+                        height: 7px;
+                        background: #fff;
+                    }
                 }
             }
         }
