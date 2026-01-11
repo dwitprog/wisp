@@ -136,3 +136,12 @@ $spacing-properties: (
         }
     }
 }
+
+@mixin gradient-text {
+    background: $st-gradient-main;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    display: inline-block;
+}

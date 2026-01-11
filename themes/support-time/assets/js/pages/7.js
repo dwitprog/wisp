@@ -1,5 +1,6 @@
 import Swiper from "swiper";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation } from "swiper/modules";
+import { initFeedbackForm } from "../components/initFeedbackForm";
 
 const platformsSection = document.querySelector(".platforms");
 if (platformsSection) {
@@ -10,14 +11,12 @@ if (platformsSection) {
         loop: true,
         speed: 1000,
         grabCursor: true,
-        modules: [Navigation, Pagination],
+        modules: [Navigation],
         navigation: {
             nextEl: ".swiper-next",
             prevEl: ".swiper-prev",
         },
-        pagination: {
-            el: ".swiper-pagination",
-            type: "bullets",
-        },
     });
 }
+
+initFeedbackForm(".have-a-questions");
