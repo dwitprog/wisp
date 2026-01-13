@@ -430,9 +430,41 @@ form {
 /* Footer */
 footer.footer#footer {
     padding: 40px 0 31px;
+    @include max_1200 {
+        padding: 47px 0 24px;
+    }
 
     .container {
         max-width: 1360px;
+        @include max_1400 {
+            max-width: 1130px;
+        }
+        @include max_1200 {
+            max-width: 960px;
+        }
+        @include max_992 {
+            max-width: 725px;
+        }
+        @include max_768 {
+            max-width: 540px;
+        }
+        @include max_576 {
+            max-width: 100%;
+            padding: 0 20px;
+        }
+    }
+
+    .logo {
+        @include max_576 {
+            margin-bottom: 20px;
+        }
+
+        svg {
+            @include max_1200 {
+                max-width: 101px;
+                height: 55px;
+            }
+        }
     }
 
     .footer-content {
@@ -440,19 +472,41 @@ footer.footer#footer {
         align-items: flex-end;
         justify-content: space-between;
         margin-bottom: 23px;
+        @include max_1200 {
+            align-items: flex-start;
+            margin-bottom: 32px;
+        }
+        @include max_576 {
+            flex-direction: column;
+        }
     }
 
     .footer-menu {
         margin-bottom: 41px;
+        @include max_1200 {
+            margin-bottom: 33px;
+        }
 
         &_list {
             display: flex;
             align-items: center;
             gap: 41px;
+            @include max_1200 {
+                gap: 30px;
+            }
+            @include max_768 {
+                gap: 20px;
+            }
+            @include max_576 {
+                flex-wrap: wrap;
+            }
 
             a {
                 @include gradient-text;
                 text-transform: uppercase;
+                @include max_1200 {
+                    font-size: 12px;
+                }
             }
         }
     }
@@ -463,12 +517,21 @@ footer.footer#footer {
         justify-content: flex-end;
         gap: 60px;
         margin-bottom: 13px;
+        @include max_576 {
+            gap: 30px;
+            justify-content: flex-start;
+        }
     }
 
     .bottom {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        @include max_576 {
+            flex-direction: column-reverse;
+            gap: 20px;
+            align-items: flex-start;
+        }
 
         p,
         a {

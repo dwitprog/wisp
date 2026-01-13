@@ -1060,7 +1060,9 @@
             @include max_576 {
                 padding: 17px 30px;
                 max-width: 95%;
-                left: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                border-radius: 15px;
             }
 
             h2 {
@@ -1591,16 +1593,63 @@
             mask-position: right top;
             -webkit-mask-repeat: no-repeat;
             mask-repeat: no-repeat;
+            @include max_1200 {
+                -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 992 653" xmlns="http://www.w3.org/2000/svg"><path d="M744.422 0C734.202 0 725.917 8.28444 725.917 18.5039V34.5576C725.917 37.5633 723.48 40 720.475 40H5.44243C2.43665 40 0 42.4367 0 45.4424V647.558C0 650.563 2.43667 653 5.44244 653H986.558C989.563 653 992 650.563 992 647.558V45.4424C992 42.4367 989.563 40 986.558 40H934.151C931.146 40 928.709 37.5633 928.709 34.5576V18.5039C928.709 8.28458 920.424 0.000217337 910.205 0H744.422Z"/></svg>');
+                mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 992 653" xmlns="http://www.w3.org/2000/svg"><path d="M744.422 0C734.202 0 725.917 8.28444 725.917 18.5039V34.5576C725.917 37.5633 723.48 40 720.475 40H5.44243C2.43665 40 0 42.4367 0 45.4424V647.558C0 650.563 2.43667 653 5.44244 653H986.558C989.563 653 992 650.563 992 647.558V45.4424C992 42.4367 989.563 40 986.558 40H934.151C931.146 40 928.709 37.5633 928.709 34.5576V18.5039C928.709 8.28458 920.424 0.000217337 910.205 0H744.422Z"/></svg>');
+                top: -40px;
+                -webkit-mask-size: 100%;
+                mask-size: 100%;
+            }
+            @include max_992 {
+                -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 768 653" xmlns="http://www.w3.org/2000/svg"><path d="M580.504 0C570.285 0.000214821 562 8.28458 562 18.5039V34.5576C562 37.5633 559.563 40 556.558 40H5.44246C2.43668 40 0 42.4367 0 45.4424V647.558C0 650.563 2.43667 653 5.44244 653H762.558C765.563 653 768 650.563 768 647.558V45.4424C768 42.4367 765.563 40 762.558 40H724.442C721.437 40 719 37.5633 719 34.5576V18.5039C719 8.28458 710.715 0.000217349 700.496 0H580.504Z"/></svg>');
+                mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 768 653" xmlns="http://www.w3.org/2000/svg"><path d="M580.504 0C570.285 0.000214821 562 8.28458 562 18.5039V34.5576C562 37.5633 559.563 40 556.558 40H5.44246C2.43668 40 0 42.4367 0 45.4424V647.558C0 650.563 2.43667 653 5.44244 653H762.558C765.563 653 768 650.563 768 647.558V45.4424C768 42.4367 765.563 40 762.558 40H724.442C721.437 40 719 37.5633 719 34.5576V18.5039C719 8.28458 710.715 0.000217349 700.496 0H580.504Z"/></svg>');
+            }
+            @include max_768 {
+                -webkit-mask-size: 120%;
+                mask-size: 120%;
+            }
         }
 
         .container {
             max-width: 1276px;
+            @include max_1400 {
+                max-width: 1050px;
+            }
+            @include max_1200 {
+                max-width: 774px;
+            }
+            @include max_992 {
+                max-width: 100%;
+                padding-left: 50px;
+                padding-right: 20px;
+            }
+            @include max_768 {
+                padding-left: 30px;
+            }
+            @include max_576 {
+                padding-left: 20px;
+            }
         }
 
         .section-title {
             top: -80px;
             position: absolute;
             right: 11%;
+            @include max_1400 {
+                right: 12%;
+            }
+            @include max_1200 {
+                font-size: 38px;
+                top: -30px;
+            }
+            @include max_768 {
+                font-size: 32px;
+                right: 11%;
+            }
+            @include max_576 {
+                font-size: 28px;
+                top: -37px;
+            }
         }
 
         .faq-content {
@@ -1609,16 +1658,72 @@
             padding-bottom: 102px;
             display: flex;
             justify-content: space-between;
+            @include max_1200 {
+                padding-top: 75px;
+                padding-bottom: 70px;
+            }
+            @include max_992 {
+                padding-top: 25px;
+                padding-bottom: 50px;
+                gap: 40px;
+            }
+            @include max_576 {
+                gap: 30px;
+            }
         }
 
         .items {
             max-width: 640px;
             padding-top: 33px;
             padding-bottom: 55px;
+            @include max_1200 {
+                max-width: 552px;
+                padding-top: 12px;
+                padding-bottom: 46px;
+            }
 
             .item {
+                display: grid;
+                grid-template-rows: auto 0fr;
+                transition: grid-template-rows 0.5s ease;
+
                 &:not(:last-child) {
                     margin-bottom: 86px;
+                    @include max_1200 {
+                        margin-bottom: 40px;
+                    }
+                }
+
+                &.active {
+                    grid-template-rows: auto 1fr;
+
+                    .title {
+                        font-size: 40px;
+                        opacity: 1;
+                        @include max_1200 {
+                            font-size: 24px;
+                        }
+                        @include max_576 {
+                            font-size: 20px;
+                        }
+                    }
+
+                    .content {
+                        opacity: 1;
+                        visibility: visible;
+                        padding-top: 0;
+                    }
+
+                    .desc {
+                        padding: 16px 0 63px;
+                        @include max_1200 {
+                            padding: 24px 0;
+                        }
+                    }
+
+                    .btn {
+                        opacity: 1;
+                    }
                 }
 
                 .title {
@@ -1627,32 +1732,37 @@
                     opacity: 0.7;
                     font-size: 24px;
                     cursor: pointer;
+                    transition: all 0.5s ease;
+                    grid-row: 1;
+                    padding-bottom: 0;
+                    @include max_1200 {
+                        font-size: 20px;
+                    }
+                    @include max_576 {
+                        font-size: 18px;
+                    }
+                }
+
+                .content {
+                    grid-row: 2;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: all 0.5s ease 0.1s;
+                    overflow: hidden;
+                    padding-top: 16px;
                 }
 
                 .desc {
                     color: #fff;
-                    display: none;
-                    margin: 16px 0 63px;
+                    padding: 0;
+                    transition: padding 0.5s ease;
                 }
 
                 .btn {
-                    display: none;
                     width: max-content;
-                }
-
-                &.active {
-                    .title {
-                        font-size: 40px;
-                        opacity: 1;
-                    }
-
-                    .desc {
-                        display: block;
-                    }
-
-                    .btn {
-                        display: block;
-                    }
+                    display: block;
+                    opacity: 0;
+                    transition: opacity 0.5s ease 0.2s;
                 }
             }
         }
@@ -1660,6 +1770,15 @@
         .slider {
             display: flex;
             gap: 86px;
+            height: 850px;
+            @include max_1200 {
+                gap: 65px;
+                height: 560px;
+            }
+            @include max_576 {
+                gap: 30px;
+                height: 700px;
+            }
 
             &-line {
                 border-radius: 8px;
@@ -1684,6 +1803,10 @@
                 left: 50%;
                 transform: translateX(-50%);
                 top: 24%;
+                @include max_1200 {
+                    width: 41px;
+                    height: 68px;
+                }
 
                 span {
                     box-shadow: inset 2px 2px 2.4000000953674316px 0 rgba(0, 0, 0, 0.25);
@@ -1697,6 +1820,11 @@
                     border-radius: 100%;
                     display: block;
                     margin: 13px auto 0;
+                    @include max_1200 {
+                        width: 28px;
+                        height: 28px;
+                        margin-top: 8px;
+                    }
                 }
             }
 
@@ -1707,6 +1835,12 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
+                @include max_1200 {
+                    width: 35px;
+                }
+                @include max_576 {
+                    width: 25px;
+                }
 
                 span {
                     height: 2px;
