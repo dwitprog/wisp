@@ -23,6 +23,7 @@ html {
     font-size: var(--st-fs);
     padding: 0;
     margin: 0;
+    overflow-x: hidden;
 
     body {
         font-size: var(--st-fs);
@@ -55,7 +56,6 @@ code {
 
 // - Настройка контейнера .container
 .container {
-    max-width: 1276px;
     width: 100%;
     margin: 0 auto;
 }
@@ -77,6 +77,18 @@ h2,
     padding: 0;
     margin: 0;
     line-height: $st-base-font-line-height;
+    @include max_1400 {
+        font-size: 56px;
+    }
+    @include max_1200 {
+        font-size: 46px;
+    }
+    @include max_768 {
+        font-size: 38px;
+    }
+    @include max_576 {
+        font-size: 32px;
+    }
 }
 
 // - Перенос текста
@@ -218,6 +230,9 @@ header#header.header {
         justify-content: space-between;
         padding: 32px 0;
         margin: 0 auto;
+        @include max_1400 {
+            max-width: 1130px;
+        }
         @include max_1200 {
             max-width: 960px;
             padding: 16px 0;
@@ -226,7 +241,7 @@ header#header.header {
 
     .header-menu {
         @include max_1200 {
-            //display: none;
+            display: none;
             position: fixed;
             background: #fff;
             max-width: 286px;
@@ -341,6 +356,11 @@ header#header.header {
         .header-phone {
             font-size: 14px;
         }
+
+        @include max_576 {
+            margin-right: 12px;
+            gap: 20px;
+        }
     }
 
     .mobile-menu-btn {
@@ -409,6 +429,52 @@ form {
 
 /* Footer */
 footer.footer#footer {
+    padding: 40px 0 31px;
+
+    .container {
+        max-width: 1360px;
+    }
+
+    .footer-content {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 23px;
+    }
+
+    .footer-menu {
+        margin-bottom: 41px;
+
+        &_list {
+            display: flex;
+            align-items: center;
+            gap: 41px;
+
+            a {
+                @include gradient-text;
+                text-transform: uppercase;
+            }
+        }
+    }
+
+    .socials {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 60px;
+        margin-bottom: 13px;
+    }
+
+    .bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        p,
+        a {
+            font-size: 10px;
+        }
+    }
 }
 
 /* Дополнительные модули */
