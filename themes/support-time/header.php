@@ -58,6 +58,114 @@
                         <circle cx="12" cy="7" r="5" fill="white" />
                     </svg>
                 </button>
+                <div class="changing-font-size_wrapper">
+                    <input type="range" min="1" max="6" step="1" name="fontSize" id="fontSize">
+                    <div class="changing-font-size_container">
+                        <div class="changing-font-size_line">
+                            <span class="bold"></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span class="bold"></span>
+                        </div>
+                        <div class="changing-font-size_thumb">
+                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <g filter="url(#filter0_dn_1205_3567)">
+                                    <rect x="2.62109" y="2.62085" width="22.1765" height="22.1765" rx="11.0882"
+                                          fill="url(#paint0_radial_1205_3567)" />
+                                    <rect x="2.9235" y="2.92326" width="21.5717" height="21.5717" rx="10.7858"
+                                          stroke="#01001A" stroke-width="0.604813" />
+                                    <rect x="2.9235" y="2.92326" width="21.5717" height="21.5717" rx="10.7858"
+                                          stroke="url(#paint1_radial_1205_3567)" stroke-width="0.604813" />
+                                </g>
+                                <g filter="url(#filter1_i_1205_3567)">
+                                    <ellipse cx="13.6564" cy="13.6321" rx="7.00015" ry="6.97861"
+                                             fill="url(#paint2_radial_1205_3567)" />
+                                </g>
+                                <defs>
+                                    <filter id="filter0_dn_1205_3567" x="0.000238061" y="-6.07967e-06" width="29.4335"
+                                            height="29.4343" filterUnits="userSpaceOnUse"
+                                            color-interpolation-filters="sRGB">
+                                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                        <feColorMatrix in="SourceAlpha" type="matrix"
+                                                       values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                                                       result="hardAlpha" />
+                                        <feOffset dx="1.00802" dy="1.00802" />
+                                        <feGaussianBlur stdDeviation="1.81444" />
+                                        <feComposite in2="hardAlpha" operator="out" />
+                                        <feColorMatrix type="matrix"
+                                                       values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0" />
+                                        <feBlend mode="normal" in2="BackgroundImageFix"
+                                                 result="effect1_dropShadow_1205_3567" />
+                                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
+                                                 result="shape" />
+                                        <feTurbulence type="fractalNoise"
+                                                      baseFrequency="4.9602112770080566 4.9602112770080566"
+                                                      stitchTiles="stitch" numOctaves="3" result="noise" seed="1817" />
+                                        <feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise" />
+                                        <feComponentTransfer in="alphaNoise" result="coloredNoise1">
+                                            <feFuncA type="discrete"
+                                                     tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 " />
+                                        </feComponentTransfer>
+                                        <feComposite operator="in" in2="shape" in="coloredNoise1"
+                                                     result="noise1Clipped" />
+                                        <feFlood flood-color="rgba(151, 151, 151, 0.25)" result="color1Flood" />
+                                        <feComposite operator="in" in2="noise1Clipped" in="color1Flood"
+                                                     result="color1" />
+                                        <feMerge result="effect2_noise_1205_3567">
+                                            <feMergeNode in="shape" />
+                                            <feMergeNode in="color1" />
+                                        </feMerge>
+                                        <feBlend mode="normal" in="effect2_noise_1205_3567"
+                                                 in2="effect1_dropShadow_1205_3567" result="effect2_noise_1205_3567" />
+                                    </filter>
+                                    <filter id="filter1_i_1205_3567" x="6.65625" y="6.65344" width="18.0321"
+                                            height="17.9894" filterUnits="userSpaceOnUse"
+                                            color-interpolation-filters="sRGB">
+                                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                        <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix"
+                                                 result="shape" />
+                                        <feColorMatrix in="SourceAlpha" type="matrix"
+                                                       values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                                                       result="hardAlpha" />
+                                        <feOffset dx="4.03209" dy="4.03209" />
+                                        <feGaussianBlur stdDeviation="2.41925" />
+                                        <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" />
+                                        <feColorMatrix type="matrix"
+                                                       values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                                        <feBlend mode="normal" in2="shape" result="effect1_innerShadow_1205_3567" />
+                                    </filter>
+                                    <radialGradient id="paint0_radial_1205_3567" cx="0" cy="0" r="1"
+                                                    gradientUnits="userSpaceOnUse"
+                                                    gradientTransform="translate(9.67725 10.685) rotate(83.6598) scale(36.5121 40.3986)">
+                                        <stop stop-color="#FFFEFF" />
+                                        <stop offset="1" stop-color="#3F3A63" />
+                                    </radialGradient>
+                                    <radialGradient id="paint1_radial_1205_3567" cx="0" cy="0" r="1"
+                                                    gradientUnits="userSpaceOnUse"
+                                                    gradientTransform="translate(13.9936 13.9934) rotate(180) scale(11.3726 37.0846)">
+                                        <stop stop-color="white" />
+                                        <stop offset="1" stop-color="#100134" />
+                                    </radialGradient>
+                                    <radialGradient id="paint2_radial_1205_3567" cx="0" cy="0" r="1"
+                                                    gradientUnits="userSpaceOnUse"
+                                                    gradientTransform="translate(13.6564 13.6321) rotate(90) scale(21.215 12.5414)">
+                                        <stop stop-color="#E98DD2" />
+                                        <stop offset="1" stop-color="#5C3166" />
+                                    </radialGradient>
+                                </defs>
+                            </svg>
+
+
+                        </div>
+                    </div>
+                    <div class="changing-font-size_label">
+                        <span class="small">Aa</span>
+                        <span class="big">Aa</span>
+                    </div>
+                </div>
             </div>
         </div>
         <button class="mobile-menu-btn">

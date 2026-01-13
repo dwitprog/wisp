@@ -7,5 +7,8 @@ export default function pagesScripts() {
         case "/":
             import(/* webpackChunkName: "script-page-7" */ "./pages/7");
             break;
+        case "/services/":
+            import(/* webpackChunkName: "script-page-29" */ "./pages/29");
+            break;
     }
 }

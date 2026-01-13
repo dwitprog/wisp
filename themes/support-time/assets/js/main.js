@@ -7,8 +7,11 @@
 /* import Libs */
 import LazyLoad from "vanilla-lazyload";
 import PopUp from "./components/popUp";
+import { changeFontSize } from "./components/changeFontSize";
 
 document.addEventListener("DOMContentLoaded", () => {
+    changeFontSize();
+
     const lazyLoadInstance = new LazyLoad({
         // Your custom settings go here
     });

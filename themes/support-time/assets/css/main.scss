@@ -237,6 +237,16 @@ header#header.header {
             max-width: 960px;
             padding: 16px 0;
         }
+        @include max_992 {
+            max-width: 725px;
+        }
+        @include max_768 {
+            max-width: 540px;
+        }
+        @include max_576 {
+            max-width: 100%;
+            padding: 0 20px;
+        }
     }
 
     .header-menu {
@@ -360,6 +370,99 @@ header#header.header {
         @include max_576 {
             margin-right: 12px;
             gap: 20px;
+        }
+    }
+
+    .changing-font-size {
+        position: relative;
+
+        input {
+            display: none;
+        }
+
+        &_wrapper {
+            display: none;
+            width: 328px;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: #fff;
+            border-radius: 16px;
+            padding: 8px 16px;
+
+            &.active {
+                display: block;
+            }
+        }
+
+        &_container {
+            position: relative;
+        }
+
+        &_thumb {
+            cursor: pointer;
+            width: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 22px;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translate(-11px, -50%);
+
+            svg {
+                width: 22px;
+                height: 22px;
+            }
+        }
+
+        &_line {
+            cursor: pointer;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2px;
+
+            &:before {
+                content: "";
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                height: 2px;
+                width: 100%;
+                background: $st-text-color;
+            }
+
+            span {
+                width: 1px;
+                height: 22px;
+                display: block;
+                background: $st-text-color;
+
+                &.bold {
+                    width: 2px;
+                    height: 30px;
+                }
+            }
+        }
+
+        &_label {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            .small {
+                font-size: 20px;
+            }
+
+            .big {
+                font-size: 32px;
+            }
         }
     }
 

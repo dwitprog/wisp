@@ -1,0 +1,297 @@
+/******************************
+* Часто повторяющиеся элементы (/components/) - все они находятся в файле _components_mixin.scss
+* Стили страницы
+******************************/
+@import "../fragments/variables";
+@import "../fragments/components_mixin";
+@import "../fragments/media_mixin";
+@import "../fragments/fonts_mixin";
+
+/* Часто повторяющиеся элементы (/components/) - все они находятся в файле _components_mixin.scss */
+
+/* Стили страницы */
+.page-29 {
+    &.services {
+        min-height: 100vh;
+        padding-top: 184px;
+        padding-bottom: 300px;
+        background: linear-gradient(
+            180deg,
+            rgba(204, 120, 151, 1),
+            rgba(121, 57, 113, 1) 19%,
+            rgba(40, 34, 81, 1) 70%,
+            rgba(18.7, 7.7, 57.21, 1) 100%
+        );
+        @include max_1200 {
+            padding-top: 121px;
+            padding-bottom: 200px;
+            background: linear-gradient(
+                180deg,
+                rgba(18.7, 7.7, 57.21, 1),
+                rgba(40, 34, 81, 1) 36%,
+                rgba(121, 57, 113, 1) 76%,
+                rgba(204, 120, 151, 1) 100%
+            );
+        }
+        @include max_992 {
+            padding-bottom: 90px;
+            min-height: 1px;
+        }
+
+        .container {
+            max-width: 1342px;
+            @include max_1400 {
+                max-width: 1140px;
+            }
+            @include max_1200 {
+                max-width: 730px;
+            }
+            @include max_992 {
+                max-width: 560px;
+            }
+            @include max_768 {
+                max-width: 540px;
+            }
+            @include max_576 {
+                max-width: 100%;
+                padding: 0 20px;
+            }
+
+            .content {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 20px;
+                @include max_1200 {
+                    display: block;
+                }
+
+                h1 {
+                    font-size: 96px;
+                    @include max_1400 {
+                        font-size: 86px;
+                    }
+                    @include max_1200 {
+                        text-align: center;
+                        margin-bottom: 28px;
+                        font-size: 64px;
+                    }
+                    @include max_992 {
+                        margin-bottom: 41px;
+                    }
+                    @include max_768 {
+                        font-size: 48px;
+                    }
+                    @include max_576 {
+                        font-size: 36px;
+                    }
+                }
+
+                .item {
+                    width: 100%;
+                    max-width: 756px;
+                    padding: 28px;
+                    background: #fff;
+                    border-radius: 19px;
+                    @include max_1400 {
+                        max-width: 630px;
+                    }
+                    @include max_1200 {
+                        max-width: 100%;
+                    }
+
+                    .title {
+                        font-size: 19px;
+                        text-align: center;
+                        margin-bottom: 33px;
+                        text-transform: uppercase;
+                    }
+
+                    .desc {
+                        max-width: 514px;
+                        margin: 0 auto 33px;
+                        font-size: 12.6px;
+                    }
+
+                    .btn {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        width: max-content;
+                        padding: 6px;
+                        margin: 0 auto;
+                        font-size: 13px;
+                        min-width: 1px;
+                        border-radius: 5px;
+
+                        svg {
+                            width: 13px;
+                            height: 13px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .swiper-container {
+            padding-left: 20px;
+            @include max_1200 {
+                padding: 0;
+                max-width: 730px;
+                margin: 0 auto;
+            }
+            @include max_992 {
+                max-width: 560px;
+            }
+            @include max_768 {
+                max-width: 540px;
+            }
+            @include max_576 {
+                max-width: 100%;
+                padding: 0 20px;
+            }
+
+            .swiper-wrapper {
+                margin-bottom: 60px;
+                @include max_1200 {
+                    margin: 0;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 18px;
+                }
+                @include max_992 {
+                    grid-template-columns: 1fr;
+                    gap: 22px;
+                }
+            }
+
+            .item {
+                padding: 22px 25px;
+                border: 2px solid #fff;
+                border-radius: 23px;
+
+                .title {
+                    text-transform: uppercase;
+                    text-align: center;
+                    font-size: 19px;
+                    margin-bottom: 37px;
+                    color: #fff;
+                }
+
+                .desc {
+                    font-size: 13px;
+                    margin-bottom: 37px;
+                    color: #fff;
+                }
+
+                .btn {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    width: max-content;
+                    padding: 6px;
+                    margin: 0 auto;
+                    font-size: 13px;
+                    border-radius: 5px;
+                    min-width: 1px;
+
+                    svg {
+                        width: 13px;
+                        height: 13px;
+                    }
+                }
+            }
+        }
+
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 31px;
+            justify-content: center;
+            @include max_1200 {
+                display: none;
+            }
+
+            .swiper-btn {
+                width: 30px;
+                height: 30px;
+                border: 2px solid #fff;
+                border-radius: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                svg {
+                    width: 45%;
+                }
+            }
+
+            .swiper-pagination {
+                display: flex;
+                width: max-content;
+                gap: 7px;
+                position: static;
+
+                .swiper-pagination-bullet {
+                    width: 5px;
+                    height: 5px;
+                    background: transparent;
+                    border: 0.61px solid rgba(255, 255, 255, 1);
+                    opacity: 1;
+
+                    &-active {
+                        background: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+
+footer.footer#footer {
+    @include min_definite_width(992) {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+
+        .logo {
+            svg {
+                path {
+                    fill: #fff;
+                }
+            }
+        }
+
+        .footer-menu_list a {
+            color: #fff;
+            background: transparent;
+            -webkit-text-fill-color: #fff;
+        }
+
+        .socials {
+            .telegram,
+            .whatsapp {
+                svg {
+                    path {
+                        fill: #fff;
+                    }
+                }
+            }
+
+            .mail {
+                svg {
+                    path {
+                        stroke: #fff;
+                    }
+                }
+            }
+        }
+
+        .bottom {
+            p,
+            a {
+                color: #fff;
+            }
+        }
+    }
+}
