@@ -18,7 +18,7 @@ header#header.header {
     }
 }
 
-.page-32 {
+.page-34 {
     &.banner {
         margin-top: 190px;
         position: relative;
@@ -40,7 +40,8 @@ header#header.header {
 
         .service-menu {
             position: absolute;
-            background: url("../../img/pages/32/service-menu-2.svg") no-repeat center center / contain;
+            background: url("../../img/pages/34/service-menu-perfomance-merkering.svg") no-repeat center center /
+                contain;
             height: 58px;
             top: -58px;
             width: 100%;
@@ -86,6 +87,9 @@ header#header.header {
 
             .title {
                 font-size: 96px;
+                @include max_definite_width(1500) {
+                    font-size: 80px;
+                }
                 @include max_1400 {
                     font-size: 70px;
                 }
@@ -246,6 +250,9 @@ header#header.header {
                 background: #fff;
                 border-radius: 24px;
                 text-align: center;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
                 @include max_1200 {
                     padding: 25px;
                 }
@@ -443,6 +450,10 @@ header#header.header {
             }
         }
 
+        .custom-select_title {
+            font-size: 22px;
+        }
+
         .content {
             padding-top: 27px;
         }
@@ -521,7 +532,7 @@ header#header.header {
             }
         }
 
-        .select-duration {
+        .select-current-status {
             width: 332px;
             margin-right: 150px;
             @include max_1400 {

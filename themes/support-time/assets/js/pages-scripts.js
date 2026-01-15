@@ -13,5 +13,11 @@ export default function pagesScripts() {
         case "/services/full-service/":
             import(/* webpackChunkName: "script-page-32" */ "./pages/32");
             break;
+        case "/services/performance-marketing/":
+            import(/* webpackChunkName: "script-page-34" */ "./pages/34");
+            break;
+        case "/services/audit-service/":
+            import(/* webpackChunkName: "script-page-36" */ "./pages/36");
+            break;
     }
 }
