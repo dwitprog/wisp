@@ -19,5 +19,11 @@ export default function pagesScripts() {
         case "/services/audit-service/":
             import(/* webpackChunkName: "script-page-36" */ "./pages/36");
             break;
+        case "/services/strategy-service/":
+            import(/* webpackChunkName: "script-page-38" */ "./pages/38");
+            break;
+        case "/services/consulting-service/":
+            import(/* webpackChunkName: "script-page-40" */ "./pages/40");
+            break;
     }
 }

@@ -14,3 +14,9 @@ import(/* webpackChunkName: "style-page-34" */ "../css/pages/34.scss");
 
 /* /services/audit-service/ */
 import(/* webpackChunkName: "style-page-36" */ "../css/pages/36.scss");
+
+/* /services/strategy-service/ */
+import(/* webpackChunkName: "style-page-38" */ "../css/pages/38.scss");
+
+/* /services/consulting-service/ */
+import(/* webpackChunkName: "style-page-40" */ "../css/pages/40.scss");
