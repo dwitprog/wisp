@@ -220,6 +220,10 @@ header#header.header {
     .header-logo {
         display: block;
         margin-right: auto;
+
+        .gradient {
+            display: none;
+        }
     }
 
     .header-container {
@@ -283,7 +287,8 @@ header#header.header {
                 }
 
                 &:hover,
-                &.current-menu-item {
+                &.current-menu-item,
+                &.current-page-parent {
                     background: #fff;
 
                     a {
@@ -318,6 +323,7 @@ header#header.header {
                         top: 100%;
                         left: 0;
                         width: 110%;
+                        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
                         border-radius: 8px;
 
                         .menu-item {
@@ -365,6 +371,13 @@ header#header.header {
 
         .header-phone {
             font-size: 14px;
+            color: #fff;
+        }
+
+        .changing-font-size__btn {
+            .gradient {
+                display: none;
+            }
         }
 
         @include max_576 {

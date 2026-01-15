@@ -12,15 +12,6 @@ $st-base-font-size: 16px;
 $st-base-font-line-height: 105%;
 /* Шрифты в виде переменных  */
 $st-font-name: "Aeroport";
-$st-font-style-regular:
-    $st-font-name + "-Regular",
-    sans-serif;
-$st-font-style-bold:
-    $st-font-name + "-Bold",
-    sans-serif;
-$st-font-style-black:
-    $st-font-name + "-Black",
-    sans-serif;
 
 /* Конвертер px в rem */
 // @include px-to-rem((pxValue: 20, base: 25));
@@ -52,7 +43,7 @@ $st-font-style-black:
 // Выведет:	font: 3rem/140% Aeroport-SemiBold,"sans-serif";
 @mixin st-font-style($args) {
     $defaults: (
-        style: "regular",
+        weight: 400,
         prop: "font",
         fs: 16,
         lh: 140%,
@@ -61,7 +52,7 @@ $st-font-style-black:
         base: 16,
     );
     $config: map-merge($defaults, $args);
-    $style: map-get($config, style);
+    $weight: map-get($config, weight);
     $property: map-get($config, prop);
     $font-size: map-get($config, fs);
     $line-height: map-get($config, lh);
@@ -69,22 +60,12 @@ $st-font-style-black:
     $font-name: map-get($config, fname);
     $base: map-get($config, base);
 
-    @if $style == "regular" {
-        $style: "-Regular";
-    } @else if $style == "black" {
-        $style: "-Black";
-    } @else if $style == "bold" {
-        $style: "-Bold";
-    } @else {
-        $style: "-Regular";
-    }
     @if $property == "font-family" {
-        #{$property}:
-            $font-name + $style,
-            $other-fonts;
+        font-family: $font-name, $other-fonts;
     } @else {
-        #{$property}:
-            math.div($font-size, $base) + rem / $line-height $font-name + $style,
-            $other-fonts;
+        font-family: $font-name, $other-fonts;
+        font-weight: $weight;
+        font-size: math.div($font-size, $base) + rem;
+        line-height: $line-height;
     }
 }

@@ -10,5 +10,8 @@ export default function pagesScripts() {
         case "/services/":
             import(/* webpackChunkName: "script-page-29" */ "./pages/29");
             break;
+        case "/services/full-service/":
+            import(/* webpackChunkName: "script-page-32" */ "./pages/32");
+            break;
     }
 }
