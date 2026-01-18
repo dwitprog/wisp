@@ -10,9 +10,10 @@
  * @param {number} options.animation.maxMultiplier - Максимальный множитель высоты (по умолчанию 1.5)
  * @param {number} options.animation.speed - Скорость анимации (по умолчанию 0.2)
  * @param {number} options.animation.fps - Кадров в секунду (по умолчанию 30)
+ * @param {Boolean} debug - включить\выключить логирование
  * @returns {Object} API для управления визуализатором
  */
-export function soundWaveVisualizer(options = {}) {
+export function soundWaveVisualizer(options = {}, debug = false) {
     // Конфигурация по умолчанию
     const config = {
         svgId: "soundWave",
@@ -95,7 +96,7 @@ export function soundWaveVisualizer(options = {}) {
         // Добавляем стили
         addStyles();
 
-        console.log("SoundWaveVisualizer: Инициализирован");
+        if (debug) console.log("SoundWaveVisualizer: Инициализирован");
 
         return api;
     }
@@ -232,37 +233,6 @@ export function soundWaveVisualizer(options = {}) {
     }
 
     /**
-     * Обновление визуализации на основе аудиоданных
-     * @param {Array<number>|Float32Array} frequencyData - Данные частот из анализатора
-     */
-    function updateFromAudioData(frequencyData) {
-        if (!frequencyData || !frequencyData.length) return;
-
-        const dataPoints = Math.min(frequencyData.length, state.lines.length);
-        const step = Math.floor(frequencyData.length / dataPoints);
-
-        state.lines.forEach((line, index) => {
-            if (index < dataPoints) {
-                const original = state.originalCoords[index];
-                const dataIndex = Math.min(index * step, frequencyData.length - 1);
-
-                // Нормализуем значение (0-255) в множитель (0.5-2.0)
-                const normalizedValue = frequencyData[dataIndex] / 255;
-                const multiplier = 0.5 + normalizedValue * 1.5;
-
-                // Рассчитываем новую высоту
-                const newHeight = original.height * multiplier;
-                const newY1 = original.centerY - newHeight / 2;
-                const newY2 = original.centerY + newHeight / 2;
-
-                // Обновляем линию
-                line.setAttribute("y1", newY1);
-                line.setAttribute("y2", newY2);
-            }
-        });
-    }
-
-    /**
      * Обработчики событий
      */
     const eventHandlers = {
@@ -297,7 +267,7 @@ export function soundWaveVisualizer(options = {}) {
             state.animationId = requestAnimationFrame(animate);
             api.emit("play");
 
-            console.log("SoundWaveVisualizer: Анимация запущена");
+            if (debug) console.log("SoundWaveVisualizer: Анимация запущена");
         },
 
         /**
@@ -323,7 +293,7 @@ export function soundWaveVisualizer(options = {}) {
             }
 
             api.emit("pause");
-            console.log("SoundWaveVisualizer: Анимация остановлена");
+            if (debug) console.log("SoundWaveVisualizer: Анимация остановлена");
         },
 
         /**
@@ -340,7 +310,7 @@ export function soundWaveVisualizer(options = {}) {
          */
         updateConfig(newConfig) {
             Object.assign(config, newConfig);
-            console.log("SoundWaveVisualizer: Конфигурация обновлена", config);
+            if (debug) console.log("SoundWaveVisualizer: Конфигурация обновлена", config);
         },
 
         /**
@@ -396,12 +366,6 @@ export function soundWaveVisualizer(options = {}) {
         },
 
         /**
-         * Обновление визуализации на основе аудиоданных
-         * @param {Array<number>|Float32Array} frequencyData - Данные частот
-         */
-        updateFromAudioData,
-
-        /**
          * Уничтожение визуализатора и очистка ресурсов
          */
         destroy() {
@@ -424,7 +388,7 @@ export function soundWaveVisualizer(options = {}) {
                 eventHandlers[key] = [];
             });
 
-            console.log("SoundWaveVisualizer: Уничтожен");
+            if (debug) console.log("SoundWaveVisualizer: Уничтожен");
         },
     };
 

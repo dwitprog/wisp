@@ -1,10 +1,9 @@
 <section class="page-34 banner">
     <div class="service-menu"></div>
     <div class="title-desc color-white">
-        <h1 class="title">PErformanCE <br> marketing</h1>
+        <h1 class="title"><?php the_field('banner_title'); ?></h1>
         <p class="desc">
-            We audit your online presence, provide competitive intelligence and analyze your data. The result: u know
-            the state of affairs and ow to optimize it.
+            <?php the_field('banner_text'); ?>
         </p>
     </div>
     <div class="line-wrapper">
@@ -24,49 +23,89 @@
             </div>
         </div>
     </div>
-    <div class="items">
-        <div class="item">
-            <p class="title">Convergence</p>
-            <p class="desc">A payment model in online advertising in which the company that placed the ads pays for the
-                impressions. </p>
+    <?php if (have_rows('possibilities_list')) : ?>
+        <div class="items">
+            <?php while (have_rows('possibilities_list')) : the_row(); ?>
+                <?php if (have_rows('possibilities_item_1')) : ?>
+                    <?php while (have_rows('possibilities_item_1')) : the_row(); ?>
+                        <div class="item">
+                            <p class="title"> <?php the_sub_field('possibilities_item_1_title'); ?></p>
+                            <p class="desc"> <?php the_sub_field('possibilities_item_1_text'); ?></p>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+                <?php if (have_rows('possibilities_item_2')) : ?>
+                    <?php while (have_rows('possibilities_item_2')) : the_row(); ?>
+                        <div class="item">
+                            <p class="title"> <?php the_sub_field('possibilities_item_2_title'); ?></p>
+                            <p class="desc">
+                                <?php the_sub_field('possibilities_item_2_text'); ?>
+                            </p>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+                <?php if (have_rows('possibilities_item_3')) : ?>
+                    <?php while (have_rows('possibilities_item_3')) : the_row(); ?>
+                        <div class="item">
+                            <p class="title"><?php the_sub_field('possibilities_item_3_title'); ?></p>
+                            <p class="desc"><?php the_sub_field('possibilities_item_3_text'); ?></p>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+            <?php endwhile; ?>
         </div>
-        <div class="item">
-            <p class="title">Business Intelligence</p>
-            <p class="desc">A payment model in online advertising in which the company that placed the ads pays for the
-                impressions. </p>
+    <?php endif; ?>
+    <?php if (have_rows('audio_items_list')) : ?>
+        <div class="wrapper">
+            <?php while (have_rows('audio_items_list')) : the_row(); ?>
+                <?php if (have_rows('audio_items_item_1')) : ?>
+                    <?php while (have_rows('audio_items_item_1')) : the_row(); ?>
+                        <div class="item" data-audio-item>
+                            <p class="title">
+                                <?php the_sub_field('audio_items_item_1_title'); ?>
+                            </p>
+                            <p class="desc">
+                                <?php the_sub_field('audio_items_item_1_text'); ?>
+                            </p>
+                            <audio data-audio>
+                                <source src="<?php the_sub_field('audio_items_item_1_link'); ?>" type="audio/mpeg">
+                            </audio>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+                <?php if (have_rows('audio_items_item_2')) : ?>
+                    <?php while (have_rows('audio_items_item_2')) : the_row(); ?>
+                        <div class="item active" data-audio-item>
+                            <p class="title">
+                                <?php the_sub_field('audio_items_item_2_title'); ?>
+                            </p>
+                            <p class="desc">
+                                <?php the_sub_field('audio_items_item_2_text'); ?>
+                            </p>
+                            <audio data-audio>
+                                <source src="<?php the_sub_field('audio_items_item_2_link'); ?>" type="audio/mpeg">
+                            </audio>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+                <?php if (have_rows('audio_items_item_3')) : ?>
+                    <?php while (have_rows('audio_items_item_3')) : the_row(); ?>
+                        <div class="item" data-audio-item>
+                            <p class="title">
+                                <?php the_sub_field('audio_items_item_3_title'); ?>
+                            </p>
+                            <p class="desc">
+                                <?php the_sub_field('audio_items_item_3_text'); ?>
+                            </p>
+                            <audio data-audio>
+                                <source src="<?php the_sub_field('audio_items_item_3_link'); ?>" type="audio/mpeg">
+                            </audio>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+            <?php endwhile; ?>
         </div>
-        <div class="item">
-            <p class="title">Efficiency</p>
-            <p class="desc">A payment model in online advertising in which the company that placed the ads pays for the
-                impressions. </p>
-        </div>
-    </div>
-    <div class="wrapper">
-        <div class="item">
-            <p class="title">
-                ROI/ROAS
-            </p>
-            <p class="desc">
-                A payment model in online advertising in which the company that placed the ads pays for the impressions.
-            </p>
-        </div>
-        <div class="item active">
-            <p class="title">
-                CP[x]
-            </p>
-            <p class="desc">
-                A payment model in online advertising in which the company that placed the ads pays for the impressions.
-            </p>
-        </div>
-        <div class="item">
-            <p class="title">
-                CVR
-            </p>
-            <p class="desc">
-                A payment model in online advertising in which the company that placed the ads pays for the impressions.
-            </p>
-        </div>
-    </div>
+    <?php endif; ?>
     <div class="sound-wrapper">
         <svg class="sound-wave" id="soundWave" viewBox="0 0 1419 285" fill="none" xmlns="http://www.w3.org/2000/svg">
             <line x1="11.6296" y1="155.455" x2="11.6296" y2="124.521" stroke="white" stroke-width="3.60795"
@@ -303,14 +342,11 @@
     </div>
 </section>
 <section class="page-34 project-stages">
-    <h2 class="section-title">Project stages</h2>
+    <h2 class="section-title"><?php the_field('project_stages_section-title'); ?></h2>
     <div class="content">
         <div class="stages">
             <div class="line-container">
                 <div class="line">
-                    <span class="step step_1"></span>
-                    <span class="step step_2"></span>
-                    <span class="step step_3"></span>
                 </div>
                 <span class="circle">
                     <span>
@@ -319,29 +355,27 @@
                 </span>
             </div>
             <div class="items">
-                <div class="item active">
-                    <span class="step"></span>
-                    <p class="title">Imagine</p>
-                    <p class="desc">
-                        Meeting to learn what you need, the state of affairs and how we can assist (first 45 minutes
-                        free).
-                    </p>
-                </div>
-                <div class="item">
-                    <span class="step"></span>
-                    <p class="title">Define</p>
-                    <p class="desc">
-                        Agree on everything we are doing for you, how we measure success, period, payment, sign
-                        contract.
-                    </p>
-                </div>
-                <div class="item">
-                    <span class="step"></span>
-                    <p class="title">Realize</p>
-                    <p class="desc">
-                        Make it happen. Efficiently.
-                    </p>
-                </div>
+                <?php if (have_rows('project_stages_list')) : ?>
+                    <?php $item_counter = 0; ?>
+                    <?php while (have_rows('project_stages_list')) : the_row(); ?>
+
+                        <?php if (have_rows('project_stages_item')) : ?>
+                            <?php while (have_rows('project_stages_item')) : the_row(); ?>
+                                <div class="item <?php echo $item_counter === 0 ? ' active' : ''; ?>">
+                                    <span class="step"></span>
+                                    <p class="title"> <?php the_sub_field('project_stages_item_title'); ?></p>
+                                    <p class="desc">
+                                        <?php the_sub_field('project_stages_item_text'); ?>
+                                    </p>
+                                </div>
+                                <?php
+                                $item_counter++;
+                            endwhile; ?>
+                        <?php endif; ?>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+
+
             </div>
         </div>
     </div>
@@ -352,7 +386,6 @@
                 srcset="/wp-content/themes/support-time/assets/img/pages/7/project-stages-1200.png">
         <img src="/wp-content/themes/support-time/assets/img/pages/7/project-stages.png" alt="">
     </picture>
-
 </section>
 <section class="page-34 have-a-questions">
     <div class="container">
@@ -477,32 +510,26 @@
 </section>
 <section class="page-34 faq-accordion">
     <div class="container">
-        <div class="item">
-            <div class="title">
-                <p>
-                    Which ad works better: target or context?
+        <?php if (have_rows('faq_list')) : ?>
+            <?php while (have_rows('faq_list')) : the_row(); ?>
+                <?php if (have_rows('faq_item')) : ?>
+                    <?php while (have_rows('faq_item')) : the_row(); ?>
+                        <div class="item">
+                            <div class="title">
+                                <p>
+                                    <?php the_sub_field('faq_item_title'); ?>
 
-                </p>
-            </div>
-            <div class="content">
-                <p>
-                    We develop an online marketing strategy to reach your business goals. The result: you know how to
-                    establish or grow your online presence and how to measure efficiency.
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <div class="title">
-                <p>
-                    Which ad works better: target or context?
-                </p>
-            </div>
-            <div class="content">
-                <p>
-                    We develop an online marketing strategy to reach your business goals. The result: you know how to
-                    establish or grow your online presence and how to measure efficiency.
-                </p>
-            </div>
-        </div>
+                                </p>
+                            </div>
+                            <div class="content">
+                                <p>
+                                    <?php the_sub_field('faq_item_text'); ?>
+                                </p>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+            <?php endwhile; ?>
+        <?php endif; ?>
     </div>
 </section>

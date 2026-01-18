@@ -342,14 +342,11 @@
     </div>
 </section>
 <section class="page-32 project-stages">
-    <h2 class="section-title">Project stages</h2>
+    <h2 class="section-title"><?php the_field('project_stages_section-title'); ?></h2>
     <div class="content">
         <div class="stages">
             <div class="line-container">
                 <div class="line">
-                    <span class="step step_1"></span>
-                    <span class="step step_2"></span>
-                    <span class="step step_3"></span>
                 </div>
                 <span class="circle">
                     <span>
@@ -358,29 +355,27 @@
                 </span>
             </div>
             <div class="items">
-                <div class="item active">
-                    <span class="step"></span>
-                    <p class="title">Imagine</p>
-                    <p class="desc">
-                        Meeting to learn what you need, the state of affairs and how we can assist (first 45 minutes
-                        free).
-                    </p>
-                </div>
-                <div class="item">
-                    <span class="step"></span>
-                    <p class="title">Define</p>
-                    <p class="desc">
-                        Agree on everything we are doing for you, how we measure success, period, payment, sign
-                        contract.
-                    </p>
-                </div>
-                <div class="item">
-                    <span class="step"></span>
-                    <p class="title">Realize</p>
-                    <p class="desc">
-                        Make it happen. Efficiently.
-                    </p>
-                </div>
+                <?php if (have_rows('project_stages_list')) : ?>
+                    <?php $item_counter = 0; ?>
+                    <?php while (have_rows('project_stages_list')) : the_row(); ?>
+
+                        <?php if (have_rows('project_stages_item')) : ?>
+                            <?php while (have_rows('project_stages_item')) : the_row(); ?>
+                                <div class="item <?php echo $item_counter === 0 ? ' active' : ''; ?>">
+                                    <span class="step"></span>
+                                    <p class="title"> <?php the_sub_field('project_stages_item_title'); ?></p>
+                                    <p class="desc">
+                                        <?php the_sub_field('project_stages_item_text'); ?>
+                                    </p>
+                                </div>
+                                <?php
+                                $item_counter++;
+                            endwhile; ?>
+                        <?php endif; ?>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+
+
             </div>
         </div>
     </div>
@@ -514,32 +509,26 @@
 </section>
 <section class="page-32 faq-accordion">
     <div class="container">
-        <div class="item">
-            <div class="title">
-                <p>
-                    Which ad works better: target or context?
+        <?php if (have_rows('faq_list')) : ?>
+            <?php while (have_rows('faq_list')) : the_row(); ?>
+                <?php if (have_rows('faq_item')) : ?>
+                    <?php while (have_rows('faq_item')) : the_row(); ?>
+                        <div class="item">
+                            <div class="title">
+                                <p>
+                                    <?php the_sub_field('faq_item_title'); ?>
 
-                </p>
-            </div>
-            <div class="content">
-                <p>
-                    We develop an online marketing strategy to reach your business goals. The result: you know how to
-                    establish or grow your online presence and how to measure efficiency.
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <div class="title">
-                <p>
-                    Which ad works better: target or context?
-                </p>
-            </div>
-            <div class="content">
-                <p>
-                    We develop an online marketing strategy to reach your business goals. The result: you know how to
-                    establish or grow your online presence and how to measure efficiency.
-                </p>
-            </div>
-        </div>
+                                </p>
+                            </div>
+                            <div class="content">
+                                <p>
+                                    <?php the_sub_field('faq_item_text'); ?>
+                                </p>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+            <?php endwhile; ?>
+        <?php endif; ?>
     </div>
 </section>

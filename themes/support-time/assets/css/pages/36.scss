@@ -440,6 +440,16 @@ header#header.header {
         }
     }
 
+    &.project-stages {
+        .items {
+            .item {
+                @include min_definite_width(1200) {
+                    max-width: 590px;
+                }
+            }
+        }
+    }
+
     &.have-a-questions {
         margin-bottom: 80px;
 

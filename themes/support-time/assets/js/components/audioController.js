@@ -3,9 +3,10 @@
  * Управляет воспроизведением, переключением треков, синхронизацией с визуализатором и логированием
  *
  * @param {Object} visualizer - экземпляр визуализатора (soundWaveVisualizer)
+ * @param {Boolean} debug - включение/выключение логирования
  * @returns {Object} API с методами: play, pause, next, prev, getCurrentIndex
  */
-export function audioController(visualizer) {
+export function audioController(visualizer, debug = false) {
     // Получаем все элементы аудио-треков
     const items = [...document.querySelectorAll("[data-audio-item]")];
 
@@ -25,6 +26,7 @@ export function audioController(visualizer) {
      * @param {Object} extra - дополнительные данные для лога
      */
     function log(action, extra = {}) {
+        if (!debug) return;
         console.group(`🎵 AUDIO | ${action}`);
         console.log("currentIndex:", currentIndex);
         console.log("audio:", audios[currentIndex]);
