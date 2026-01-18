@@ -806,7 +806,6 @@
             padding-top: 143px;
             padding-bottom: 102px;
             display: flex;
-            justify-content: space-between;
             @include max_1200 {
                 padding-top: 75px;
                 padding-bottom: 70px;
@@ -814,32 +813,62 @@
             @include max_992 {
                 padding-top: 25px;
                 padding-bottom: 50px;
-                gap: 40px;
-            }
-            @include max_576 {
-                gap: 30px;
             }
         }
 
         .items {
-            max-width: 640px;
             padding-top: 33px;
-            padding-bottom: 55px;
+            margin-left: 394px;
+            padding-bottom: 0;
+            @include max_1400 {
+                margin-left: 314px;
+            }
             @include max_1200 {
-                max-width: 552px;
                 padding-top: 12px;
                 padding-bottom: 46px;
+                margin-left: 217px;
+            }
+            @include max_992 {
+                margin-left: 138px;
+            }
+            @include max_576 {
+                margin-left: 98px;
             }
 
             .item {
                 display: grid;
+                position: relative;
                 grid-template-rows: auto 0fr;
                 transition: grid-template-rows 0.5s ease;
+                max-width: 630px;
 
                 &:not(:last-child) {
                     margin-bottom: 86px;
                     @include max_1200 {
                         margin-bottom: 40px;
+                    }
+                }
+
+                &:before {
+                    content: "";
+                    position: absolute;
+                    left: -308px;
+                    top: 15px;
+                    height: 1px;
+                    width: 51px;
+                    background: #fff;
+                    @include max_1400 {
+                        left: -208px;
+                    }
+                    @include max_1200 {
+                        left: -156px;
+                    }
+                    @include max_992 {
+                        left: -80px;
+                        width: 36px;
+                    }
+                    @include max_576 {
+                        left: -60px;
                     }
                 }
 
@@ -974,28 +1003,6 @@
                         height: 28px;
                         margin-top: 8px;
                     }
-                }
-            }
-
-            &-marks {
-                height: 100%;
-                padding: 37px 0 59px;
-                width: 51px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                @include max_1200 {
-                    width: 35px;
-                }
-                @include max_576 {
-                    width: 25px;
-                }
-
-                span {
-                    height: 2px;
-                    width: 100%;
-                    display: block;
-                    background: #fff;
                 }
             }
         }

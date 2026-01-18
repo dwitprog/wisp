@@ -2,16 +2,15 @@
     <div class="container">
         <div class="offer">
             <div class="title">
-                <h1>Imagined Efciency</h1>
+                <h1><?php the_field('banner_title'); ?></h1>
             </div>
             <p class="color-white desc">
-                We develop an online marketing strategy to reach your business goals. The result: you know how to
-                establish or grow your online presence and how to measure efficiency.
+                <?php the_field('banner_desc'); ?>
             </p>
             <button class="btn">free consultation</button>
         </div>
         <p class="bottom-text color-white">
-            Complex Wisps Agency
+            <?php the_field('banner_bottom_text'); ?>
         </p>
         <div class="coordinates">
             <div class="line-top coordinate-axis">
@@ -55,153 +54,88 @@
                     srcset="/wp-content/themes/support-time/assets/img/pages/7/service-knob-992.png">
             <source media="(max-width:1199.98px)"
                     srcset="/wp-content/themes/support-time/assets/img/pages/7/service-knob-1200.png">
-            <img src="/wp-content/themes/support-time/assets/img/pages/7/service-knob.png" class="knob step_3"
+            <img src="/wp-content/themes/support-time/assets/img/pages/7/service-knob.png" class="knob step_1"
                  alt="Knob">
         </picture>
         <img src="/wp-content/themes/support-time/assets/img/pages/7/line.png" class="line" alt="Lines">
     </div>
     <div class="list">
-        <div class="item">
-            <p class="title">
-                Audit services
-            </p>
-            <div class="content">
-                <p class="desc">
-                    We develop an online marketing strategy to reach your business goals. The result: you know how to
-                    establish or grow your online presence and how to measure efficiency.
-                </p>
-                <button class="btn btn-gradient">free consultation</button>
-            </div>
-        </div>
-        <div class="item ">
-            <p class="title">
-                Consulting services
-            </p>
-            <div class="content">
-                <p class="desc">
-                    We develop an online marketing strategy to reach your business goals. The result: you know how to
-                    establish or grow your online presence and how to measure efficiency.
-                </p>
-                <button class="btn btn-gradient">free consultation</button>
-            </div>
-        </div>
-        <div class="item active">
-            <p class="title">
-                Strategy services
-            </p>
-            <div class="content">
-                <p class="desc">
-                    We develop an online marketing strategy to reach your business goals. The result: you know how to
-                    establish or grow your online presence and how to measure efficiency.
-                </p>
-                <button class="btn btn-gradient">free consultation</button>
-            </div>
-
-        </div>
-        <div class="item">
-            <p class="title">
-                Performance marketing services
-            </p>
-            <div class="content">
-                <p class="desc">
-                    We develop an online marketing strategy to reach your business goals. The result: you know how to
-                    establish or grow your online presence and how to measure efficiency.
-                </p>
-                <button class="btn btn-gradient">free consultation</button>
-            </div>
-        </div>
-        <div class="item ">
-            <p class="title">
-                FULL services
-            </p>
-            <div class="content">
-                <p class="desc">
-                    We develop an online marketing strategy to reach your business goals. The result: you know how to
-                    establish or grow your online presence and how to measure efficiency.
-                </p>
-                <button class="btn btn-gradient">free consultation</button>
-            </div>
-        </div>
+        <?php if (have_rows('services')) : ?>
+            <?php $item_counter = 0; ?>
+            <?php while (have_rows('services')) : the_row(); ?>
+                <?php if (have_rows('services_item')) : ?>
+                    <?php while (have_rows('services_item')) : the_row(); ?>
+                        <div class="item<?php echo $item_counter === 0 ? ' active' : ''; ?>">
+                            <p class="title">
+                                <?php the_sub_field('services_title'); ?>
+                            </p>
+                            <div class="content">
+                                <p class="desc">
+                                    <?php the_sub_field('service_text'); ?>
+                                </p>
+                                <button class="btn btn-gradient">free consultation</button>
+                            </div>
+                        </div>
+                        <?php $item_counter++; ?>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+            <?php endwhile; ?>
+        <?php endif; ?>
     </div>
 
 </section>
 <section class="page-7 platforms">
     <div class="container">
-        <h2 class="section-title color-white">platforms</h2>
+        <h2 class="section-title color-white"><?php the_field('platforms_section_title'); ?></h2>
         <div class="items grid st-grid-column-lg-2">
-            <div class="item">
-                <img src="/wp-content/themes/support-time/assets/img/pages/7/platforms-1.svg" class="default"
-                     alt="Google Ads">
-                <img src="/wp-content/themes/support-time/assets/img/pages/7/platforms-1-hover.svg" alt="Google Ads"
-                     class="hover">
-                <p class="desc">
-                    A payment model in online advertising in which the company that placed the ads pays for the
-                    impressions.
-                </p>
-                <a href="#" class="btn  btn-center">learn more</a>
-            </div>
-            <div class="item">
-                <img src="/wp-content/themes/support-time/assets/img/pages/7/platforms-2.svg" class="default"
-                     alt="Google Ads">
-                <img src="/wp-content/themes/support-time/assets/img/pages/7/platforms-2-hover.svg" alt="Google Ads"
-                     class="hover">
-
-                <p class="desc">
-                    A payment model in online advertising in which the company that placed the ads pays for the
-                    impressions.
-                </p>
-                <a href="#" class="btn  btn-center">learn more</a>
-            </div>
-            <div class="item">
-                <img src="/wp-content/themes/support-time/assets/img/pages/7/platforms-3.svg" class="default"
-                     alt="Google Ads">
-                <img src="/wp-content/themes/support-time/assets/img/pages/7/platforms-3-hover.svg" alt="Google Ads"
-                     class="hover">
-                <p class="desc">
-                    A payment model in online advertising in which the company that placed the ads pays for the
-                    impressions.
-                </p>
-                <a href="#" class="btn btn-center">learn more</a>
-            </div>
-            <div class="item">
-                <img src="/wp-content/themes/support-time/assets/img/pages/7/platforms-4.svg" class="default"
-                     alt="Google Ads">
-                <img src="/wp-content/themes/support-time/assets/img/pages/7/platforms-4-hover.svg" alt="Google Ads"
-                     class="hover">
-                <p class="desc">
-                    A payment model in online advertising in which the company that placed the ads pays for the
-                    impressions.
-                </p>
-                <a href="#" class="btn btn-center">learn more</a>
-            </div>
+            <?php if (have_rows('platforms')) : ?>
+                <?php while (have_rows('platforms')) : the_row(); ?>
+                    <?php if (have_rows('platform_item')) : ?>
+                        <?php while (have_rows('platform_item')) : the_row(); ?>
+                            <div class="item">
+                                <?php if (get_sub_field('platform_logo_default')) : ?>
+                                    <img src="<?php the_sub_field('platform_logo_default'); ?>" class="default"
+                                         alt="" />
+                                <?php endif ?>
+                                <?php if (get_sub_field('platform_logo_hover')) : ?>
+                                    <img src="<?php the_sub_field('platform_logo_hover'); ?>" class="hover" alt="" />
+                                <?php endif ?>
+                                <p class="desc">
+                                    <?php the_sub_field('platform_text'); ?>
+                                </p>
+                                <a href="<?php the_sub_field('platform_link'); ?>" class="btn  btn-center">learn
+                                    more</a>
+                            </div>
+                        <?php endwhile; ?>
+                    <?php endif; ?>
+                <?php endwhile; ?>
+            <?php endif; ?>
         </div>
     </div>
     <div class="swiper swiper-content">
         <div class="swiper-wrapper ">
-            <div class="swiper-slide">
-                <p class="title">CPC</p>
-                <p class="desc">A metric that shows the cost of one click on an ad. </p>
-            </div>
-            <div class="swiper-slide">
-                <p class="title">ROI</p>
-                <p class="desc">A metric that shows the cost of one click on an ad. </p>
-            </div>
-            <div class="swiper-slide">
-                <p class="title">ROAS</p>
-                <p class="desc">A metric that shows the cost of one click on an ad. </p>
-            </div>
-            <div class="swiper-slide">
-                <p class="title">CPC</p>
-                <p class="desc">A metric that shows the cost of one click on an ad. </p>
-            </div>
-            <div class="swiper-slide">
-                <p class="title">ROI</p>
-                <p class="desc">A metric that shows the cost of one click on an ad. </p>
-            </div>
-            <div class="swiper-slide">
-                <p class="title">ROAS</p>
-                <p class="desc">A metric that shows the cost of one click on an ad. </p>
-            </div>
+            <?php if (have_rows('platforms_slider')) : ?>
+                <?php while (have_rows('platforms_slider')) : the_row(); ?>
+                    <?php if (have_rows('platforms_slide')) : ?>
+                        <?php while (have_rows('platforms_slide')) : the_row(); ?>
+                            <div class="swiper-slide">
+                                <p class="title"><?php the_sub_field('platforms_slide_title'); ?></p>
+                                <p class="desc"><?php the_sub_field('platforms_slide_text'); ?></p>
+                            </div>
+                        <?php endwhile; ?>
+                    <?php endif; ?>
+                <?php endwhile; ?>
+                <?php while (have_rows('platforms_slider')) : the_row(); ?>
+                    <?php if (have_rows('platforms_slide')) : ?>
+                        <?php while (have_rows('platforms_slide')) : the_row(); ?>
+                            <div class="swiper-slide">
+                                <p class="title"><?php the_sub_field('platforms_slide_title'); ?></p>
+                                <p class="desc"><?php the_sub_field('platforms_slide_text'); ?></p>
+                            </div>
+                        <?php endwhile; ?>
+                    <?php endif; ?>
+                <?php endwhile; ?>
+            <?php endif; ?>
         </div>
         <picture>
             <source media="(max-width:991.98px)"
@@ -237,7 +171,7 @@
     </div>
 </section>
 <section class="page-7 project-stages">
-    <h2 class="section-title">Project stages</h2>
+    <h2 class="section-title"><?php the_field('project_stages_section-title'); ?></h2>
     <div class="content">
         <div class="stages">
             <div class="line-container">
@@ -253,29 +187,23 @@
                 </span>
             </div>
             <div class="items">
-                <div class="item active">
-                    <span class="step"></span>
-                    <p class="title">Imagine</p>
-                    <p class="desc">
-                        Meeting to learn what you need, the state of affairs and how we can assist (first 45 minutes
-                        free).
-                    </p>
-                </div>
-                <div class="item">
-                    <span class="step"></span>
-                    <p class="title">Define</p>
-                    <p class="desc">
-                        Agree on everything we are doing for you, how we measure success, period, payment, sign
-                        contract.
-                    </p>
-                </div>
-                <div class="item">
-                    <span class="step"></span>
-                    <p class="title">Realize</p>
-                    <p class="desc">
-                        Make it happen. Efficiently.
-                    </p>
-                </div>
+                <?php if (have_rows('project_stages_list')) : ?>
+                    <?php $item_project_stages_counter = 0; ?>
+                    <?php while (have_rows('project_stages_list')) : the_row(); ?>
+                        <?php if (have_rows('project_stages_item')) : ?>
+                            <?php while (have_rows('project_stages_item')) : the_row(); ?>
+                                <div class="item <?php echo $item_project_stages_counter === 0 ? ' active' : ''; ?>">
+                                    <span class="step"></span>
+                                    <p class="title"> <?php the_sub_field('project_stages_item_title'); ?></p>
+                                    <p class="desc">
+                                        <?php the_sub_field('project_stages_item_text'); ?>
+                                    </p>
+                                </div>
+                                <?php $item_project_stages_counter++; ?>
+                            <?php endwhile; ?>
+                        <?php endif; ?>
+                    <?php endwhile; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -485,7 +413,7 @@
     </div>
 </section>
 <section class="page-7 faq">
-    <h2 class="section-title color-white">Q&A</h2>
+    <h2 class="section-title color-white"><?php the_field('faq_section_title'); ?></h2>
     <div class="container">
         <div class="faq-content">
             <div class="slider">
@@ -494,79 +422,29 @@
                         <span></span>
                     </div>
                 </div>
-                <div class="slider-marks">
-                    <span></span><span></span><span></span><span></span><span></span>
-                </div>
             </div>
             <div class="items">
-                <div class="item">
-                    <p class="title">
-                        How long does it take to develop a website?
-                    </p>
-                    <div class="content">
-                        <p class="desc">
-                            We develop an online marketing strategy to reach your business goals. The result: you know
-                            how
-                            to establish or grow your online presence and how to measure efficiency.
-                        </p>
-                        <a href="#" class="btn">learn more</a>
-                    </div>
-                </div>
-                <div class="item active">
-                    <p class="title">
-                        Which ad works better:
-                        target or context?
-
-                    </p>
-                    <div class="content">
-                        <p class="desc">
-                            We develop an online marketing strategy to reach your business goals. The result: you know
-                            how
-                            to establish or grow your online presence and how to measure efficiency.
-                        </p>
-                        <a href="#" class="btn">learn more</a>
-                    </div>
-                </div>
-                <div class="item">
-                    <p class="title">
-                        How quickly will I see the results
-                        of the promotion?
-                    </p>
-                    <div class="content">
-                        <p class="desc">
-                            We develop an online marketing strategy to reach your business goals. The result: you know
-                            how
-                            to establish or grow your online presence and how to measure efficiency.
-                        </p>
-                        <a href="#" class="btn">learn more</a>
-                    </div>
-                </div>
-                <div class="item">
-                    <p class="title">
-                        Why are competitors cheaper?
-                    </p>
-                    <div class="content">
-                        <p class="desc">
-                            We develop an online marketing strategy to reach your business goals. The result: you know
-                            how
-                            to establish or grow your online presence and how to measure efficiency.
-                        </p>
-                        <a href="#" class="btn">learn more</a>
-                    </div>
-                </div>
-                <div class="item">
-                    <p class="title">
-                        Why should you choose us?
-                    </p>
-                    <div class="content">
-                        <p class="desc">
-                            We develop an online marketing strategy to reach your business goals. The result: you know
-                            how
-                            to establish or grow your online presence and how to measure efficiency.
-                        </p>
-                        <a href="#" class="btn">learn more</a>
-                    </div>
-                </div>
+                <?php if (have_rows('faq_items')) : ?>
+                    <?php $item_faq_counter = 0; ?>
+                    <?php while (have_rows('faq_items')) : the_row(); ?>
+                        <?php if (have_rows('faq_item')) : ?>
+                            <?php while (have_rows('faq_item')) : the_row(); ?>
+                                <div class="item <?php echo $item_faq_counter === 0 ? ' active' : ''; ?>">
+                                    <p class="title">
+                                        <?php the_sub_field('faq_item_title'); ?>
+                                    </p>
+                                    <div class="content">
+                                        <p class="desc">
+                                            <?php the_sub_field('faq_item_text'); ?>
+                                        </p>
+                                        <a href="<?php the_sub_field('faq_item_link'); ?>" class="btn">learn more</a>
+                                    </div>
+                                </div>
+                                <?php $item_faq_counter++; ?>
+                            <?php endwhile; ?>
+                        <?php endif; ?>
+                    <?php endwhile; ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

@@ -1,5 +1,4 @@
 <section class="page-44 faq">
-    <h2 class="section-title color-white">Q&A</h2>
     <div class="container">
         <div class="faq-content">
             <div class="slider">
