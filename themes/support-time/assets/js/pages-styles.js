@@ -29,3 +29,6 @@ import(/* webpackChunkName: "style-page-44" */ "../css/pages/44.scss");
 
 /* /how-we-work/ */
 import(/* webpackChunkName: "style-page-46" */ "../css/pages/46.scss");
+
+/* /contacts/ */
+import(/* webpackChunkName: "style-page-48" */ "../css/pages/48.scss");

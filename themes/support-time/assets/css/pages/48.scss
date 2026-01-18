@@ -1,0 +1,231 @@
+/******************************
+* Часто повторяющиеся элементы (/components/) - все они находятся в файле _components_mixin.scss
+* Стили страницы
+******************************/
+@import "../fragments/variables";
+@import "../fragments/components_mixin";
+@import "../fragments/media_mixin";
+@import "../fragments/fonts_mixin";
+
+/* Часто повторяющиеся элементы (/components/) - все они находятся в файле _components_mixin.scss */
+
+/* Стили страницы */
+header#header.header {
+    @include header-gradient;
+}
+
+.page-48 {
+    &.contacts {
+        position: relative;
+        padding-top: 204px;
+        padding-bottom: 123px;
+        @include max_1400 {
+            padding-bottom: 170px;
+        }
+        @include max_1200 {
+            padding-top: 162px;
+            padding-bottom: 61px;
+        }
+        @include max_992 {
+            padding-top: 120px;
+            padding-bottom: 100px;
+        }
+
+        .container {
+            max-width: 1184px;
+            @include max_1400 {
+                max-width: 1140px;
+            }
+            @include max_1200 {
+                max-width: 852px;
+            }
+            @include max_992 {
+                max-width: 640px;
+            }
+            @include max_768 {
+                max-width: 540px;
+            }
+            @include max_576 {
+                max-width: 100%;
+                padding: 0 20px;
+            }
+        }
+
+        .section-title {
+            @include gradient-text;
+            background-image: linear-gradient(
+                90deg,
+                rgba(18.7, 7.7, 57.21, 1) -11.867%,
+                rgba(40, 34, 81, 1) 25.425%,
+                rgba(121, 57, 113, 1) 67.191%,
+                rgba(204, 120, 151, 1) 91.554%
+            );
+            text-align: center;
+            display: block;
+            font-size: 128px;
+            font-weight: 900;
+            margin-bottom: 40px;
+            @include max_1400 {
+                font-size: 106px;
+            }
+            @include max_1200 {
+                text-align: left;
+                font-size: 85px;
+                margin-bottom: 25px;
+            }
+            @include max_992 {
+                font-size: 69px;
+                margin-bottom: 108px;
+            }
+            @include max_768 {
+                font-size: 52px;
+                margin-bottom: 60px;
+            }
+        }
+
+        .mail-and-tel {
+            margin-bottom: 93px;
+            @include max_1200 {
+                margin-bottom: 62px;
+            }
+            @include max_992 {
+                margin-bottom: 96px;
+            }
+
+            a {
+                display: block;
+                position: relative;
+                width: max-content;
+                font-size: 36px;
+                @include max_1400 {
+                    font-size: 32px;
+                }
+                @include max_1200 {
+                    font-size: 24px;
+                }
+
+                &:not(:last-of-type) {
+                    margin-bottom: 12px;
+                    @include max_992 {
+                        margin-bottom: 16px;
+                    }
+                }
+
+                &:before {
+                    position: absolute;
+                    width: 100%;
+                    height: 2px;
+                    background: currentColor;
+                    bottom: -4px;
+                    left: 0;
+                    content: "";
+                }
+            }
+        }
+
+        .socials {
+            .title {
+                font-size: 24px;
+                margin-bottom: 28px;
+                @include max_1200 {
+                    font-size: 16px;
+                    margin-bottom: 18px;
+                }
+                @include max_992 {
+                    font-size: 24px;
+                    margin-bottom: 28px;
+                }
+            }
+
+            .socials-items {
+                display: flex;
+                align-items: center;
+                gap: 30px;
+                @include max_1200 {
+                    gap: 17px;
+                }
+                @include max_992 {
+                    gap: 30px;
+                }
+                @include max_576 {
+                    gap: 20px;
+                    flex-wrap: wrap;
+                }
+            }
+
+            .social-item {
+                font-size: 14px;
+                padding: 4px 16px;
+                transition: $transition-default;
+                border-radius: 18px;
+                @include max_1200 {
+                    font-size: 12px;
+                    padding: 4px 11px;
+                }
+                @include max_992 {
+                    font-size: 14px;
+                    padding: 4px 16px;
+                }
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: -1px;
+                    left: -1px;
+                    right: -1px;
+                    bottom: -1px;
+                    background: linear-gradient(
+                        180deg,
+                        rgba(18.7, 7.7, 57.21, 1),
+                        rgba(40, 34, 81, 1) 36%,
+                        rgba(121, 57, 113, 1) 76%,
+                        rgba(204, 120, 151, 1) 100%
+                    );
+                    border-radius: 8px;
+                    z-index: -1;
+                }
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: #fff;
+                    border-radius: 8px;
+                    z-index: -1;
+                    transition: $transition-default;
+                }
+
+                &:hover {
+                    color: #fff;
+
+                    &::after {
+                        background: $st-gradient-main;
+                    }
+                }
+            }
+        }
+
+        .image {
+            @include max_768 {
+                display: none;
+            }
+
+            img {
+                position: absolute;
+                right: 0;
+                top: 218px;
+                @include max_1200 {
+                    right: -50px;
+                    top: 130px;
+                }
+                @include max_992 {
+                    right: 0;
+                    top: 173px;
+                }
+            }
+        }
+    }
+}
