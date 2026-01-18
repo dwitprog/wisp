@@ -67,79 +67,97 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const headerSite = document.querySelector("header.header#header");
     if (headerSite) {
-        const headerMenuSite = document.querySelector("#header nav.menu");
+        const headerMenuSite = headerSite.querySelector("#header nav.header-menu");
+        const mobileMenuBtn = headerSite.querySelector(".mobile-menu-btn");
+        const headerEnd = headerSite.querySelector(".header-end");
+        const overlay = document.querySelector(".overlay");
+        const body = document.body;
+        const serviceMenu = headerMenuSite.querySelector(".menu-service");
+        const subMenu = headerMenuSite.querySelector(".sub-menu");
 
-        if (headerMenuSite) {
-            const headerFixBlock = headerSite.querySelector(".container_header");
-            const isMobile = window.matchMedia("(max-width: 991.98px)").matches;
-            const wpAdminBar = document.getElementById("wpadminbar");
+        // Функция для проверки ширины экрана
+        const isMobileView = () => window.innerWidth < 1200;
 
-            window.onscroll = () => {
-                const haveClassFixed = headerFixBlock.classList.contains("fixed");
-                let step = 1;
-                headerSite.style.minHeight = `${headerSite.clientHeight}px`;
+        // Функция для блокировки/разблокировки скролла
+        const toggleScrollLock = lock => {
+            if (lock) {
+                // Сохраняем текущую позицию скролла
+                const scrollY = window.scrollY;
+                body.style.position = "fixed";
+                body.style.top = `-${scrollY}px`;
+                body.style.width = "100%";
+                body.style.overflow = "hidden";
+            } else {
+                // Восстанавливаем позицию скролла
+                const scrollY = body.style.top;
+                body.style.position = "";
+                body.style.top = "";
+                body.style.width = "";
+                body.style.overflow = "";
 
-                const top = window.scrollY;
-                if (top > step) {
-                    if (!haveClassFixed) {
-                        headerFixBlock.classList.add("fixed");
-                        if (wpAdminBar) {
-                            headerFixBlock.style.top = `${wpAdminBar.clientHeight}px`;
-                        }
-                    }
-                }
-                if (top < step) {
-                    if (haveClassFixed) {
-                        headerFixBlock.classList.remove("fixed");
-                    }
-                }
-            };
-            // - Мобильное меню
-            const mobileMenu = document.getElementById("mobileMenu");
-            if (mobileMenu && isMobile) {
-                mobileMenu.addEventListener("click", () => {
-                    mobileMenu.classList.toggle("active");
-                });
-
-                const mobileMenuPaste = document.getElementById("menu-paste");
-                if (mobileMenuPaste) {
-                    const btnMobileMenu = document.querySelector(".mobile-menu-button");
-                    btnMobileMenu.addEventListener("click", () => {
-                        btnMobileMenu.classList.toggle("active");
-
-                        if (mobileMenuPaste.children.length <= 0) {
-                            let copyMenu = document.querySelector("ul.navbar-nav");
-                            if (copyMenu) {
-                                // Клонируем меню
-                                const clonedMenu = copyMenu.cloneNode(true);
-
-                                // Создаем элемент для главной страницы
-                                const homeItem = document.createElement("li");
-                                homeItem.setAttribute("itemscope", "itemscope");
-                                homeItem.setAttribute("itemtype", "https://www.schema.org/SiteNavigationElement");
-                                homeItem.className = "menu-item menu-item-type-custom menu-item-object-custom nav-item";
-
-                                const homeLink = document.createElement("a");
-                                homeLink.setAttribute("title", "Главная");
-                                homeLink.setAttribute("href", "/");
-                                homeLink.className = "nav-link";
-                                homeLink.textContent = "Главная";
-
-                                homeItem.appendChild(homeLink);
-
-                                // Вставляем ссылку на главную в начало клонированного меню
-                                clonedMenu.insertBefore(homeItem, clonedMenu.firstChild);
-
-                                // Добавляем клонированное меню с добавленным элементом
-                                mobileMenuPaste.appendChild(clonedMenu);
-                            } else {
-                                console.error("Меню не найдено! Замени ID в main.js");
-                            }
-                        }
-                    });
+                if (scrollY) {
+                    window.scrollTo(0, parseInt(scrollY || "0") * -1);
                 }
             }
+        };
+
+        // Функция для открытия/закрытия меню
+        const toggleMobileMenu = () => {
+            if (!isMobileView()) return;
+
+            const isActive = mobileMenuBtn.classList.contains("active");
+
+            if (!isActive) {
+                // Открываем меню
+                mobileMenuBtn.classList.add("active");
+                headerMenuSite.classList.add("active");
+                overlay.classList.add("active");
+                headerEnd.classList.add("open-menu");
+                toggleScrollLock(true);
+            } else {
+                // Закрываем меню
+                mobileMenuBtn.classList.remove("active");
+                headerMenuSite.classList.remove("active");
+                overlay.classList.remove("active");
+                headerEnd.classList.remove("open-menu");
+                toggleScrollLock(false);
+            }
+        };
+
+        // Обработчик клика на кнопку меню
+        mobileMenuBtn.addEventListener("click", toggleMobileMenu);
+
+        // Закрытие меню при клике на overlay
+        if (overlay) {
+            overlay.addEventListener("click", () => {
+                if (isMobileView() && mobileMenuBtn.classList.contains("active")) {
+                    toggleMobileMenu();
+                }
+            });
         }
+
+        // Обработчик изменения размера окна
+        let resizeTimeout;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Если меню открыто, а перешли на десктоп
+                if (!isMobileView() && mobileMenuBtn.classList.contains("active")) {
+                    mobileMenuBtn.classList.remove("active");
+                    headerMenuSite.classList.remove("active");
+                    overlay.classList.remove("active");
+                    headerEnd.classList.remove("open-menu");
+                    toggleScrollLock(false);
+                }
+            }, 250);
+        });
+
+        serviceMenu.addEventListener("click", e => {
+            if (!isMobileView()) return;
+            e.preventDefault();
+            serviceMenu.classList.toggle("active");
+            subMenu.classList.toggle("active");
+        });
     }
 
     /* Меняем дату на всем сайте внутри тегов с классом st-today-date */

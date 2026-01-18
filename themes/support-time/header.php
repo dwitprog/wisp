@@ -101,7 +101,7 @@
             'depth' => 2,
         ));
         ?>
-        <div class="header-end">
+        <div class="header-end ">
             <a href="#" class="header-phone">+1 000 000 00 00</a>
             <div class="changing-font-size">
                 <button class="changing-font-size__btn">
@@ -249,9 +249,9 @@
                 </div>
             </div>
         </div>
-        <button class="mobile-menu-btn">
+        <button class="mobile-menu-btn ">
             <span></span><span></span><span></span>
         </button>
     </div>
-
+    <div class="overlay"></div>
 </header>

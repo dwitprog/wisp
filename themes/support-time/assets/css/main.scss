@@ -256,10 +256,15 @@ header#header.header {
     .header-menu {
         @include max_1200 {
             display: none;
-            position: fixed;
+            position: absolute;
+            top: 0;
             background: #fff;
             max-width: 286px;
+            z-index: 101;
+            width: 100%;
+            height: 100vh;
             right: 0;
+            padding-top: 94px;
             &.active {
                 display: block;
             }
@@ -272,11 +277,17 @@ header#header.header {
             gap: 24px;
             @include max_1200 {
                 flex-direction: column;
+                border-top: 1px solid #ddd;
+                padding-top: 16px;
             }
 
             > .menu-item {
                 border-radius: 8px;
                 transition: $transition-default;
+                @include max_1200 {
+                    border-radius: 0;
+                    width: 100%;
+                }
 
                 a {
                     text-transform: uppercase;
@@ -284,35 +295,70 @@ header#header.header {
                     font-size: 14px;
                     padding: 4px 16px;
                     display: inline-block;
-                }
-
-                &:hover,
-                &.current-menu-item,
-                &.current-page-parent {
-                    background: #fff;
-
-                    a {
-                        font-weight: 700;
-                        background: linear-gradient(
-                            180deg,
-                            rgba(19, 8, 57, 1) 0%,
-                            rgba(40, 34, 81, 1) 36%,
-                            rgba(121, 57, 113, 1) 76%,
-                            rgba(204, 120, 151, 1) 100%
-                        );
-                        -webkit-background-clip: text;
-                        background-clip: text;
-                        -webkit-text-fill-color: transparent;
-                        color: transparent;
+                    @include max_1200 {
+                        @include gradient-text;
+                        font-size: 16px;
+                        text-align: center;
+                        width: 100%;
+                        padding: 11px;
+                    }
+                    @include max_992 {
+                        font-size: 14px;
                     }
                 }
 
                 &.menu-item-has-children {
                     position: relative;
 
+                    > a {
+                        @include max_1200 {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            flex-wrap: wrap;
+                            gap: 10px;
+                            &:after {
+                                content: "";
+                                display: inline-block;
+                                width: 12px;
+                                height: 12px;
+                                background: linear-gradient(
+                                    90deg,
+                                    #130839 0%,
+                                    #282251 36.06%,
+                                    #793971 76.44%,
+                                    #cc7897 100%
+                                );
+                                -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0.329252' y='0.329252' width='11.3415' height='11.3415' rx='5.67075' stroke='black' stroke-width='0.658503'/%3E%3Cpath d='M9.7 6.17321C9.83333 6.09623 9.83333 5.90377 9.7 5.8268L4.3 2.7091C4.16667 2.63212 4 2.72835 4 2.88231V9.11769C4 9.27165 4.16667 9.36788 4.3 9.2909L9.7 6.17321Z' fill='black'/%3E%3C/svg%3E");
+                                mask-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0.329252' y='0.329252' width='11.3415' height='11.3415' rx='5.67075' stroke='black' stroke-width='0.658503'/%3E%3Cpath d='M9.7 6.17321C9.83333 6.09623 9.83333 5.90377 9.7 5.8268L4.3 2.7091C4.16667 2.63212 4 2.72835 4 2.88231V9.11769C4 9.27165 4.16667 9.36788 4.3 9.2909L9.7 6.17321Z' fill='black'/%3E%3C/svg%3E");
+                                -webkit-mask-repeat: no-repeat;
+                                mask-repeat: no-repeat;
+                                -webkit-mask-position: center;
+                                mask-position: center;
+                            }
+                        }
+                    }
+
+                    &.active {
+                        background: $st-gradient-main;
+
+                        > a {
+                            color: #fff;
+                            background: transparent;
+                            -webkit-text-fill-color: #fff;
+
+                            &:after {
+                                transform: rotate(90deg);
+                                background: #fff;
+                            }
+                        }
+                    }
+
                     &:hover {
-                        .sub-menu {
-                            display: block;
+                        @include min_definite_width(1200) {
+                            .sub-menu {
+                                display: block;
+                            }
                         }
                     }
 
@@ -325,12 +371,28 @@ header#header.header {
                         width: 110%;
                         box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
                         border-radius: 8px;
+                        @include max_1200 {
+                            position: static;
+                            border-radius: 0;
+                            box-shadow: none;
+                            width: 100%;
+                        }
+
+                        &.active {
+                            display: block;
+                        }
 
                         .menu-item {
                             padding: 0;
                             text-align: center;
 
                             &:not(:last-child) {
+                                @include min_definite_width(1200) {
+                                    border-bottom: 1px solid rgba(19, 8, 57, 0.17);
+                                }
+                            }
+
+                            @include max_1200 {
                                 border-bottom: 1px solid rgba(19, 8, 57, 0.17);
                             }
 
@@ -352,6 +414,69 @@ header#header.header {
                                 &:hover {
                                     font-weight: 700;
                                 }
+
+                                @include max_1200 {
+                                    font-size: 14px;
+                                    padding: 10px;
+                                }
+                                @include max_992 {
+                                    font-size: 12px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &:hover {
+                    @include min_definite_width(1200) {
+                        background: #fff;
+                        @include max_1200 {
+                            background: $st-gradient-main;
+                        }
+
+                        a {
+                            font-weight: 700;
+                            background: linear-gradient(
+                                180deg,
+                                rgba(19, 8, 57, 1) 0%,
+                                rgba(40, 34, 81, 1) 36%,
+                                rgba(121, 57, 113, 1) 76%,
+                                rgba(204, 120, 151, 1) 100%
+                            );
+                            -webkit-background-clip: text;
+                            background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            color: transparent;
+                        }
+                    }
+                }
+
+                &.current-menu-item,
+                &.current-page-parent {
+                    background: #fff;
+                    @include max_1200 {
+                        background: $st-gradient-main;
+                    }
+
+                    a {
+                        font-weight: 700;
+                        background: linear-gradient(
+                            180deg,
+                            rgba(19, 8, 57, 1) 0%,
+                            rgba(40, 34, 81, 1) 36%,
+                            rgba(121, 57, 113, 1) 76%,
+                            rgba(204, 120, 151, 1) 100%
+                        );
+                        -webkit-background-clip: text;
+                        background-clip: text;
+                        -webkit-text-fill-color: transparent;
+                        color: transparent;
+                        @include max_1200 {
+                            color: #fff;
+                            background: transparent;
+                            -webkit-text-fill-color: #fff;
+                            &:after {
+                                background: #fff;
                             }
                         }
                     }
@@ -367,11 +492,32 @@ header#header.header {
         margin-left: auto;
         @include max_1200 {
             margin-right: 32px;
+            position: relative;
+            z-index: 102;
+        }
+
+        &.open-menu {
+            .changing-font-size__btn {
+                .gradient {
+                    display: block;
+                }
+
+                .white {
+                    display: none;
+                }
+            }
+
+            .header-phone {
+                @include gradient-text;
+            }
         }
 
         .header-phone {
             font-size: 14px;
             color: #fff;
+            @include max_576 {
+                font-size: 12px;
+            }
         }
 
         .changing-font-size__btn {
@@ -487,8 +633,28 @@ header#header.header {
         height: 60px;
         align-items: center;
         justify-content: center;
+        position: relative;
+        z-index: 102;
         @include max_1200 {
             display: flex;
+        }
+
+        &.active {
+            span {
+                background: $st-gradient-main;
+
+                &:nth-child(1) {
+                    transform: rotate(45deg) translate(5px, 1px);
+                }
+
+                &:nth-child(2) {
+                    display: none;
+                }
+
+                &:nth-child(3) {
+                    transform: rotate(-45deg) translate(5px, 0px);
+                }
+            }
         }
 
         span {
@@ -496,7 +662,24 @@ header#header.header {
             width: 27px;
             border-radius: 5px;
             background: #fff;
+            transition: $transition-default;
         }
+    }
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    backdrop-filter: blur(4px);
+    background: rgba(0, 2, 33, 0.5);
+    top: 0;
+    left: 0;
+
+    &.active {
+        display: block;
     }
 }
 
