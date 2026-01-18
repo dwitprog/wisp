@@ -25,5 +25,14 @@ export default function pagesScripts() {
         case "/services/consulting-service/":
             import(/* webpackChunkName: "script-page-40" */ "./pages/40");
             break;
+        case "/platforms/":
+            import(/* webpackChunkName: "script-page-42" */ "./pages/42");
+            break;
+        case "/qa/":
+            import(/* webpackChunkName: "script-page-44" */ "./pages/44");
+            break;
+        case "/how-we-work/":
+            import(/* webpackChunkName: "script-page-46" */ "./pages/46");
+            break;
     }
 }

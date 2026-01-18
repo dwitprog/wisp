@@ -20,3 +20,12 @@ import(/* webpackChunkName: "style-page-38" */ "../css/pages/38.scss");
 
 /* /services/consulting-service/ */
 import(/* webpackChunkName: "style-page-40" */ "../css/pages/40.scss");
+
+/* /platforms/ */
+import(/* webpackChunkName: "style-page-42" */ "../css/pages/42.scss");
+
+/* /qa/ */
+import(/* webpackChunkName: "style-page-44" */ "../css/pages/44.scss");
+
+/* /how-we-work/ */
+import(/* webpackChunkName: "style-page-46" */ "../css/pages/46.scss");

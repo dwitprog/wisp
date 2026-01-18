@@ -1,0 +1,638 @@
+/******************************
+* Часто повторяющиеся элементы (/components/) - все они находятся в файле _components_mixin.scss
+* Стили страницы
+******************************/
+@import "../fragments/variables";
+@import "../fragments/components_mixin";
+@import "../fragments/media_mixin";
+@import "../fragments/fonts_mixin";
+
+/* Часто повторяющиеся элементы (/components/) - все они находятся в файле _components_mixin.scss */
+
+/* Стили страницы */
+
+.page-46 {
+    &.banner {
+        padding-top: 165px;
+        background: $st-gradient-main;
+        padding-bottom: 219px;
+        @include max_1200 {
+            padding-top: 143px;
+            padding-bottom: 205px;
+        }
+        @include max_992 {
+            padding-top: 126px;
+            padding-bottom: 152px;
+        }
+
+        .container {
+            max-width: 1343px;
+            @include max_1400 {
+                max-width: 1080px;
+            }
+            @include max_1200 {
+                max-width: 914px;
+            }
+            @include max_992 {
+                max-width: 728px;
+            }
+            @include max_768 {
+                max-width: 540px;
+            }
+            @include max_576 {
+                max-width: 100%;
+                padding: 0 20px;
+            }
+        }
+
+        .offer {
+            padding: 48px 0;
+            margin-bottom: 62px;
+            @include max_1200 {
+                padding: 0;
+                margin-bottom: 114px;
+            }
+            @include max_992 {
+                margin-bottom: 82px;
+            }
+            @include max_576 {
+                margin-bottom: 60px;
+            }
+
+            .title {
+                font-size: 96px;
+                font-weight: 900;
+                text-align: center;
+                margin-bottom: 40px;
+                @include max_1400 {
+                    font-size: 80px;
+                }
+                @include max_1200 {
+                    font-size: 67px;
+                    margin-bottom: 32px;
+                }
+                @include max_992 {
+                    font-size: 58px;
+                    margin-bottom: 20px;
+                }
+                @include max_768 {
+                    font-size: 46px;
+                }
+                @include max_576 {
+                    font-size: 36px;
+                }
+            }
+
+            .desc {
+                max-width: 843px;
+                margin: 0 auto;
+                text-align: center;
+                @include max_992 {
+                    text-align: left;
+                }
+            }
+        }
+
+        .coordinates-wrapper {
+            position: relative;
+            height: 531px;
+            @include max_992 {
+                max-width: 690px;
+                margin: 0 auto;
+                height: 539px;
+            }
+            @include max_576 {
+                height: auto;
+            }
+        }
+
+        .coordinates {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            @include max_576 {
+                display: none;
+            }
+
+            .coordinate-axis {
+                &.line-right {
+                    .line {
+                        width: 100%;
+                        height: 2px;
+
+                        &:before {
+                            right: 0;
+                            top: 0;
+                            transform: rotate(55deg) translate(-3px, 2px);
+                        }
+
+                        &:after {
+                            bottom: 0;
+                            right: 0;
+                            transform: rotate(-55deg) translate(-3px, -2px);
+                        }
+                    }
+
+                    .label {
+                        position: absolute;
+                        bottom: -40px;
+                        right: 0;
+                        font-size: 24px;
+                        color: #fff;
+                    }
+                }
+
+                &.line-top {
+                    .line {
+                        height: 100%;
+                        width: 2px;
+
+                        &:before {
+                            top: 0;
+                            transform: rotate(-34deg) translateX(3px);
+                        }
+
+                        &:after {
+                            top: 0;
+                            transform: rotate(34deg) translateX(-3px);
+                        }
+                    }
+
+                    .label {
+                        position: absolute;
+                        left: -30px;
+                        top: 0;
+                        @include max_768 {
+                            left: 30px;
+                        }
+                    }
+                }
+
+                .line {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    background: #fff;
+                    display: block;
+
+                    &:before,
+                    &:after {
+                        position: absolute;
+                        display: block;
+                        content: "";
+                        width: 2px;
+                        height: 10px;
+                        background: #fff;
+                    }
+                }
+            }
+        }
+
+        .items {
+            display: flex;
+            gap: 83px;
+            height: 100%;
+            align-items: flex-end;
+            position: relative;
+            z-index: 3;
+            margin-left: 58px;
+            @include max_1200 {
+                gap: 20px;
+                margin-left: 20px;
+            }
+            @include max_992 {
+                margin-left: 41px;
+                gap: 36px;
+            }
+            @include max_768 {
+                margin-left: 32px;
+                gap: 24px;
+            }
+            @include max_576 {
+                margin: 0;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 40px;
+                height: auto;
+            }
+
+            .item {
+                max-width: 238px;
+                margin-bottom: -10px;
+                @include max_1200 {
+                    max-width: 220px;
+                }
+                @include max_992 {
+                    max-width: 130px;
+                }
+                @include max_576 {
+                    display: flex;
+                    flex-direction: row-reverse;
+                    max-width: 100%;
+                    width: 100%;
+                    align-items: center;
+                }
+
+                &:nth-child(1) {
+                    .line {
+                        height: 43px;
+                        @include max_576 {
+                            height: 1px;
+                        }
+                    }
+                }
+
+                &:nth-child(2) {
+                    .line {
+                        height: 122px;
+                        @include max_576 {
+                            height: 1px;
+                        }
+                    }
+                }
+
+                &:nth-child(3) {
+                    .line {
+                        height: 217px;
+                        @include max_576 {
+                            height: 1px;
+                        }
+                    }
+                }
+
+                &:nth-child(4) {
+                    .line {
+                        height: 298px;
+                        @include max_576 {
+                            height: 1px;
+                        }
+                    }
+                }
+
+                .content {
+                    @include max_576 {
+                        width: 100%;
+                    }
+                }
+
+                .title {
+                    font-size: 32px;
+                    font-weight: 700;
+                    color: #fff;
+                    text-align: center;
+                    margin-bottom: 24px;
+                    @include max_1200 {
+                        font-size: 21px;
+                        margin-bottom: 21px;
+                    }
+                    @include max_992 {
+                        font-size: 16px;
+                        margin-bottom: 32px;
+                    }
+                    @include max_576 {
+                        margin-bottom: 16px;
+                    }
+                }
+
+                .desc {
+                    max-width: 207px;
+                    text-align: center;
+                    color: #fff;
+                    @include max_992 {
+                        max-width: 114px;
+                        font-size: 14px;
+                    }
+                    @include max_576 {
+                        width: 100%;
+                        max-width: 100%;
+                    }
+                }
+
+                .number {
+                    width: 20px;
+                    min-width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #fff;
+                    border-radius: 100%;
+                    font-weight: 900;
+                    font-size: 14px;
+                    color: #70376e;
+                    margin: 0 auto;
+                    @include max_576 {
+                        margin: 0;
+                    }
+                }
+
+                .line {
+                    width: 1px;
+                    background: #fff;
+                    display: block;
+                    margin: 50px auto 30px;
+                    @include max_992 {
+                        margin: 50px auto 12px;
+                    }
+                    @include max_576 {
+                        margin: 0 10px;
+                        width: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    &.how-we-work {
+        position: relative;
+        padding-bottom: 67px;
+
+        &:before {
+            content: "";
+            width: 100%;
+            height: 100px;
+            position: absolute;
+            min-width: 1920px;
+            top: -100px;
+            right: 0;
+            background: #fff;
+            z-index: 2;
+            -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1447 130" xmlns="http://www.w3.org/2000/svg"><path d="M948.939 0C931.778 0.00012142 917.003 12.1135 913.639 28.9414L908.04 56.9414C906.19 66.1912 899.477 76 890.045 76H1C0.447715 76 4.02633e-09 76.4477 0 77V129C0 129.552 0.447715 130 1 130H1446C1446.55 130 1447 129.552 1447 129V77C1447 76.4477 1446.55 76 1446 76H1387.96C1378.53 76 1371.82 66.1901 1369.97 56.9395L1364.37 28.9395C1361 12.1125 1346.23 0 1329.07 0H948.939Z"/></svg>');
+            mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1447 130" xmlns="http://www.w3.org/2000/svg"><path d="M948.939 0C931.778 0.00012142 917.003 12.1135 913.639 28.9414L908.04 56.9414C906.19 66.1912 899.477 76 890.045 76H1C0.447715 76 4.02633e-09 76.4477 0 77V129C0 129.552 0.447715 130 1 130H1446C1446.55 130 1447 129.552 1447 129V77C1447 76.4477 1446.55 76 1446 76H1387.96C1378.53 76 1371.82 66.1901 1369.97 56.9395L1364.37 28.9395C1361 12.1125 1346.23 0 1329.07 0H948.939Z"/></svg>');
+            -webkit-mask-size: 100%;
+            mask-size: 100%;
+            -webkit-mask-position: top right;
+            mask-position: top right;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            @include max_1200 {
+                -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="991" height="104" viewBox="0 0 991 104"><path d="M598.147 0C588.783 0 580.797 6.78767 579.289 16.0303L572.488 57.7081C571.232 65.4103 564.578 71.0664 556.774 71.0664H15.9226C7.1288 71.0664 0 78.2726 0 87.0664C0 95.8602 7.12879 103.066 15.9226 103.066H582.699C583.639 103.066 584.576 103.167 585.511 103.264C586.169 103.333 586.838 103.368 587.516 103.368H938.947C939.625 103.368 940.294 103.333 940.952 103.264C941.887 103.167 942.823 103.066 943.764 103.066H975.077C983.871 103.066 991 95.8602 991 87.0664C991 78.2726 983.871 71.0664 975.077 71.0664H969.691C961.886 71.0664 955.232 65.4101 953.976 57.7078L947.176 16.0303C945.668 6.7875 937.682 0 928.317 0H598.147Z"/></svg>');
+                mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="991" height="104" viewBox="0 0 991 104"><path d="M598.147 0C588.783 0 580.797 6.78767 579.289 16.0303L572.488 57.7081C571.232 65.4103 564.578 71.0664 556.774 71.0664H15.9226C7.1288 71.0664 0 78.2726 0 87.0664C0 95.8602 7.12879 103.066 15.9226 103.066H582.699C583.639 103.066 584.576 103.167 585.511 103.264C586.169 103.333 586.838 103.368 587.516 103.368H938.947C939.625 103.368 940.294 103.333 940.952 103.264C941.887 103.167 942.823 103.066 943.764 103.066H975.077C983.871 103.066 991 95.8602 991 87.0664C991 78.2726 983.871 71.0664 975.077 71.0664H969.691C961.886 71.0664 955.232 65.4101 953.976 57.7078L947.176 16.0303C945.668 6.7875 937.682 0 928.317 0H598.147Z"/></svg>');
+                min-width: 1200px;
+                height: 86px;
+                top: -86px;
+            }
+            @include max_992 {
+                -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="768" height="80" viewBox="0 0 768 80"><path d="M361.365 0C352.332 0.000199737 344.534 6.32628 342.67 15.165L336.935 42.3625C335.382 49.7283 328.883 55 321.355 55H12.5C5.59645 55 0 60.5964 0 67.5C0 74.4036 5.59644 80 12.5 80H755.5C762.404 80 768 74.4036 768 67.5C768 60.5964 762.404 55 755.5 55H733.033C725.505 55 719.006 49.7281 717.453 42.3622L711.719 15.166C709.855 6.32672 702.056 0 693.022 0H361.365Z"/></svg>');
+                mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="768" height="80" viewBox="0 0 768 80"><path d="M361.365 0C352.332 0.000199737 344.534 6.32628 342.67 15.165L336.935 42.3625C335.382 49.7283 328.883 55 321.355 55H12.5C5.59645 55 0 60.5964 0 67.5C0 74.4036 5.59644 80 12.5 80H755.5C762.404 80 768 74.4036 768 67.5C768 60.5964 762.404 55 755.5 55H733.033C725.505 55 719.006 49.7281 717.453 42.3622L711.719 15.166C709.855 6.32672 702.056 0 693.022 0H361.365Z"/></svg>');
+                min-width: 992px;
+                height: 70px;
+                top: -70px;
+            }
+            @include max_768 {
+                min-width: 768px;
+                height: 55px;
+                top: -55px;
+            }
+            @include max_576 {
+                min-width: 576px;
+                height: 40px;
+                top: -40px;
+            }
+        }
+
+        .section-title {
+            position: absolute;
+            z-index: 3;
+            right: 210px;
+            font-size: 48px;
+            top: -70px;
+            @include max_1200 {
+                font-size: 39px;
+                top: -50px;
+                right: 130px;
+            }
+            @include max_992 {
+                font-size: 36px;
+                right: 167px;
+            }
+            @include max_768 {
+                font-size: 32px;
+                right: 120px;
+                top: -40px;
+            }
+            @include max_576 {
+                font-size: 28px;
+                right: 70px;
+                top: -30px;
+            }
+        }
+
+        .stages {
+            margin-left: 100px;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            @include max_1200 {
+                margin-left: 52px;
+            }
+            @include max_576 {
+                margin-left: 30px;
+            }
+        }
+
+        .items {
+            padding-top: 151px;
+            margin-left: 120px;
+            @include max_1200 {
+                padding-top: 98px;
+                margin-left: 42px;
+                padding-bottom: 77px;
+            }
+
+            .item {
+                .step {
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 100%;
+                    background: $st-gradient-main;
+                    display: block;
+                    position: absolute;
+                    left: -131px;
+                    top: 12px;
+
+                    @include max_1200 {
+                        width: 16px;
+                        height: 16px;
+                        left: -51px;
+                    }
+
+                    &_1 {
+                        top: 230px;
+                        @include max_1200 {
+                            top: 98px;
+                        }
+                    }
+
+                    &_2 {
+                        top: 426px;
+                        @include max_1200 {
+                            top: 308px;
+                        }
+                    }
+
+                    &_3 {
+                        top: 611px;
+                    }
+                }
+
+                &:not(:last-child) {
+                    margin-bottom: 70px;
+                    @include max_1200 {
+                        margin-bottom: 46px;
+                    }
+                }
+
+                position: relative;
+
+                max-width: 496px;
+
+                transition: $transition-default;
+                @include max_768 {
+                    max-width: 300px;
+                }
+                @include max_576 {
+                    max-width: 90%;
+                }
+
+                &.active {
+                    .title,
+                    .desc {
+                        opacity: 1;
+                    }
+                }
+
+                .title {
+                    text-transform: uppercase;
+                    font-size: 40px;
+                    margin-bottom: 40px;
+                    opacity: 0.5;
+                    @include max_1200 {
+                        font-size: 24px;
+                        margin-bottom: 24px;
+                    }
+                }
+
+                .desc {
+                    opacity: 0.5;
+                    max-width: 407px;
+                }
+            }
+        }
+
+        .line-container {
+            position: relative;
+
+            .line {
+                width: 3px;
+                height: 745px;
+                background: rgba(19, 8, 57, 1);
+                position: relative;
+                display: block;
+                @include max_1200 {
+                    height: 100%;
+                }
+
+                &:before,
+                &:after {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    bottom: 0;
+                    width: 3px;
+                    height: 12px;
+                    background: rgba(19, 8, 57, 1);
+                }
+
+                &:before {
+                    transform: rotate(135deg) translateX(5px);
+                    left: 0;
+                }
+
+                &:after {
+                    transform: rotate(225deg) translateX(-5px);
+                    right: 0;
+                }
+            }
+
+            .circle {
+                width: 34px;
+                height: 34px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                background: $st-gradient-main;
+                border-radius: 100%;
+                top: 157px;
+                left: 50%;
+                transform: translateX(-50%);
+                @include max_1200 {
+                    width: 28px;
+                    height: 28px;
+                    top: 103px;
+                }
+
+                > span {
+                    width: 26px;
+                    height: 26px;
+                    border-radius: 100%;
+                    background: #fff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    @include max_1200 {
+                        width: 24px;
+                        height: 24px;
+                    }
+
+                    > span {
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 100%;
+                        background: $st-gradient-main;
+                        @include max_1200 {
+                            width: 16px;
+                            height: 16px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .service-knob {
+            position: absolute;
+            right: -197px;
+            padding: 25px;
+            top: 50%;
+            transform: rotate(180deg) translateY(50%);
+
+            @include max_1200 {
+                padding: 0;
+                right: -202px;
+            }
+            @include max_992 {
+                right: -149px;
+            }
+            @include max_576 {
+                display: none;
+            }
+
+            .knob {
+                transform: rotate(45deg);
+            }
+
+            .line {
+                position: absolute;
+                top: -10px;
+                right: 0;
+                @include max_1200 {
+                    display: none;
+                }
+            }
+        }
+    }
+}

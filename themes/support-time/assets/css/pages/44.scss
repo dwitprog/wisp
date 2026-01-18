@@ -1,0 +1,251 @@
+/******************************
+* Часто повторяющиеся элементы (/components/) - все они находятся в файле _components_mixin.scss
+* Стили страницы
+******************************/
+@import "../fragments/variables";
+@import "../fragments/components_mixin";
+@import "../fragments/media_mixin";
+@import "../fragments/fonts_mixin";
+
+/* Часто повторяющиеся элементы (/components/) - все они находятся в файле _components_mixin.scss */
+
+/* Стили страницы */
+header#header.header {
+    @include header-gradient;
+}
+
+.page-44 {
+    &.faq {
+        position: relative;
+
+        .container {
+            max-width: 1315px;
+            @include max_1400 {
+                max-width: 1050px;
+            }
+            @include max_1200 {
+                max-width: 774px;
+            }
+            @include max_992 {
+                max-width: 100%;
+                padding: 0 50px;
+            }
+            @include max_768 {
+                padding: 0 30px;
+            }
+            @include max_576 {
+                padding: 0 20px;
+            }
+        }
+
+        .faq-content {
+            position: relative;
+            padding-top: 143px;
+            padding-bottom: 102px;
+            display: flex;
+            justify-content: space-between;
+            @include max_992 {
+                padding-top: 100px;
+                padding-bottom: 50px;
+            }
+        }
+
+        .items {
+            padding-top: 33px;
+            margin-left: 290px;
+            padding-bottom: 0;
+            @include max_1200 {
+                padding-top: 12px;
+                padding-bottom: 46px;
+                margin-left: 210px;
+            }
+            @include max_992 {
+                margin-left: 138px;
+            }
+            @include max_576 {
+                margin-left: 98px;
+            }
+
+            .item {
+                display: grid;
+                grid-template-rows: auto 0fr;
+                transition: grid-template-rows 0.5s ease;
+                position: relative;
+
+                &:not(:last-child) {
+                    margin-bottom: 86px;
+                    @include max_1200 {
+                        margin-bottom: 40px;
+                    }
+                }
+
+                &:before {
+                    content: "";
+                    position: absolute;
+                    left: -176px;
+                    top: 15px;
+                    height: 1px;
+                    width: 51px;
+                    background: $st-text-color;
+                    @include max_1200 {
+                        left: -136px;
+                    }
+                    @include max_992 {
+                        left: -80px;
+                        width: 36px;
+                    }
+                    @include max_576 {
+                        left: -60px;
+                    }
+                }
+
+                &.active {
+                    grid-template-rows: auto 1fr;
+
+                    .title {
+                        font-size: 40px;
+                        opacity: 1;
+                        @include max_1200 {
+                            font-size: 24px;
+                        }
+                        @include max_576 {
+                            font-size: 20px;
+                        }
+                    }
+
+                    .content {
+                        opacity: 1;
+                        visibility: visible;
+                        padding-top: 0;
+                    }
+
+                    .desc {
+                        padding: 16px 0 24px;
+                        @include max_1200 {
+                            padding: 24px 0;
+                        }
+                    }
+
+                    .btn {
+                        opacity: 1;
+                    }
+                }
+
+                .title {
+                    text-transform: uppercase;
+                    opacity: 0.7;
+                    font-size: 24px;
+                    cursor: pointer;
+                    transition: all 0.5s ease;
+                    grid-row: 1;
+                    padding-bottom: 0;
+                    @include max_1200 {
+                        font-size: 20px;
+                    }
+                    @include max_576 {
+                        font-size: 18px;
+                    }
+                }
+
+                .content {
+                    grid-row: 2;
+                    opacity: 0;
+                    visibility: hidden;
+                    transition: all 0.5s ease 0.1s;
+                    overflow: hidden;
+                    padding-top: 0;
+                }
+
+                .desc {
+                    padding: 0;
+                    transition: padding 0.5s ease;
+                }
+
+                .link {
+                    padding: 0;
+                    transition: padding 0.5s ease;
+                    width: max-content;
+                    display: block;
+                    margin-bottom: 27px;
+                    font-weight: 700;
+                    text-decoration: underline;
+                }
+
+                .btn {
+                    width: max-content;
+                    display: block;
+                    opacity: 0;
+                    transition: opacity 0.5s ease 0.2s;
+                }
+            }
+        }
+
+        .slider {
+            display: flex;
+            gap: 86px;
+            height: 850px;
+            @include max_1200 {
+                gap: 65px;
+                height: 560px;
+            }
+            @include max_576 {
+                gap: 30px;
+                height: 700px;
+            }
+
+            &-line {
+                border-radius: 8px;
+                box-shadow: inset 0 1px 3.4000000953674316px 0 rgba(0, 0, 0, 1);
+                background: linear-gradient(
+                    180deg,
+                    rgba(18.7, 7.7, 57.21, 1) 0%,
+                    rgba(40, 34, 81, 1) 0.01%,
+                    rgba(121, 57, 113, 1) 0.02%,
+                    rgba(204, 120, 151, 1) 100%
+                );
+                opacity: 0.73;
+                width: 8px;
+                height: 100%;
+                position: relative;
+            }
+
+            &-fader {
+                box-sizing: border-box;
+                border: 1px solid rgba(1, 0, 26, 1);
+                border-radius: 35px;
+                box-shadow: 2px 2px 1.7999999523162842px 0 rgba(0, 0, 0, 0.25);
+                transition: $transition-default;
+                background: radial-gradient(109% 98% at 50% 34%, #fff, #100134 100%);
+                width: 60px;
+                height: 108px;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                top: 24%;
+                @include max_1200 {
+                    width: 41px;
+                    height: 68px;
+                }
+
+                span {
+                    box-shadow: inset 2px 2px 2.4000000953674316px 0 rgba(0, 0, 0, 0.25);
+                    background: radial-gradient(
+                        90% 152% at 50% 50%,
+                        rgba(232.93, 141.1, 209.98, 1),
+                        rgba(92, 49, 102, 1) 100%
+                    );
+                    width: 42px;
+                    height: 42px;
+                    border-radius: 100%;
+                    display: block;
+                    margin: 13px auto 0;
+                    @include max_1200 {
+                        width: 28px;
+                        height: 28px;
+                        margin-top: 8px;
+                    }
+                }
+            }
+        }
+    }
+}
