@@ -1,10 +1,9 @@
 <section class="page-32 banner">
     <div class="service-menu"></div>
     <div class="title-desc color-white">
-        <h1 class="title">Full <br> service</h1>
+        <h1 class="title"><?php the_field('banner_title'); ?></h1>
         <p class="desc">
-            We audit your online presence, provide competitive intelligence and analyze your data. The result: u know
-            the state of affairs and ow to optimize it.
+            <?php the_field('banner_text'); ?>
         </p>
     </div>
     <div class="line-wrapper">
@@ -24,49 +23,89 @@
             </div>
         </div>
     </div>
-    <div class="items">
-        <div class="item">
-            <p class="title">Single Architecture</p>
-            <p class="desc">A payment model in online advertising in which the company that placed the ads pays for the
-                impressions. </p>
+    <?php if (have_rows('possibilities_list')) : ?>
+        <div class="items">
+            <?php while (have_rows('possibilities_list')) : the_row(); ?>
+                <?php if (have_rows('possibilities_item_1')) : ?>
+                    <?php while (have_rows('possibilities_item_1')) : the_row(); ?>
+                        <div class="item">
+                            <p class="title"> <?php the_sub_field('possibilities_item_1_title'); ?></p>
+                            <p class="desc"> <?php the_sub_field('possibilities_item_1_text'); ?></p>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+                <?php if (have_rows('possibilities_item_2')) : ?>
+                    <?php while (have_rows('possibilities_item_2')) : the_row(); ?>
+                        <div class="item">
+                            <p class="title"> <?php the_sub_field('possibilities_item_2_title'); ?></p>
+                            <p class="desc">
+                                <?php the_sub_field('possibilities_item_2_text'); ?>
+                            </p>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+                <?php if (have_rows('possibilities_item_3')) : ?>
+                    <?php while (have_rows('possibilities_item_3')) : the_row(); ?>
+                        <div class="item">
+                            <p class="title"><?php the_sub_field('possibilities_item_3_title'); ?></p>
+                            <p class="desc"><?php the_sub_field('possibilities_item_3_text'); ?></p>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+            <?php endwhile; ?>
         </div>
-        <div class="item">
-            <p class="title">Adaptive Approach</p>
-            <p class="desc">A payment model in online advertising in which the company that placed the ads pays for the
-                impressions. </p>
+    <?php endif; ?>
+    <?php if (have_rows('audio_items_list')) : ?>
+        <div class="wrapper">
+            <?php while (have_rows('audio_items_list')) : the_row(); ?>
+                <?php if (have_rows('audio_items_item_1')) : ?>
+                    <?php while (have_rows('audio_items_item_1')) : the_row(); ?>
+                        <div class="item" data-audio-item>
+                            <p class="title">
+                                <?php the_sub_field('audio_items_item_1_title'); ?>
+                            </p>
+                            <p class="desc">
+                                <?php the_sub_field('audio_items_item_1_text'); ?>
+                            </p>
+                            <audio data-audio>
+                                <source src="<?php the_sub_field('audio_items_item_1_link'); ?>" type="audio/mpeg">
+                            </audio>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+                <?php if (have_rows('audio_items_item_2')) : ?>
+                    <?php while (have_rows('audio_items_item_2')) : the_row(); ?>
+                        <div class="item active" data-audio-item>
+                            <p class="title">
+                                <?php the_sub_field('audio_items_item_2_title'); ?>
+                            </p>
+                            <p class="desc">
+                                <?php the_sub_field('audio_items_item_2_text'); ?>
+                            </p>
+                            <audio data-audio>
+                                <source src="<?php the_sub_field('audio_items_item_2_link'); ?>" type="audio/mpeg">
+                            </audio>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+                <?php if (have_rows('audio_items_item_3')) : ?>
+                    <?php while (have_rows('audio_items_item_3')) : the_row(); ?>
+                        <div class="item" data-audio-item>
+                            <p class="title">
+                                <?php the_sub_field('audio_items_item_3_title'); ?>
+                            </p>
+                            <p class="desc">
+                                <?php the_sub_field('audio_items_item_3_text'); ?>
+                            </p>
+                            <audio data-audio>
+                                <source src="<?php the_sub_field('audio_items_item_3_link'); ?>" type="audio/mpeg">
+                            </audio>
+                        </div>
+                    <?php endwhile; ?>
+                <?php endif; ?>
+            <?php endwhile; ?>
         </div>
-        <div class="item">
-            <p class="title">Business Intelligence</p>
-            <p class="desc">A payment model in online advertising in which the company that placed the ads pays for the
-                impressions. </p>
-        </div>
-    </div>
-    <div class="wrapper">
-        <div class="item">
-            <p class="title">
-                ROI/ROAS
-            </p>
-            <p class="desc">
-                A payment model in online advertising in which the company that placed the ads pays for the impressions.
-            </p>
-        </div>
-        <div class="item active">
-            <p class="title">
-                CP[x]
-            </p>
-            <p class="desc">
-                A payment model in online advertising in which the company that placed the ads pays for the impressions.
-            </p>
-        </div>
-        <div class="item">
-            <p class="title">
-                CVR
-            </p>
-            <p class="desc">
-                A payment model in online advertising in which the company that placed the ads pays for the impressions.
-            </p>
-        </div>
-    </div>
+    <?php endif; ?>
     <div class="sound-wrapper">
         <svg class="sound-wave" id="soundWave" viewBox="0 0 1419 285" fill="none" xmlns="http://www.w3.org/2000/svg">
             <line x1="11.6296" y1="155.455" x2="11.6296" y2="124.521" stroke="white" stroke-width="3.60795"

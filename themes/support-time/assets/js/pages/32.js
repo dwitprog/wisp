@@ -1,6 +1,7 @@
 import { soundWaveVisualizer } from "../components/soundWaveVisualizer";
 import { initFeedbackForm } from "../components/initFeedbackForm";
 import { initFAQAccordion } from "../components/initFAQAccordion";
+import { audioController } from "../components/audioController";
 
 const visualizer = soundWaveVisualizer({
     svgId: "soundWave",
@@ -12,6 +13,12 @@ const visualizer = soundWaveVisualizer({
         fps: 120,
     },
 });
+const controller = audioController(visualizer);
+
+visualizer.on("play", controller.play);
+visualizer.on("pause", controller.pause);
+visualizer.on("next", controller.next);
+visualizer.on("prev", controller.prev);
 
 const form = initFeedbackForm(".have-a-questions", {
     validateFields: {
