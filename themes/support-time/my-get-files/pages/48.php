@@ -1,27 +1,28 @@
 <section class="page-48 contacts">
     <div class="container">
-        <h1 class="section-title">always in touch</h1>
+        <h1 class="section-title"><?php the_field('page_title'); ?></h1>
         <div class="mail-and-tel">
-            <a href="#" class="mail">hello@cwa.com</a>
-            <a href="#" class="tel">+1 000 000 00 00</a>
+            <a href="mailto:<?php the_field('contacts_email'); ?>"
+               class="mail"><?php the_field('contacts_email'); ?></a>
+            <a href="tel:<?php the_field('contacts_tel'); ?>" class="tel"><?php the_field('contacts_tel'); ?></a>
         </div>
-        <div class="socials">
-            <p class="title">Social:</p>
-            <div class="socials-items">
-                <a href="#" class="social-item">
-                    Whatsapp
-                </a>
-                <a href="#" class="social-item">
-                    Telegram
-                </a>
-                <a href="#" class="social-item">
-                    Facebook
-                </a>
-                <a href="#" class="social-item">
-                    E-mail
-                </a>
+        <?php if (have_rows('social')) : ?>
+            <div class="socials">
+                <p class="title">Social:</p>
+                <div class="socials-items">
+                    <?php while (have_rows('social')) : the_row(); ?>
+                        <?php if (have_rows('social_item')) : ?>
+                            <?php while (have_rows('social_item')) : the_row(); ?>
+                                <a href="<?php the_sub_field('social_link'); ?>" class="social-item">
+                                    <?php the_sub_field('social_title'); ?>
+                                </a>
+                            <?php endwhile; ?>
+                        <?php endif; ?>
+                    <?php endwhile; ?>
+                </div>
             </div>
-        </div>
+        <?php endif; ?>
+
     </div>
     <picture class="image">
         <source media="(max-width:991.98px)"

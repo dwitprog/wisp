@@ -9,75 +9,32 @@
                 </div>
             </div>
             <div class="items">
-                <div class="item">
-                    <p class="title">
-                        How long does it take to develop a website?
-                    </p>
-                    <div class="content">
-                        <p class="desc">
-                            We develop an online marketing strategy to reach your business goals. The result: you know
-                            how
-                            to establish or grow your online presence and how to measure efficiency.
-                        </p>
-                        <a href="#" class="btn">learn more</a>
-                    </div>
-                </div>
-                <div class="item active">
-                    <p class="title">
-                        Which ad works better:
-                        target or context?
+                <?php if (have_rows('faq_items')) : ?>
+                    <?php $item_faq_counter = 0; ?>
+                    <?php while (have_rows('faq_items')) : the_row(); ?>
+                        <?php if (have_rows('faq_item')) : ?>
+                            <?php while (have_rows('faq_item')) : the_row(); ?>
+                                <div class="item <?php echo $item_faq_counter === 0 ? ' active' : ''; ?>">
+                                    <p class="title">
+                                        <?php the_sub_field('faq_item_title'); ?>
 
-                    </p>
-                    <div class="content">
-                        <p class="desc">
-                            We develop an online marketing strategy to reach your business goals. The result: you know
-                            how to establish or grow your online presence and how to measure efficiency.
-                        </p>
-                        <a href="#" class="link">Learn more about this point</a>
-                        <button class="btn btn-gradient">CONTACT us</button>
-                    </div>
-                </div>
-                <div class="item">
-                    <p class="title">
-                        How quickly will I see the results
-                        of the promotion?
-                    </p>
-                    <div class="content">
-                        <p class="desc">
-                            We develop an online marketing strategy to reach your business goals. The result: you know
-                            how
-                            to establish or grow your online presence and how to measure efficiency.
-                        </p>
-                        <a href="#" class="btn">learn more</a>
-                    </div>
-                </div>
-                <div class="item">
-                    <p class="title">
-                        Why are competitors cheaper?
-                    </p>
-                    <div class="content">
-                        <p class="desc">
-                            We develop an online marketing strategy to reach your business goals. The result: you know
-                            how
-                            to establish or grow your online presence and how to measure efficiency.
-                        </p>
-                        <a href="#" class="btn">learn more</a>
-                    </div>
-                </div>
-                <div class="item">
-                    <p class="title">
-                        Why should you choose us?
-                    </p>
-                    <div class="content">
-                        <p class="desc">
-                            We develop an online marketing strategy to reach your business goals. The result: you know
-                            how
-                            to establish or grow your online presence and how to measure efficiency.
-                        </p>
-                        <a href="#" class="btn">learn more</a>
-                    </div>
-                </div>
+                                    </p>
+                                    <div class="content">
+                                        <p class="desc">
+                                            <?php the_sub_field('faq_item_text'); ?>
+                                        </p>
+                                        <a href="<?php the_sub_field('faq_item_link'); ?>" class="link">Learn more about
+                                            this point</a>
+                                        <button class="btn btn-gradient">CONTACT us</button>
+                                    </div>
+                                </div>
+                                <?php $item_faq_counter++; ?>
+                            <?php endwhile; ?>
+                        <?php endif; ?>
+                    <?php endwhile; ?>
+                <?php endif; ?>
             </div>
+
         </div>
     </div>
 </section>
