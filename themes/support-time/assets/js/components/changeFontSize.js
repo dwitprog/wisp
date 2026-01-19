@@ -1,15 +1,42 @@
 export const changeFontSize = () => {
+    console.log("=== changeFontSize function called ===");
+    
     const fontSizeInput = document.getElementById("fontSize");
     const thumb = document.querySelector(".changing-font-size_thumb");
     const line = document.querySelector(".changing-font-size_line");
     const container = document.querySelector(".changing-font-size_container");
     const wrapper = document.querySelector(".changing-font-size_wrapper");
     const toggleBtn = document.querySelector(".changing-font-size__btn");
+    
+    console.log("Elements found:", {
+        fontSizeInput: !!fontSizeInput,
+        thumb: !!thumb,
+        line: !!line,
+        container: !!container,
+        wrapper: !!wrapper,
+        toggleBtn: !!toggleBtn
+    });
 
-    if (!fontSizeInput || !thumb || !line || !container || !wrapper || !toggleBtn) {
-        console.error("Не все необходимые элементы найдены");
+    if (!fontSizeInput || !thumb || !line || !container || !wrapper) {
+        console.error("Не все необходимые элементы найдены", {
+            fontSizeInput: !!fontSizeInput,
+            thumb: !!thumb,
+            line: !!line,
+            container: !!container,
+            wrapper: !!wrapper,
+            toggleBtn: !!toggleBtn
+        });
         return;
     }
+    
+    console.log("changeFontSize initialized successfully", {
+        fontSizeInput: !!fontSizeInput,
+        thumb: !!thumb,
+        line: !!line,
+        container: !!container,
+        wrapper: !!wrapper,
+        toggleBtn: !!toggleBtn
+    });
 
     // Настройки - изменяем на проценты
     const minPercent = 100; // Минимум 100%
@@ -24,7 +51,7 @@ export const changeFontSize = () => {
     function handleClickOutside(event) {
         // Проверяем, был ли клик внутри wrapper или на кнопке toggle
         const isClickInsideWrapper = wrapper.contains(event.target);
-        const isClickOnToggleBtn = toggleBtn.contains(event.target);
+        const isClickOnToggleBtn = toggleBtn ? toggleBtn.contains(event.target) : false;
 
         // Если клик был вне wrapper и не на кнопке toggle, закрываем wrapper
         if (!isClickInsideWrapper && !isClickOnToggleBtn && wrapper.classList.contains("active")) {
@@ -34,21 +61,23 @@ export const changeFontSize = () => {
         }
     }
 
-    // Обработчик клика на кнопку toggle
-    toggleBtn.addEventListener("click", event => {
-        event.stopPropagation(); // Предотвращаем всплытие, чтобы handleClickOutside не сработал сразу
-        wrapper.classList.toggle("active");
+    // Обработчик клика на кнопку toggle (если есть)
+    if (toggleBtn) {
+        toggleBtn.addEventListener("click", event => {
+            event.stopPropagation(); // Предотвращаем всплытие, чтобы handleClickOutside не сработал сразу
+            wrapper.classList.toggle("active");
 
-        if (wrapper.classList.contains("active")) {
-            // Если wrapper открывается, добавляем обработчик клика вне области
-            setTimeout(() => {
-                document.addEventListener("click", handleClickOutside);
-            }, 0);
-        } else {
-            // Если wrapper закрывается, удаляем обработчик
-            document.removeEventListener("click", handleClickOutside);
-        }
-    });
+            if (wrapper.classList.contains("active")) {
+                // Если wrapper открывается, добавляем обработчик клика вне области
+                setTimeout(() => {
+                    document.addEventListener("click", handleClickOutside);
+                }, 0);
+            } else {
+                // Если wrapper закрывается, удаляем обработчик
+                document.removeEventListener("click", handleClickOutside);
+            }
+        });
+    }
 
     // Также закрываем wrapper при клике на сам wrapper (если нужно)
     wrapper.addEventListener("click", event => {
@@ -114,7 +143,11 @@ export const changeFontSize = () => {
     // Функция для изменения градиентов
     function updateGradients(percent) {
         const shouldSimplify = percent > 100;
+        // Сбрасываем кеш при каждом обновлении для более точного поиска
+        gradientElementsCache = null;
         const gradientElements = findGradientElements();
+
+        console.log(`Gradient elements found: ${gradientElements.length}, shouldSimplify: ${shouldSimplify}`);
 
         gradientElements.forEach(({ element, originalGradient }) => {
             if (shouldSimplify) {
@@ -127,6 +160,13 @@ export const changeFontSize = () => {
         });
     }
 
+    // Функция для получения текущего размера шрифта элемента
+    function getCurrentFontSize(element) {
+        const computedStyle = window.getComputedStyle(element);
+        const fontSize = parseFloat(computedStyle.fontSize);
+        return fontSize || 16; // Fallback
+    }
+
     // Функция для пропорционального увеличения шрифтов
     function updateFontSizes(percent) {
         const multiplier = percent / 100;
@@ -134,23 +174,31 @@ export const changeFontSize = () => {
 
         // 1. header#header.header .header-menu_list>.menu-item a (до 28px)
         const headerMenuItems = document.querySelectorAll("header#header.header .header-menu_list>.menu-item a");
+        console.log('Header menu items found:', headerMenuItems.length);
         headerMenuItems.forEach(item => {
             if (isDefault) {
-                item.style.fontSize = "";
+                item.style.removeProperty("font-size");
             } else {
-                const newSize = Math.min(baseValues.headerMenuFontSize * multiplier, maxValues.headerMenuFontSize);
-                item.style.fontSize = `${newSize}px`;
+                // Получаем текущий размер или используем базовый
+                const currentSize = getCurrentFontSize(item) || baseValues.headerMenuFontSize;
+                const baseSize = baseValues.headerMenuFontSize;
+                const newSize = Math.min(baseSize * multiplier, maxValues.headerMenuFontSize);
+                item.style.setProperty("font-size", `${newSize}px`, "important");
+                console.log(`Header menu: ${currentSize}px -> ${newSize}px`);
             }
         });
 
         // 2. .h1, .h2, h1, h2 (до 96px)
         const headings = document.querySelectorAll(".h1, .h2, h1, h2");
+        console.log('Headings found:', headings.length);
         headings.forEach(heading => {
             if (isDefault) {
-                heading.style.fontSize = "";
+                heading.style.removeProperty("font-size");
             } else {
-                const newSize = Math.min(baseValues.headingFontSize * multiplier, maxValues.headingFontSize);
-                heading.style.fontSize = `${newSize}px`;
+                const currentSize = getCurrentFontSize(heading) || baseValues.headingFontSize;
+                const baseSize = baseValues.headingFontSize;
+                const newSize = Math.min(baseSize * multiplier, maxValues.headingFontSize);
+                heading.style.setProperty("font-size", `${newSize}px`, "important");
             }
         });
 
@@ -159,18 +207,26 @@ export const changeFontSize = () => {
         if (isDefault) {
             root.style.setProperty("--st-fs", "");
         } else {
-            const newSize = Math.min(baseValues.rootFontSize * multiplier, maxValues.rootFontSize);
+            // Получаем текущее значение CSS переменной или используем базовое
+            const currentVar = getComputedStyle(root).getPropertyValue("--st-fs").trim();
+            const currentSize = currentVar ? parseFloat(currentVar) : baseValues.rootFontSize;
+            const baseSize = baseValues.rootFontSize;
+            const newSize = Math.min(baseSize * multiplier, maxValues.rootFontSize);
             root.style.setProperty("--st-fs", `${newSize}px`);
+            console.log(`Root --st-fs: ${currentSize}px -> ${newSize}px`);
         }
 
         // 4. .btn (до 24px)
         const buttons = document.querySelectorAll(".btn");
+        console.log('Buttons found:', buttons.length);
         buttons.forEach(btn => {
             if (isDefault) {
-                btn.style.fontSize = "";
+                btn.style.removeProperty("font-size");
             } else {
-                const newSize = Math.min(baseValues.btnFontSize * multiplier, maxValues.btnFontSize);
-                btn.style.fontSize = `${newSize}px`;
+                const currentSize = getCurrentFontSize(btn) || baseValues.btnFontSize;
+                const baseSize = baseValues.btnFontSize;
+                const newSize = Math.min(baseSize * multiplier, maxValues.btnFontSize);
+                btn.style.setProperty("font-size", `${newSize}px`, "important");
             }
         });
     }
@@ -187,20 +243,20 @@ export const changeFontSize = () => {
             if (isDefault) {
                 // Возвращаем исходные стили
                 if (offerTitle) {
-                    offerTitle.style.border = "";
-                    offerTitle.style.padding = "";
+                    offerTitle.style.removeProperty("border");
+                    offerTitle.style.removeProperty("padding");
                 }
                 if (offerDesc) {
-                    offerDesc.style.maxWidth = "";
+                    offerDesc.style.removeProperty("max-width");
                 }
             } else {
                 // Применяем новые стили
                 if (offerTitle) {
-                    offerTitle.style.border = "0px solid #fff";
-                    offerTitle.style.padding = "19px 0";
+                    offerTitle.style.setProperty("border", "0px solid #fff", "important");
+                    offerTitle.style.setProperty("padding", "19px 0", "important");
                 }
                 if (offerDesc) {
-                    offerDesc.style.maxWidth = "880px";
+                    offerDesc.style.setProperty("max-width", "880px", "important");
                 }
             }
         }
@@ -226,6 +282,7 @@ export const changeFontSize = () => {
         fontSizeInput.value = percent;
         
         // Обновляем стили при изменении позиции
+        console.log('Updating styles for percent:', percent);
         updateStyles(percent);
     }
 
@@ -242,24 +299,33 @@ export const changeFontSize = () => {
         // Рассчитываем процент из позиции
         const percent = Math.round(minPercent + (boundedX / availableWidth) * (maxPercent - minPercent));
 
-        thumb.style.left = `${boundedX}px`;
-        fontSizeInput.value = percent;
-        
-        // Обновляем стили при изменении позиции
-        updateStyles(percent);
+        // Используем updateThumbPosition для обновления
+        updateThumbPosition(percent);
     }
 
     // Обработчики событий
     fontSizeInput.addEventListener("input", function () {
         const percent = parseInt(this.value);
+        console.log('Input event triggered, value:', percent);
+        updateThumbPosition(percent);
+    });
+    
+    // Также слушаем событие change для надежности
+    fontSizeInput.addEventListener("change", function () {
+        const percent = parseInt(this.value);
+        console.log('Change event triggered, value:', percent);
         updateThumbPosition(percent);
     });
     
     // Инициализация стилей при загрузке (устанавливаем базовые значения)
+    console.log('Initializing font size changer with default percent:', minPercent);
     updateStyles(minPercent);
+    
+    console.log('Font size changer initialized successfully');
 
     thumb.addEventListener("mousedown", function (e) {
         e.preventDefault();
+        console.log('Thumb mousedown event');
 
         const startX = e.clientX;
         const startLeft = parseFloat(thumb.style.left) || 0;
@@ -280,10 +346,12 @@ export const changeFontSize = () => {
             fontSizeInput.value = percent;
             
             // Обновляем стили при перетаскивании
-            updateStyles(percent);
+            console.log('Mouse move, updating styles for percent:', percent);
+            updateThumbPosition(percent); // Используем эту функцию для обновления
         }
 
         function onMouseUp() {
+            console.log('Mouse up');
             document.removeEventListener("mousemove", onMouseMove);
             document.removeEventListener("mouseup", onMouseUp);
         }
@@ -293,6 +361,25 @@ export const changeFontSize = () => {
     });
 
     line.addEventListener("click", function (e) {
+        console.log('Line click event');
         updateFromPosition(e.clientX);
     });
+    
+    // Проверяем, что обработчики привязаны
+    console.log('Event listeners attached:', {
+        input: fontSizeInput.oninput !== null || fontSizeInput.attributes.oninput,
+        change: fontSizeInput.onchange !== null || fontSizeInput.attributes.onchange,
+        thumbMousedown: thumb.onmousedown !== null || thumb.attributes.onmousedown
+    });
+    
+    // Также добавляем прямой обработчик на изменение value через setInterval для надежности
+    let lastValue = parseInt(fontSizeInput.value);
+    setInterval(() => {
+        const currentValue = parseInt(fontSizeInput.value);
+        if (currentValue !== lastValue) {
+            console.log('Value changed via setInterval:', currentValue);
+            lastValue = currentValue;
+            updateThumbPosition(currentValue);
+        }
+    }, 100); // Проверяем каждые 100мс
 };
