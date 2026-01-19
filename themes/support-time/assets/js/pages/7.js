@@ -132,7 +132,7 @@ if (faqSection) {
         let sliderOffset = 0;
         let itemThresholds = [];
         let contentPaddingTop = 0;
-        const scrollLengthMultiplier = 2.5;
+        const scrollLengthMultiplier = 6;
         const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
         let isClickScrolling = false;
         let forcedIndex = null;
