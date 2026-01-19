@@ -2,6 +2,7 @@ import { soundWaveVisualizer } from "../components/soundWaveVisualizer";
 import { initFeedbackForm } from "../components/initFeedbackForm";
 import { initFAQAccordion } from "../components/initFAQAccordion";
 import { audioController } from "../components/audioController";
+import { initProjectStagesAnimation } from "../components/initProjectStagesAnimation";
 
 const visualizer = soundWaveVisualizer({
     svgId: "soundWave",
@@ -110,3 +111,9 @@ if (dateInput) {
         });
     }
 }
+
+// Анимация секции project-stages (pin + движение круга)
+const projectStagesSection = document.querySelector(".page-36.project-stages");
+initProjectStagesAnimation({
+    section: projectStagesSection,
+});

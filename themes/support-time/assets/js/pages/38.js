@@ -1,5 +1,6 @@
 import { initFeedbackForm } from "../components/initFeedbackForm";
 import { initFAQAccordion } from "../components/initFAQAccordion";
+import { initProjectStagesAnimation } from "../components/initProjectStagesAnimation";
 
 const form = initFeedbackForm(".have-a-questions", {
     validateFields: {
@@ -33,3 +34,8 @@ const form = initFeedbackForm(".have-a-questions", {
     },
 });
 initFAQAccordion(".faq-accordion");
+// Анимация секции project-stages (pin + движение круга)
+const projectStagesSection = document.querySelector(".page-38.project-stages");
+initProjectStagesAnimation({
+    section: projectStagesSection,
+});

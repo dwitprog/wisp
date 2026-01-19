@@ -3,6 +3,7 @@ import { Navigation } from "swiper/modules";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { initFeedbackForm } from "../components/initFeedbackForm";
+import { initProjectStagesAnimation } from "../components/initProjectStagesAnimation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -112,76 +113,9 @@ if (servicesSection) {
 
 // Анимация секции project-stages (pin + движение круга)
 const projectStagesSection = document.querySelector(".page-7.project-stages");
-if (projectStagesSection) {
-    const content = projectStagesSection.querySelector(".content");
-    const lineContainer = projectStagesSection.querySelector(".line-container");
-    const line = projectStagesSection.querySelector(".line-container .line");
-    const circle = projectStagesSection.querySelector(".line-container .circle");
-    const items = Array.from(projectStagesSection.querySelectorAll(".items .item"));
-    const itemsContainer = projectStagesSection.querySelector(".items");
-
-    if (content && lineContainer && line && circle && items.length && itemsContainer) {
-        let lineHeight = 0;
-        let circleHeight = 0;
-        let maxTravel = 0;
-        let lineContainerOffset = 0;
-        let lineOffset = 0;
-        let itemThresholds = [];
-        let stopPoints = [];
-        let contentPaddingTop = 0;
-
-        const measure = () => {
-            const sectionTop = projectStagesSection.getBoundingClientRect().top + window.scrollY;
-
-            contentPaddingTop = parseFloat(getComputedStyle(content).paddingTop) || 0;
-            lineHeight = line.offsetHeight;
-            circleHeight = circle.offsetHeight;
-            maxTravel = Math.max(0, lineHeight - circleHeight);
-            lineContainerOffset = lineContainer.getBoundingClientRect().top + window.scrollY - sectionTop;
-            lineOffset = line.getBoundingClientRect().top + window.scrollY - sectionTop;
-            itemThresholds = items.map(item => item.getBoundingClientRect().top + window.scrollY - sectionTop + 6);
-            stopPoints = [0, ...itemThresholds.map(threshold => threshold - lineOffset), maxTravel];
-        };
-
-        measure();
-        gsap.set(circle, { y: 0 });
-
-        ScrollTrigger.create({
-            trigger: projectStagesSection,
-            start: () => `top+=${contentPaddingTop} top`,
-            end: () => `+=${Math.max(1, maxTravel)}`,
-            pin: true,
-            pinSpacing: true,
-            scrub: true,
-            onRefresh: measure,
-            onUpdate: self => {
-                const rawTravel = Math.min(maxTravel, Math.max(0, self.progress * maxTravel));
-                let snappedTravel = stopPoints[0] ?? 0;
-
-                for (let i = 1; i < stopPoints.length; i += 1) {
-                    if (Math.abs(stopPoints[i] - rawTravel) < Math.abs(snappedTravel - rawTravel)) {
-                        snappedTravel = stopPoints[i];
-                    }
-                }
-
-                const travel = Math.min(maxTravel, Math.max(0, snappedTravel));
-                gsap.set(circle, { y: travel });
-                const circleTop = lineOffset + travel;
-                let activeIndex = 0;
-
-                for (let i = 0; i < itemThresholds.length; i += 1) {
-                    if (circleTop >= itemThresholds[i]) {
-                        activeIndex = i;
-                    }
-                }
-
-                items.forEach((item, index) => {
-                    item.classList.toggle("active", index <= activeIndex);
-                });
-            },
-        });
-    }
-}
+initProjectStagesAnimation({
+    section: projectStagesSection,
+});
 
 // Анимация секции faq (pin + движение фейдера)
 const faqSection = document.querySelector(".page-7.faq");
@@ -200,6 +134,9 @@ if (faqSection) {
         let contentPaddingTop = 0;
         const scrollLengthMultiplier = 2.5;
         const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+        let isClickScrolling = false;
+        let forcedIndex = null;
+        let clickTween = null;
 
         const measure = () => {
             const sectionTop = faqSection.getBoundingClientRect().top + window.scrollY;
@@ -219,7 +156,7 @@ if (faqSection) {
 
         const faqTrigger = ScrollTrigger.create({
             trigger: faqContent,
-            start: () => `top+=${contentPaddingTop} top`,
+            start: () => `top+=50 top`,
             end: () => `+=${Math.max(1, maxTravel) * scrollLengthMultiplier}`,
             pin: true,
             pinSpacing: true,
@@ -231,9 +168,13 @@ if (faqSection) {
                 const faderTop = sliderOffset + travel;
                 let activeIndex = 0;
 
-                for (let i = 0; i < itemThresholds.length; i += 1) {
-                    if (faderTop >= itemThresholds[i]) {
-                        activeIndex = i;
+                if (isClickScrolling && forcedIndex !== null) {
+                    activeIndex = forcedIndex;
+                } else {
+                    for (let i = 0; i < itemThresholds.length; i += 1) {
+                        if (faderTop >= itemThresholds[i]) {
+                            activeIndex = i;
+                        }
                     }
                 }
 
@@ -262,12 +203,27 @@ if (faqSection) {
                 const targetScroll = startScroll + (endScroll - startScroll) * targetProgress;
                 const tweenState = { value: faqTrigger.scroll() };
 
-                gsap.to(tweenState, {
+                if (clickTween) {
+                    clickTween.kill();
+                }
+                isClickScrolling = true;
+                forcedIndex = index;
+                clickTween = gsap.to(tweenState, {
                     value: targetScroll,
                     duration: 0.6,
                     ease: "power1.out",
                     onUpdate: () => {
                         faqTrigger.scroll(tweenState.value);
+                    },
+                    onComplete: () => {
+                        isClickScrolling = false;
+                        forcedIndex = null;
+                        clickTween = null;
+                    },
+                    onInterrupt: () => {
+                        isClickScrolling = false;
+                        forcedIndex = null;
+                        clickTween = null;
                     },
                 });
             });
