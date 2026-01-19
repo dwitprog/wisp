@@ -151,10 +151,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }, 250);
         });
-
+        serviceMenu.querySelector("a").addEventListener("click", e => {
+            e.preventDefault();
+        });
         serviceMenu.addEventListener("click", e => {
             if (!isMobileView()) return;
-            e.preventDefault();
+
             serviceMenu.classList.toggle("active");
             subMenu.classList.toggle("active");
         });

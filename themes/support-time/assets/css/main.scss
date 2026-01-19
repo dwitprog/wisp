@@ -221,6 +221,13 @@ header#header.header {
         display: block;
         margin-right: auto;
 
+        svg {
+            @include max_576 {
+                max-width: 90px;
+                height: auto;
+            }
+        }
+
         .gradient {
             display: none;
         }
@@ -228,6 +235,7 @@ header#header.header {
 
     .header-container {
         max-width: 1360px;
+        position: relative;
         width: 100%;
         display: flex;
         align-items: center;
@@ -249,7 +257,7 @@ header#header.header {
         }
         @include max_576 {
             max-width: 100%;
-            padding: 0 20px;
+            padding: 20px 15px;
         }
     }
 
@@ -492,7 +500,6 @@ header#header.header {
         margin-left: auto;
         @include max_1200 {
             margin-right: 32px;
-            position: relative;
             z-index: 102;
         }
 
@@ -533,21 +540,30 @@ header#header.header {
     }
 
     .changing-font-size {
-        position: relative;
-
         input {
             display: none;
         }
 
         &_wrapper {
             display: none;
-            width: 328px;
+            width: 100%;
+            max-width: 328px;
             position: absolute;
-            top: calc(100% + 8px);
+            top: calc(100% + -32px);
             right: 0;
             background: #fff;
             border-radius: 16px;
             padding: 8px 16px;
+            @include max_1200 {
+                top: calc(100% + -22px);
+            }
+            @include max_576 {
+                right: 15px;
+            }
+            @include max_definite_width(400) {
+                max-width: 90% !important;
+                left: 15px !important;
+            }
 
             &.active {
                 display: block;
@@ -617,10 +633,16 @@ header#header.header {
 
             .small {
                 font-size: 20px;
+                @include max_576 {
+                    font-size: 14px;
+                }
             }
 
             .big {
                 font-size: 32px;
+                @include max_576 {
+                    font-size: 20px;
+                }
             }
         }
     }
@@ -749,7 +771,7 @@ footer.footer#footer {
         }
         @include max_576 {
             max-width: 100%;
-            padding: 0 20px;
+            padding: 0 15px;
         }
     }
 
