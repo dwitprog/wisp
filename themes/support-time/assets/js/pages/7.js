@@ -125,7 +125,9 @@ if (projectStagesSection) {
         let circleHeight = 0;
         let maxTravel = 0;
         let lineContainerOffset = 0;
+        let lineOffset = 0;
         let itemThresholds = [];
+        let stopPoints = [];
         let contentPaddingTop = 0;
 
         const measure = () => {
@@ -136,7 +138,9 @@ if (projectStagesSection) {
             circleHeight = circle.offsetHeight;
             maxTravel = Math.max(0, lineHeight - circleHeight);
             lineContainerOffset = lineContainer.getBoundingClientRect().top + window.scrollY - sectionTop;
-            itemThresholds = items.map(item => item.getBoundingClientRect().top + window.scrollY - sectionTop + 12);
+            lineOffset = line.getBoundingClientRect().top + window.scrollY - sectionTop;
+            itemThresholds = items.map(item => item.getBoundingClientRect().top + window.scrollY - sectionTop + 6);
+            stopPoints = [0, ...itemThresholds.map(threshold => threshold - lineOffset), maxTravel];
         };
 
         measure();
@@ -151,9 +155,18 @@ if (projectStagesSection) {
             scrub: true,
             onRefresh: measure,
             onUpdate: self => {
-                const travel = Math.min(maxTravel, Math.max(0, self.progress * maxTravel));
+                const rawTravel = Math.min(maxTravel, Math.max(0, self.progress * maxTravel));
+                let snappedTravel = stopPoints[0] ?? 0;
+
+                for (let i = 1; i < stopPoints.length; i += 1) {
+                    if (Math.abs(stopPoints[i] - rawTravel) < Math.abs(snappedTravel - rawTravel)) {
+                        snappedTravel = stopPoints[i];
+                    }
+                }
+
+                const travel = Math.min(maxTravel, Math.max(0, snappedTravel));
                 gsap.set(circle, { y: travel });
-                const circleTop = lineContainerOffset + travel;
+                const circleTop = lineOffset + travel;
                 let activeIndex = 0;
 
                 for (let i = 0; i < itemThresholds.length; i += 1) {
