@@ -349,6 +349,7 @@
     &.how-we-work {
         position: relative;
         padding-bottom: 67px;
+        min-height: 100vh;
 
         &:before {
             content: "";
@@ -424,6 +425,7 @@
         .stages {
             margin-left: 100px;
             position: relative;
+            height: 100%;
             z-index: 2;
             display: flex;
             @include max_1200 {
@@ -441,6 +443,9 @@
                 padding-top: 98px;
                 margin-left: 42px;
                 padding-bottom: 77px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
             }
 
             .item {
@@ -481,9 +486,9 @@
 
                 &:not(:last-child) {
                     margin-bottom: 70px;
-                    @include max_1200 {
-                        margin-bottom: 46px;
-                    }
+                    //@include max_1200 {
+                    //    margin-bottom: 46px;
+                    //}
                 }
 
                 position: relative;
@@ -567,13 +572,13 @@
                 position: absolute;
                 background: $st-gradient-main;
                 border-radius: 100%;
-                top: 157px;
+                top: 0;
                 left: 50%;
+                transition: all 0.5s linear;
                 transform: translateX(-50%);
                 @include max_1200 {
                     width: 28px;
                     height: 28px;
-                    top: 103px;
                 }
 
                 > span {
@@ -622,7 +627,41 @@
             }
 
             .knob {
-                transform: rotate(45deg);
+                transition: all 0.5s linear;
+
+                &.step {
+                    &_1 {
+                        transform: rotate(90deg);
+                        @include max_1200 {
+                            transform: rotate(60deg);
+                        }
+                    }
+
+                    &_2 {
+                        transform: rotate(45deg);
+                        @include max_1200 {
+                            transform: rotate(35deg);
+                        }
+                    }
+
+                    &_3 {
+                        transform: rotate(0deg);
+                    }
+
+                    &_4 {
+                        transform: rotate(-45deg);
+                        @include max_1200 {
+                            transform: rotate(-35deg);
+                        }
+                    }
+
+                    &_5 {
+                        transform: rotate(-90deg);
+                        @include max_1200 {
+                            transform: rotate(-60deg);
+                        }
+                    }
+                }
             }
 
             .line {
