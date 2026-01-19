@@ -362,6 +362,8 @@
             }
 
             .knob {
+                transition: $transition-default;
+
                 &.step {
                     &_1 {
                         transform: rotate(-90deg);
