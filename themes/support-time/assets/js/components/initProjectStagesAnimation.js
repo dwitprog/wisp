@@ -12,6 +12,7 @@ export function initProjectStagesAnimation({
     itemsSelector = ".items .item",
     activeClass = "active",
     thresholdOffset = 6,
+    scrollLengthMultiplier = 4,
 } = {}) {
     if (!section) return;
 
@@ -59,7 +60,7 @@ export function initProjectStagesAnimation({
     ScrollTrigger.create({
         trigger: section,
         start: () => `top+=${contentPaddingTop} top`,
-        end: () => `+=${Math.max(1, maxTravel)}`,
+        end: () => `+=${Math.max(1, maxTravel) * scrollLengthMultiplier}`,
         pin: true,
         pinSpacing: true,
         scrub: true,

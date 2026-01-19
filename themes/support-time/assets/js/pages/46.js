@@ -16,6 +16,7 @@ if (howWeWorkSection) {
         const totalSteps = 5;
         const stepClasses = Array.from({ length: totalSteps }, (_, idx) => `step_${idx + 1}`);
         const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+        const scrollLengthMultiplier = 4;
 
         let lineOffset = 0;
         let circleHeight = 0;
@@ -49,7 +50,7 @@ if (howWeWorkSection) {
         ScrollTrigger.create({
             trigger: howWeWorkSection,
             start: "top top",
-            end: () => `+=${Math.max(1, maxTravel)}`,
+            end: () => `+=${Math.max(1, maxTravel) * scrollLengthMultiplier}`,
             pin: true,
             pinSpacing: true,
             scrub: true,
