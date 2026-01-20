@@ -20,6 +20,17 @@ function st_send_form(): void
     unset($raw_fields['action'], $raw_fields['nonce']);
 
     $lines = [];
+    $page_url = '';
+    if (!empty($raw_fields['page_url'])) {
+        $page_url = esc_url_raw($raw_fields['page_url']);
+        unset($raw_fields['page_url']);
+    }
+    if ($page_url === '') {
+        $page_url = esc_url_raw(wp_get_referer());
+    }
+    if ($page_url !== '') {
+        $lines[] = 'Page: ' . $page_url;
+    }
     $label_map = [
         'name' => 'Name',
         'email' => 'Email',
@@ -64,13 +75,15 @@ function st_send_form(): void
         error_log('[st_send_form] Empty form data after sanitize');
         wp_send_json_error(['message' => 'Empty form data'], 400);
     }
-    $to = 'no-mail@gmail.com';
+
+    $to = '';
 
     if (!defined('ST_SMTP_TO')) {
         $to = "stastimofeew98@gmail.com";
+    } else {
+        $to = ST_SMTP_TO;
     }
 
-    $to = ST_SMTP_TO;
     $subject = 'Новая заявка с сайта ' . wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES);
     $message = implode("\n", $lines);
 

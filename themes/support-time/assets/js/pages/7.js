@@ -273,6 +273,7 @@ if (haveAQuestionsForm) {
                 const payload = new URLSearchParams();
                 payload.append("action", "st_send_form");
                 payload.append("nonce", ajaxNonce);
+                payload.append("page_url", window.location.href);
 
                 Object.entries(formData).forEach(([key, value]) => {
                     if (Array.isArray(value)) {
