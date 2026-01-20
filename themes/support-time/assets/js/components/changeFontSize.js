@@ -88,7 +88,14 @@ export const changeFontSize = () => {
         headingFontSize: 64,
         rootFontSize: 16,
         btnFontSize: 16,
-        footerFontSize: 10, // footer элементы
+        footerFontSize: 10,
+        pFontSize: 16, // теги p
+        servicesItemTitle: 32, // .page-7.services .list .item .title
+        servicesItemActiveTitle: 56, // .page-7.services .list .item.active .title
+        projectStagesItemTitle: 48, // .project-stages .items .item .title
+        haveQuestionsInput: 40, // .have-a-questions .form .input-wrapper input
+        faqItemTitle: 40, // .page-7.faq .items .item .title
+        faqItemActiveTitle: 64, // .page-7.faq .items .item.active .title
     };
 
     // Максимальные значения
@@ -97,29 +104,32 @@ export const changeFontSize = () => {
         headingFontSize: 96,
         rootFontSize: 32,
         btnFontSize: 24,
-        footerFontSize: 20, // footer элементы максимум 20px
+        footerFontSize: 20,
+        pFontSize: 32,
+        servicesItemTitle: 40,
+        servicesItemActiveTitle: 70,
+        projectStagesItemTitle: 56,
+        haveQuestionsInput: 48,
+        faqItemTitle: 48,
+        faqItemActiveTitle: 80,
     };
 
     // Исходные градиенты (для сохранения и восстановления)
     const originalGradient = "linear-gradient(134.15deg, #130839, #282251 36%, #793971 76%, #cc7897)";
     const simplifiedGradient = "linear-gradient(134.15deg, #130839, #4A2C5E)";
+    const specialGradient = "linear-gradient(182deg, rgb(19, 8, 57), #282251)"; // Для .page-7.platforms и .have-a-questions .content
 
     // Функция для изменения градиентов по точным селекторам
     function updateGradients(percent) {
         const shouldSimplify = percent > 100;
 
-        // Точные селекторы для элементов с градиентами
-        const gradientSelectors = [
+        // .page-7.banner и .page-7.faq - упрощенный градиент
+        const simpleGradientSelectors = [
             ".page-7.banner",
-            ".page-7.platforms",
-            ".have-a-questions .content",
             ".page-7.faq",
         ];
 
-        // Также обрабатываем псевдоэлемент :before для .page-7.faq
-        const faqElement = document.querySelector(".page-7.faq");
-
-        gradientSelectors.forEach(selector => {
+        simpleGradientSelectors.forEach(selector => {
             const elements = document.querySelectorAll(selector);
             elements.forEach(el => {
                 if (shouldSimplify) {
@@ -130,20 +140,38 @@ export const changeFontSize = () => {
             });
         });
 
+        // .page-7.platforms и .have-a-questions .content - специальный градиент
+        const specialGradientSelectors = [
+            ".page-7.platforms",
+            ".have-a-questions .content",
+        ];
+
+        specialGradientSelectors.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => {
+                if (shouldSimplify) {
+                    el.style.setProperty("background-image", specialGradient, "important");
+                } else {
+                    el.style.removeProperty("background-image");
+                }
+            });
+        });
+
         // Обрабатываем псевдоэлемент :before для .page-7.faq
+        const faqElement = document.querySelector(".page-7.faq");
         if (faqElement) {
-            const style = document.createElement("style");
-            style.id = "font-size-changer-faq-before";
+            let style = document.getElementById("font-size-changer-faq-before");
             
-            // Удаляем предыдущий стиль если есть
-            const existingStyle = document.getElementById("font-size-changer-faq-before");
-            if (existingStyle) {
-                existingStyle.remove();
+            if (!style) {
+                style = document.createElement("style");
+                style.id = "font-size-changer-faq-before";
+                document.head.appendChild(style);
             }
 
             if (shouldSimplify) {
-                style.textContent = `.page-7.faq:before { background-image: ${simplifiedGradient} !important; }`;
-                document.head.appendChild(style);
+                style.textContent = `.page-7.faq:before { background-image: ${simplifiedGradient} !important; background: #130839 !important; }`;
+            } else {
+                style.textContent = "";
             }
         }
     }
@@ -217,12 +245,97 @@ export const changeFontSize = () => {
                 el.style.setProperty("font-size", `${newSize}px`, "important");
             }
         });
+
+        // 6. теги p (до 32px)
+        const paragraphs = document.querySelectorAll("p");
+        paragraphs.forEach(p => {
+            if (isDefault) {
+                p.style.removeProperty("font-size");
+            } else {
+                const baseSize = baseValues.pFontSize;
+                const newSize = Math.min(baseSize * multiplier, maxValues.pFontSize);
+                p.style.setProperty("font-size", `${newSize}px`, "important");
+            }
+        });
+
+        // 7. .page-7.services .list .item .title (до 40px, базовое 32px)
+        const servicesItemTitles = document.querySelectorAll(".page-7.services .list .item .title");
+        servicesItemTitles.forEach(el => {
+            if (isDefault) {
+                el.style.removeProperty("font-size");
+            } else {
+                const baseSize = baseValues.servicesItemTitle;
+                const newSize = Math.min(baseSize * multiplier, maxValues.servicesItemTitle);
+                el.style.setProperty("font-size", `${newSize}px`, "important");
+            }
+        });
+
+        // 8. .page-7.services .list .item.active .title (до 70px, базовое 56px)
+        const servicesItemActiveTitles = document.querySelectorAll(".page-7.services .list .item.active .title");
+        servicesItemActiveTitles.forEach(el => {
+            if (isDefault) {
+                el.style.removeProperty("font-size");
+            } else {
+                const baseSize = baseValues.servicesItemActiveTitle;
+                const newSize = Math.min(baseSize * multiplier, maxValues.servicesItemActiveTitle);
+                el.style.setProperty("font-size", `${newSize}px`, "important");
+            }
+        });
+
+        // 9. .project-stages .items .item .title (до 56px, базовое 48px)
+        const projectStagesItemTitles = document.querySelectorAll(".project-stages .items .item .title");
+        projectStagesItemTitles.forEach(el => {
+            if (isDefault) {
+                el.style.removeProperty("font-size");
+            } else {
+                const baseSize = baseValues.projectStagesItemTitle;
+                const newSize = Math.min(baseSize * multiplier, maxValues.projectStagesItemTitle);
+                el.style.setProperty("font-size", `${newSize}px`, "important");
+            }
+        });
+
+        // 10. .have-a-questions .form .input-wrapper input (до 48px, базовое 40px)
+        const haveQuestionsInputs = document.querySelectorAll(".have-a-questions .form .input-wrapper input");
+        haveQuestionsInputs.forEach(el => {
+            if (isDefault) {
+                el.style.removeProperty("font-size");
+            } else {
+                const baseSize = baseValues.haveQuestionsInput;
+                const newSize = Math.min(baseSize * multiplier, maxValues.haveQuestionsInput);
+                el.style.setProperty("font-size", `${newSize}px`, "important");
+            }
+        });
+
+        // 11. .page-7.faq .items .item .title (до 48px, базовое 40px)
+        const faqItemTitles = document.querySelectorAll(".page-7.faq .items .item .title");
+        faqItemTitles.forEach(el => {
+            if (isDefault) {
+                el.style.removeProperty("font-size");
+            } else {
+                const baseSize = baseValues.faqItemTitle;
+                const newSize = Math.min(baseSize * multiplier, maxValues.faqItemTitle);
+                el.style.setProperty("font-size", `${newSize}px`, "important");
+            }
+        });
+
+        // 12. .page-7.faq .items .item.active .title (до 80px, базовое 64px)
+        const faqItemActiveTitles = document.querySelectorAll(".page-7.faq .items .item.active .title");
+        faqItemActiveTitles.forEach(el => {
+            if (isDefault) {
+                el.style.removeProperty("font-size");
+            } else {
+                const baseSize = baseValues.faqItemActiveTitle;
+                const newSize = Math.min(baseSize * multiplier, maxValues.faqItemActiveTitle);
+                el.style.setProperty("font-size", `${newSize}px`, "important");
+            }
+        });
     }
 
     // Функция для обновления стилей header при увеличении шрифта
     function updateHeaderStyles(percent) {
         const isDefault = percent === 100;
         const headerEnd = document.querySelector("#header.header .header-end");
+        const headerMenuList = document.querySelector("header#header.header .header-menu_list");
         const headerPhone = document.querySelector("#header.header .header-end .header-phone");
         const changingFontBtnSvg = document.querySelector(".changing-font-size__btn svg");
 
@@ -232,6 +345,9 @@ export const changeFontSize = () => {
                 headerEnd.style.removeProperty("max-width");
                 headerEnd.style.removeProperty("justify-content");
                 headerEnd.style.removeProperty("gap");
+            }
+            if (headerMenuList) {
+                headerMenuList.style.removeProperty("gap");
             }
             if (headerPhone) {
                 headerPhone.style.removeProperty("order");
@@ -247,6 +363,9 @@ export const changeFontSize = () => {
                 headerEnd.style.setProperty("justify-content", "center", "important");
                 headerEnd.style.setProperty("gap", "12px", "important");
             }
+            if (headerMenuList) {
+                headerMenuList.style.setProperty("gap", "4px", "important");
+            }
             if (headerPhone) {
                 headerPhone.style.setProperty("order", "2", "important");
             }
@@ -255,6 +374,101 @@ export const changeFontSize = () => {
                 changingFontBtnSvg.style.setProperty("height", "26px", "important");
             }
         }
+    }
+
+    // Функция для обновления дополнительных стилей при увеличении шрифта
+    function updateAdditionalStyles(percent) {
+        const isDefault = percent === 100;
+
+        // .project-stages .items .item max-width: 738px
+        const projectStagesItems = document.querySelectorAll(".project-stages .items .item");
+        projectStagesItems.forEach(item => {
+            if (isDefault) {
+                item.style.removeProperty("max-width");
+            } else {
+                item.style.setProperty("max-width", "738px", "important");
+            }
+        });
+
+        // .project-stages .items .item .desc max-width: 738px
+        const projectStagesDescs = document.querySelectorAll(".project-stages .items .item .desc");
+        projectStagesDescs.forEach(desc => {
+            if (isDefault) {
+                desc.style.removeProperty("max-width");
+            } else {
+                desc.style.setProperty("max-width", "738px", "important");
+            }
+        });
+
+        // .have-a-questions .container max-width: 100%
+        const haveQuestionsContainer = document.querySelector(".have-a-questions .container");
+        if (haveQuestionsContainer) {
+            if (isDefault) {
+                haveQuestionsContainer.style.removeProperty("max-width");
+            } else {
+                haveQuestionsContainer.style.setProperty("max-width", "100%", "important");
+            }
+        }
+
+        // .have-a-questions .subtitle opacity: .99
+        const haveQuestionsSubtitle = document.querySelector(".have-a-questions .subtitle");
+        if (haveQuestionsSubtitle) {
+            if (isDefault) {
+                haveQuestionsSubtitle.style.removeProperty("opacity");
+            } else {
+                haveQuestionsSubtitle.style.setProperty("opacity", ".99", "important");
+            }
+        }
+
+        // .have-a-questions .content border-radius: 0
+        const haveQuestionsContent = document.querySelector(".have-a-questions .content");
+        if (haveQuestionsContent) {
+            if (isDefault) {
+                haveQuestionsContent.style.removeProperty("border-radius");
+            } else {
+                haveQuestionsContent.style.setProperty("border-radius", "0", "important");
+            }
+        }
+
+        // .page-7.faq .section-title right: 10%
+        const faqSectionTitle = document.querySelector(".page-7.faq .section-title");
+        if (faqSectionTitle) {
+            if (isDefault) {
+                faqSectionTitle.style.removeProperty("right");
+            } else {
+                faqSectionTitle.style.setProperty("right", "10%", "important");
+            }
+        }
+
+        // .page-7.platforms .section-title right: 10%
+        const platformsSectionTitle = document.querySelector(".page-7.platforms .section-title");
+        if (platformsSectionTitle) {
+            if (isDefault) {
+                platformsSectionTitle.style.removeProperty("right");
+            } else {
+                platformsSectionTitle.style.setProperty("right", "10%", "important");
+            }
+        }
+
+        // .st-grid-column-lg-2 grid-template-columns: repeat(1, 1fr)
+        const gridColumns = document.querySelectorAll(".st-grid-column-lg-2");
+        gridColumns.forEach(grid => {
+            if (isDefault) {
+                grid.style.removeProperty("grid-template-columns");
+            } else {
+                grid.style.setProperty("grid-template-columns", "repeat(1, 1fr)", "important");
+            }
+        });
+
+        // .page-7.platforms .items .item .desc max-width: 599px
+        const platformsItemDescs = document.querySelectorAll(".page-7.platforms .items .item .desc");
+        platformsItemDescs.forEach(desc => {
+            if (isDefault) {
+                desc.style.removeProperty("max-width");
+            } else {
+                desc.style.setProperty("max-width", "599px", "important");
+            }
+        });
     }
 
     // Функция для обновления стилей .page-7.banner
@@ -292,6 +506,7 @@ export const changeFontSize = () => {
         updateFontSizes(percent);
         updateHeaderStyles(percent);
         updatePage7BannerStyles(percent);
+        updateAdditionalStyles(percent);
         // Сохраняем состояние
         saveState(percent);
     }
