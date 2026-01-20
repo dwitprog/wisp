@@ -7,6 +7,7 @@
 @import "fragments/fonts_mixin";
 /* Часто повторяющиеся элементы */
 @include st-grid-column((2));
+@include popupForm;
 
 /* Normalize */
 :root {
@@ -211,11 +212,12 @@ section,
 
 /* Header */
 header#header.header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 10;
+    backdrop-filter: blur(6px);
 
     .header-logo {
         display: block;
@@ -240,7 +242,7 @@ header#header.header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 32px 0;
+        padding: 22px 0;
         margin: 0 auto;
         @include max_1400 {
             max-width: 1130px;
@@ -686,6 +688,10 @@ header#header.header {
             background: #fff;
             transition: $transition-default;
         }
+    }
+
+    &.header-gradient {
+        @include header-gradient;
     }
 }
 

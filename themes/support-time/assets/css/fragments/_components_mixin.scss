@@ -148,6 +148,7 @@ $spacing-properties: (
 
 @mixin project-stages {
     .project-stages {
+        background: #fff;
         position: relative;
         padding-bottom: 130px;
         margin-top: -137px;
@@ -1252,6 +1253,7 @@ $spacing-properties: (
             }
         }
     }
+
     .header-end {
         .header-phone {
             @include gradient-text;
@@ -1267,6 +1269,7 @@ $spacing-properties: (
             }
         }
     }
+
     .header-logo {
         .gradient {
             display: block;
@@ -1276,6 +1279,7 @@ $spacing-properties: (
             display: none;
         }
     }
+
     .mobile-menu-btn {
         span {
             background: $st-gradient-main;
@@ -1285,5 +1289,26 @@ $spacing-properties: (
 
 @mixin popupForm {
     .popupForm {
+        position: fixed;
+        display: none;
+        top: 100px;
+        z-index: 9;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(6px);
+        background: linear-gradient(180deg, rgba(18.7, 7.7, 57.21, 0.84) 0%, rgba(40, 34, 81, 0.84) 97.386%);
+        @include have-a-questions;
+
+        .have-a-questions {
+            position: absolute;
+            width: 100%;
+            top: 66px;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+
+        .close-popup {
+        }
     }
 }

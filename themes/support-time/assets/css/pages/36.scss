@@ -12,11 +12,6 @@
 @include have-a-questions;
 @include faq-accordion;
 /* Стили страницы */
-header#header.header {
-    @include min_definite_width(1400) {
-        @include header-gradient;
-    }
-}
 
 .page-36 {
     &.banner {

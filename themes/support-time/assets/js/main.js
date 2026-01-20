@@ -160,6 +160,65 @@ document.addEventListener("DOMContentLoaded", () => {
             serviceMenu.classList.toggle("active");
             subMenu.classList.toggle("active");
         });
+
+        // Переключаем .header-gradient в зависимости от фона под хедером
+        const parseRgb = value => {
+            const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+            if (!match) return null;
+            return {
+                r: Number(match[1]),
+                g: Number(match[2]),
+                b: Number(match[3]),
+            };
+        };
+
+        const isLight = color => {
+            const rgb = parseRgb(color);
+            if (!rgb) return true;
+            const luma = 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b;
+            return luma >= 200;
+        };
+
+        const getSectionBackground = element => {
+            const section = element?.closest("section") || document.body;
+            const dataTheme = section.getAttribute("data-header-theme");
+            if (dataTheme === "gradient") {
+                return "rgb(255, 255, 255)";
+            }
+            if (dataTheme === "default") {
+                return "rgb(0, 0, 0)";
+            }
+            return getComputedStyle(section).backgroundColor;
+        };
+
+        let scheduled = false;
+        const updateHeaderTheme = () => {
+            scheduled = false;
+            const probeX = Math.min(window.innerWidth / 2, window.innerWidth - 1);
+            let probeY = Math.min(headerSite.offsetHeight + 1, window.innerHeight - 1);
+            let target = document.elementFromPoint(probeX, probeY);
+
+            if (target && headerSite.contains(target)) {
+                probeY = Math.min(headerSite.offsetHeight + 20, window.innerHeight - 1);
+                target = document.elementFromPoint(probeX, probeY);
+            }
+            if (!target) {
+                return;
+            }
+            const bg = getSectionBackground(target);
+            const isTransparent = bg === "rgba(255, 255, 255, 1)" || bg === "transparent";
+            headerSite.classList.toggle("header-gradient", isTransparent || isLight(bg));
+        };
+
+        const scheduleUpdate = () => {
+            if (scheduled) return;
+            scheduled = true;
+            requestAnimationFrame(updateHeaderTheme);
+        };
+
+        scheduleUpdate();
+        window.addEventListener("scroll", scheduleUpdate, { passive: true });
+        window.addEventListener("resize", scheduleUpdate);
     }
 
     /* Меняем дату на всем сайте внутри тегов с классом st-today-date */
