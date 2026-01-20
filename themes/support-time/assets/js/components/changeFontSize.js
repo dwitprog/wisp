@@ -15,7 +15,7 @@ export const changeFontSize = () => {
     const maxPercent = 150; // Максимум 150%
 
     // Ключ для localStorage
-    const STORAGE_KEY = 'fontSizePercent';
+    const STORAGE_KEY = "fontSizePercent";
 
     // Функция для сохранения состояния
     function saveState(percent) {
@@ -45,7 +45,7 @@ export const changeFontSize = () => {
     // Устанавливаем атрибуты
     fontSizeInput.min = minPercent;
     fontSizeInput.max = maxPercent;
-    
+
     // Загружаем сохраненное значение
     const savedPercent = loadState();
     fontSizeInput.value = savedPercent;
@@ -89,7 +89,7 @@ export const changeFontSize = () => {
         const root = document.documentElement;
 
         const multiplier = percent / 100;
-        
+
         if (isDefault) {
             // Удаляем класс и CSS переменные
             body.classList.remove("highglass");
@@ -120,7 +120,7 @@ export const changeFontSize = () => {
 
         thumb.style.left = `${position}px`;
         fontSizeInput.value = percent;
-        
+
         // Обновляем стили при изменении позиции
         updateStyles(percent);
     }
@@ -145,12 +145,12 @@ export const changeFontSize = () => {
         const percent = parseInt(this.value);
         updateThumbPosition(percent);
     });
-    
+
     fontSizeInput.addEventListener("change", function () {
         const percent = parseInt(this.value);
         updateThumbPosition(percent);
     });
-    
+
     // Инициализация стилей при загрузке с сохраненным значением
     updateThumbPosition(savedPercent);
     updateStyles(savedPercent);
@@ -174,7 +174,7 @@ export const changeFontSize = () => {
 
             thumb.style.left = `${newLeft}px`;
             fontSizeInput.value = percent;
-            
+
             updateThumbPosition(percent);
         }
 
@@ -190,7 +190,7 @@ export const changeFontSize = () => {
     line.addEventListener("click", function (e) {
         updateFromPosition(e.clientX);
     });
-    
+
     // Polling для отслеживания изменений значения
     let lastValue = parseInt(fontSizeInput.value);
     setInterval(() => {

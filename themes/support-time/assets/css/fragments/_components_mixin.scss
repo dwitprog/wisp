@@ -445,6 +445,7 @@ $spacing-properties: (
 
         .container {
             max-width: 1276px;
+            position: relative;
             @include max_1400 {
                 max-width: 1140px;
             }
@@ -464,10 +465,16 @@ $spacing-properties: (
         }
 
         .content {
+            transition: $transition-default;
             background: $st-gradient-main;
             border-radius: 24px;
             padding: 60px 56px 54px 67px;
             position: relative;
+
+            &.send-ok {
+                display: none;
+            }
+
             @include max_1400 {
                 padding: 50px;
             }
@@ -987,6 +994,11 @@ $spacing-properties: (
                         -webkit-text-fill-color: #fff;
                     }
                 }
+
+                &:disabled {
+                    opacity: 0.3;
+                    cursor: not-allowed;
+                }
             }
 
             .social-list {
@@ -1001,6 +1013,96 @@ $spacing-properties: (
                 margin-top: 5px;
                 position: absolute;
                 bottom: -20px;
+            }
+        }
+
+        .after-send {
+            display: none;
+            padding: 170px 0;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border-radius: 24px;
+            position: relative;
+            @include max_1200 {
+                padding: 120px 0;
+            }
+            @include max_992 {
+                padding: 83px 0;
+            }
+            @include max_768 {
+                padding: 50px;
+            }
+
+            &.active {
+                display: flex;
+            }
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: -6px;
+                left: -6px;
+                right: -6px;
+                bottom: -6px;
+                background: linear-gradient(
+                    180deg,
+                    rgba(18.7, 7.7, 57.21, 1),
+                    rgba(40, 34, 81, 1) 36%,
+                    rgba(121, 57, 113, 1) 76%,
+                    rgba(204, 120, 151, 1) 100%
+                );
+                border-radius: 24px;
+                z-index: -1;
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: #fff;
+                border-radius: 24px;
+                z-index: -1;
+            }
+
+            &-content {
+                max-width: 750px;
+                @include max_992 {
+                    max-width: 515px;
+                }
+
+                .h2 {
+                    @include gradient-text;
+                    font-size: 63px;
+                    margin-bottom: 50px;
+                    @include max_1400 {
+                        font-size: 58px;
+                    }
+                    @include max_1200 {
+                        font-size: 48px;
+                    }
+                    @include max_992 {
+                        font-size: 33px;
+                        margin-bottom: 61px;
+                    }
+                    @include max_768 {
+                        font-size: 30px;
+                        margin-bottom: 50px;
+                    }
+                }
+
+                .social-list {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    max-width: 276px;
+                    @include max_576 {
+                        max-width: 90%;
+                    }
+                }
             }
         }
     }
