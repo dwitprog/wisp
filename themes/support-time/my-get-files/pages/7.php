@@ -32,18 +32,33 @@
             </div>
         </div>
     </div>
-    <picture class="image">
-        <source media="(max-width:767.98px)"
-                srcset="/wp-content/themes/support-time/assets/img/pages/7/banner-768.png">
-        <source media="(max-width:991.98px)"
-                srcset="/wp-content/themes/support-time/assets/img/pages/7/banner-992.png">
-        <source media="(max-width:1199.98px)"
-                srcset="/wp-content/themes/support-time/assets/img/pages/7/banner-1200.png">
-        <source media="(max-width:1399.98px)"
-                srcset="/wp-content/themes/support-time/assets/img/pages/7/banner-1400.png">
-        <img src="/wp-content/themes/support-time/assets/img/pages/7/banner.png" class="banner-image"
-             alt="Imagined Efciency">
-    </picture>
+    <?php if (have_rows('banner_images')) : ?>
+        <picture class="image">
+            <?php while (have_rows('banner_images')) : the_row(); ?>
+                <?php if (get_sub_field('banner_image_768')) : ?>
+                    <source media="(max-width:767.98px)"
+                            srcset="<?php the_sub_field('banner_image_768'); ?>">
+                <?php endif ?>
+                <?php if (get_sub_field('banner_image_992')) : ?>
+                    <source media="(max-width:991.98px)"
+                            srcset="<?php the_sub_field('banner_image_992'); ?>">
+                <?php endif ?>
+                <?php if (get_sub_field('banner_image_1200')) : ?>
+                    <source media="(max-width:1199.98px)"
+                            srcset="<?php the_sub_field('banner_image_1200'); ?>">
+                <?php endif ?>
+                <?php if (get_sub_field('banner_image_1400')) : ?>
+                    <source media="(max-width:1399.98px)"
+                            srcset="<?php the_sub_field('banner_image_1400'); ?>">
+                <?php endif ?>
+                <?php if (get_sub_field('banner_image_full')) : ?>
+                    <img src="<?php the_sub_field('banner_image_full'); ?>" class="banner-image"
+                         alt="<?php the_field('banner_title'); ?>">
+                <?php endif ?>
+            <?php endwhile; ?>
+        </picture>
+    <?php endif; ?>
+
 </section>
 <section class="page-7 services">
     <div class="service-knob">
@@ -207,13 +222,33 @@
             </div>
         </div>
     </div>
-    <picture class="image">
-        <source media="(max-width:991.98px)"
-                srcset="/wp-content/themes/support-time/assets/img/pages/7/project-stages-992.png">
-        <source media="(max-width:1199.98px)"
-                srcset="/wp-content/themes/support-time/assets/img/pages/7/project-stages-1200.png">
-        <img src="/wp-content/themes/support-time/assets/img/pages/7/project-stages.png" alt="">
-    </picture>
+
+    <?php if (have_rows('project_stages_images')) : ?>
+        <picture class="image">
+            <?php while (have_rows('project_stages_images')) : the_row(); ?>
+                <?php if (get_sub_field('project_stages_image_768')) : ?>
+                    <source media="(max-width:767.98px)"
+                            srcset="<?php the_sub_field('project_stages_image_768'); ?>">
+                <?php endif ?>
+                <?php if (get_sub_field('project_stages_image_992')) : ?>
+                    <source media="(max-width:991.98px)"
+                            srcset="<?php the_sub_field('project_stages_image_992'); ?>">
+                <?php endif ?>
+                <?php if (get_sub_field('project_stages_image_1200')) : ?>
+                    <source media="(max-width:1199.98px)"
+                            srcset="<?php the_sub_field('project_stages_image_1200'); ?>">
+                <?php endif ?>
+                <?php if (get_sub_field('project_stages_image_1400')) : ?>
+                    <source media="(max-width:1399.98px)"
+                            srcset="<?php the_sub_field('project_stages_image_1400'); ?>">
+                <?php endif ?>
+                <?php if (get_sub_field('project_stages_image_full')) : ?>
+                    <img src="<?php the_sub_field('project_stages_image_full'); ?>"
+                         alt="<?php the_field('project_stages_section-title'); ?>">
+                <?php endif ?>
+            <?php endwhile; ?>
+        </picture>
+    <?php endif; ?>
 
 </section>
 <section class="page-7 have-a-questions">

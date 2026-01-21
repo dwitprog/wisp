@@ -24,11 +24,31 @@
         <?php endif; ?>
 
     </div>
-    <picture class="image">
-        <source media="(max-width:991.98px)"
-                srcset="/wp-content/themes/support-time/assets/img/pages/48/contacts-992.png">
-        <source media="(max-width:1199.98px)"
-                srcset="/wp-content/themes/support-time/assets/img/pages/48/contacts-1200.png">
-        <img src="/wp-content/themes/support-time/assets/img/pages/48/contacts.png" alt="always in touch">
-    </picture>
+
+    <?php if (have_rows('contacts_images')) : ?>
+        <picture class="image">
+            <?php while (have_rows('contacts_images')) : the_row(); ?>
+                <?php if (get_sub_field('contacts_image_768')) : ?>
+                    <source media="(max-width:767.98px)"
+                            srcset="<?php the_sub_field('contacts_image_768'); ?>">
+                <?php endif ?>
+                <?php if (get_sub_field('contacts_image_992')) : ?>
+                    <source media="(max-width:991.98px)"
+                            srcset="<?php the_sub_field('contacts_image_992'); ?>">
+                <?php endif ?>
+                <?php if (get_sub_field('contacts_image_1200')) : ?>
+                    <source media="(max-width:1199.98px)"
+                            srcset="<?php the_sub_field('contacts_image_1200'); ?>">
+                <?php endif ?>
+                <?php if (get_sub_field('contacts_image_1400')) : ?>
+                    <source media="(max-width:1399.98px)"
+                            srcset="<?php the_sub_field('contacts_image_1400'); ?>">
+                <?php endif ?>
+                <?php if (get_sub_field('contacts_image_full')) : ?>
+                    <img src="<?php the_sub_field('contacts_image_full'); ?>"
+                         alt="<?php the_field('page_title'); ?>">
+                <?php endif ?>
+            <?php endwhile; ?>
+        </picture>
+    <?php endif; ?>
 </section>
