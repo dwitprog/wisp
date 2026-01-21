@@ -6,8 +6,9 @@
 
 /* import Libs */
 import LazyLoad from "vanilla-lazyload";
-import PopUp from "./components/popUp";
 import { changeFontSize } from "./components/changeFontSize";
+import { initFeedbackForm } from "./components/initFeedbackForm";
+import { gsap } from "gsap";
 
 document.addEventListener("DOMContentLoaded", () => {
     changeFontSize();
@@ -58,10 +59,40 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* PopUp */
-    document.addEventListener("click", ({ target }) => {
-        new PopUp(target.closest(".popClick"));
-    });
+    /* Открытие popup по data-pop и блокировка скролла */
+    const toggleScrollLock = lock => {
+        if (lock) {
+            const scrollY = window.scrollY;
+            document.body.style.position = "fixed";
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = "100%";
+            document.body.style.overflow = "hidden";
+            document.body.dataset.scrollY = String(scrollY);
+        } else {
+            const scrollY = Number(document.body.dataset.scrollY || 0);
+            document.body.style.position = "";
+            document.body.style.top = "";
+            document.body.style.width = "";
+            document.body.style.overflow = "";
+            document.body.removeAttribute("data-scroll-y");
+            window.scrollTo(0, scrollY);
+        }
+    };
+
+    const openPopupButtons = document.querySelectorAll(".openPopup[data-pop]");
+    if (openPopupButtons.length) {
+        openPopupButtons.forEach(button => {
+            button.addEventListener("click", event => {
+                event.preventDefault();
+                const popupId = button.getAttribute("data-pop");
+                if (!popupId) return;
+                const popup = document.getElementById(popupId);
+                if (!popup) return;
+                popup.classList.add("active");
+                toggleScrollLock(true);
+            });
+        });
+    }
 
     /* Настройка меню */
 
@@ -77,29 +108,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Функция для проверки ширины экрана
         const isMobileView = () => window.innerWidth < 1200;
-
-        // Функция для блокировки/разблокировки скролла
-        const toggleScrollLock = lock => {
-            if (lock) {
-                // Сохраняем текущую позицию скролла
-                const scrollY = window.scrollY;
-                body.style.position = "fixed";
-                body.style.top = `-${scrollY}px`;
-                body.style.width = "100%";
-                body.style.overflow = "hidden";
-            } else {
-                // Восстанавливаем позицию скролла
-                const scrollY = body.style.top;
-                body.style.position = "";
-                body.style.top = "";
-                body.style.width = "";
-                body.style.overflow = "";
-
-                if (scrollY) {
-                    window.scrollTo(0, parseInt(scrollY || "0") * -1);
-                }
-            }
-        };
 
         // Функция для открытия/закрытия меню
         const toggleMobileMenu = () => {
@@ -227,6 +235,143 @@ document.addEventListener("DOMContentLoaded", () => {
         stTodayDate.forEach(el => {
             const now = new Date();
             el.innerText = now.getFullYear();
+        });
+    }
+
+    const haveAQuestionsPopupForm = document.querySelector("#popupForm");
+    if (haveAQuestionsPopupForm) {
+        const formContent = haveAQuestionsPopupForm.querySelector("#popupForm .content");
+        const afterSendContent = haveAQuestionsPopupForm.querySelector("#popupForm  .after-send");
+        const btnSubmit = haveAQuestionsPopupForm.querySelector("#popupForm .btn-send");
+        const closeButtons = haveAQuestionsPopupForm.querySelectorAll(".close-popup, .btn-close");
+        let closeTimeoutId = null;
+
+        const resetPopupState = () => {
+            if (closeTimeoutId) {
+                clearTimeout(closeTimeoutId);
+                closeTimeoutId = null;
+            }
+            if (formContent) {
+                formContent.classList.remove("send-ok");
+                gsap.set(formContent, { clearProps: "opacity,visibility" });
+            }
+            if (afterSendContent) {
+                afterSendContent.classList.remove("active");
+                gsap.set(afterSendContent, { clearProps: "opacity,visibility,display" });
+            }
+        };
+
+        const closePopup = () => {
+            resetPopupState();
+            haveAQuestionsPopupForm.classList.remove("active");
+            toggleScrollLock(false);
+        };
+
+        closeButtons.forEach(button => {
+            button.addEventListener("click", closePopup);
+        });
+        initFeedbackForm("#popupForm .have-a-questions", {
+            validateFields: {
+                name: { required: true, selector: 'input[name="name"]' },
+                email: { required: true, email: true, selector: 'input[name="email"]' },
+                price: {
+                    required: true,
+                    selector: ".select-services-price",
+                    customSelect: true,
+                    messages: {
+                        required: "Please select at least one service",
+                    },
+                },
+                services: {
+                    required: true,
+                    selector: ".select-services",
+                    customSelect: true,
+                    messages: {
+                        required: "Please select at least one service",
+                    },
+                },
+            },
+            showSuccessMessage: false,
+            callbacks: {
+                beforeSubmit: () => {
+                    btnSubmit.setAttribute("disabled", "disabled");
+                },
+                onSubmit: formData => {
+                    const ajaxUrl = window.rgData?.ajax_url;
+                    const ajaxNonce = window.rgData?.ajax_nonce;
+
+                    if (!ajaxUrl || !ajaxNonce) {
+                        return Promise.reject(new Error("Missing ajax config"));
+                    }
+
+                    const payload = new URLSearchParams();
+                    payload.append("action", "st_send_form");
+                    payload.append("nonce", ajaxNonce);
+                    payload.append("page_url", window.location.href);
+
+                    Object.entries(formData).forEach(([key, value]) => {
+                        if (Array.isArray(value)) {
+                            value.forEach(entry => payload.append(key, entry));
+                        } else {
+                            payload.append(key, value);
+                        }
+                    });
+
+                    return fetch(ajaxUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                        },
+                        body: payload.toString(),
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error("Request failed");
+                            }
+                            return response.json();
+                        })
+                        .then(result => {
+                            if (!result?.success) {
+                                throw new Error(result?.data?.message || "Mail error");
+                            }
+                            if (formContent) {
+                                formContent.classList.add("send-ok");
+                            }
+                            if (afterSendContent) {
+                                afterSendContent.classList.add("active");
+                            }
+                            return result;
+                        });
+                },
+                onSuccess: () => {
+                    btnSubmit.removeAttribute("disabled", "disabled");
+                    if (formContent) {
+                        gsap.to(formContent, {
+                            autoAlpha: 0,
+                            duration: 0.35,
+                            ease: "power1.out",
+                        });
+                    }
+
+                    if (afterSendContent) {
+                        gsap.set(afterSendContent, { display: "flex" });
+                        gsap.fromTo(
+                            afterSendContent,
+                            { autoAlpha: 0 },
+                            {
+                                autoAlpha: 1,
+                                duration: 0.4,
+                                ease: "power1.out",
+                            },
+                        );
+                    }
+
+                    closeTimeoutId = setTimeout(() => {
+                        closePopup();
+                        toggleScrollLock(false);
+                    }, 5000);
+                },
+            },
         });
     }
 });

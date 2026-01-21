@@ -1295,20 +1295,380 @@ $spacing-properties: (
         z-index: 9;
         left: 0;
         width: 100%;
-        height: 100%;
+        height: calc(100vh - 100px);
         backdrop-filter: blur(6px);
         background: linear-gradient(180deg, rgba(18.7, 7.7, 57.21, 0.84) 0%, rgba(40, 34, 81, 0.84) 97.386%);
+        overflow-y: auto;
+
+        &.active {
+            display: block;
+        }
+
         @include have-a-questions;
+        @include max_1200 {
+            height: calc(100vh - 95px);
+            top: 95px;
+        }
 
         .have-a-questions {
             position: absolute;
+
+            padding: 0;
+            margin: 0;
             width: 100%;
-            top: 66px;
+            top: calc(50% + 40px);
             left: 50%;
-            transform: translate(-50%, 0);
+            transform: translate(-50%, -50%);
+            @include max_1200 {
+                top: 50%;
+            }
+            @include max_992 {
+                padding: 0;
+                top: calc(50% + 20px);
+            }
+            @include max_768 {
+                top: calc(50% + 80px);
+            }
+
+            .container {
+                max-width: 1090px;
+                @include max_1400 {
+                    max-width: 1090px;
+                }
+                @include max_1200 {
+                    max-width: 745px;
+                }
+                @include max_992 {
+                    max-width: 720px;
+                }
+            }
+
+            .content {
+                padding: 50px 45px 46px 60px;
+                border: 1px solid #fff;
+                @include max_1200 {
+                    padding: 18px 34px 28px 26px;
+                }
+                @include max_992 {
+                    padding: 25px 40px 23px;
+                }
+            }
+
+            .section-title {
+                padding: 30px 34px 32px 26px;
+                border-radius: 23px;
+                top: -60px;
+                @include max_1200 {
+                    padding: 18px 62px 18px 50px;
+                    top: -34px;
+                }
+                @include max_992 {
+                    padding: 15px 72px 25px;
+                    top: -38px;
+                }
+                @include max_576 {
+                    left: 10px;
+                    transform: none;
+                }
+
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(22, 12, 61, 1) 70%);
+                    border-radius: 23px;
+                    padding: 1px;
+                    -webkit-mask:
+                        linear-gradient(#fff 0 0) content-box,
+                        linear-gradient(#fff 0 0);
+                    -webkit-mask-composite: xor;
+                    mask-composite: exclude;
+                    pointer-events: none;
+                }
+
+                h2 {
+                    font-size: 54px;
+                    @include max_1200 {
+                        font-size: 30px;
+                    }
+                    @include max_992 {
+                        font-size: 38px;
+                    }
+                }
+            }
+
+            .lines {
+                .line-left {
+                    width: 86%;
+                    top: 87px;
+                    @include max_1200 {
+                        top: 58px;
+                    }
+                    @include max_992 {
+                        top: 60px;
+                    }
+                }
+
+                .line-bottom {
+                    height: 80%;
+                    right: 32px;
+                    @include max_1200 {
+                        right: 74px;
+                        height: 72%;
+                    }
+                    @include max_992 {
+                        right: 23px;
+                    }
+                }
+            }
+
+            .subtitle {
+                margin-bottom: 101px;
+                margin-left: 133px;
+                font-size: 14px;
+                @include max_1200 {
+                    font-size: 13px;
+                    margin-left: 51px;
+                    margin-bottom: 53px;
+                }
+                @include max_992 {
+                    font-size: 16px;
+                    margin: 0 0 60px;
+                }
+            }
+
+            .form {
+                .input-wrapper {
+                    margin-bottom: 54px;
+                    @include max_1200 {
+                        max-width: 315px;
+                    }
+                    @include max_992 {
+                        max-width: 394px;
+                    }
+
+                    &_name {
+                        margin-right: 75px;
+                        @include max_1200 {
+                            margin: 0 0 13px;
+                        }
+                        @include max_992 {
+                            margin: 0 0 16px;
+                        }
+                    }
+
+                    &_email {
+                        @include max_1200 {
+                            margin: 0 0 38px;
+                        }
+                        @include max_992 {
+                            margin: 0 0 48px;
+                        }
+                    }
+
+                    input {
+                        font-size: 28px;
+                        @include max_1200 {
+                            font-size: 19px;
+                        }
+                        @include max_992 {
+                            font-size: 24px;
+                        }
+
+                        &::placeholder {
+                            font-size: 17px;
+                            @include max_1200 {
+                                font-size: 16px;
+                            }
+                            @include max_992 {
+                                font-size: 20px;
+                            }
+                        }
+                    }
+                }
+
+                .message {
+                    font-size: 28px;
+                    @include max_1200 {
+                        font-size: 19px;
+                        max-width: 512px;
+                        height: 60px;
+                        padding-left: 14px;
+                        margin-bottom: 28px;
+                    }
+                    @include max_992 {
+                        font-size: 24px;
+                        margin-bottom: 35px;
+                        max-width: 100%;
+                        height: 76px;
+                    }
+
+                    &::placeholder {
+                        font-size: 17px;
+                        @include max_1200 {
+                            font-size: 16px;
+                        }
+                        @include max_992 {
+                            font-size: 20px;
+                        }
+                    }
+                }
+
+                .custom-select {
+                    @include max_992 {
+                        margin-bottom: 35px;
+                    }
+
+                    &.select-services-price {
+                        margin-right: 71px;
+                        @include max_1200 {
+                            margin-right: 48px;
+                        }
+                    }
+
+                    &_top {
+                        padding: 25px;
+                        border-radius: 15px;
+                        gap: 20px;
+                        @include max_1200 {
+                            padding: 20px 15px;
+                        }
+                        @include max_992 {
+                            padding: 21px 22px;
+                        }
+
+                        img {
+                            @include max_1200 {
+                                max-width: 17px;
+                            }
+                            @include max_992 {
+                                max-width: 22px;
+                            }
+                        }
+                    }
+
+                    &_title {
+                        font-size: 22px;
+                        @include max_1200 {
+                            font-size: 15px;
+                        }
+                        @include max_992 {
+                            font-size: 18px;
+                        }
+                    }
+                }
+
+                .bottom-wrapper {
+                    flex-wrap: nowrap;
+                    @include max_992 {
+                        flex-wrap: wrap;
+                    }
+                }
+
+                .btn-and-social {
+                    .btn-send {
+                        @include max_1200 {
+                            font-size: 14px;
+                            padding: 7px 42px;
+                            height: auto;
+                            margin-bottom: 9px;
+                        }
+                        @include max_992 {
+                            padding: 7px 53px;
+                            margin-bottom: 14px;
+                            font-size: 18px;
+                        }
+                    }
+                }
+            }
+
+            .after-send {
+                padding: 146px 90px 91px;
+                @include max_1200 {
+                    padding: 83px 75px 73px;
+                }
+                @include max_992 {
+                    padding: 83px 75px 73px;
+                }
+                @include max_768 {
+                    padding: 50px;
+                    transform: translateY(-40%);
+                }
+
+                &:before,
+                &:after {
+                    content: none;
+                }
+
+                &-content {
+                    max-width: 100% !important;
+                    width: 100% !important;
+                }
+
+                .title-social {
+                    max-width: 626px;
+                    margin: 0 auto;
+                    @include max_1400 {
+                        max-width: 690px;
+                    }
+                    @include max_1200 {
+                        max-width: 515px;
+                        margin: 0;
+                    }
+                }
+
+                .h2 {
+                    font-size: 53px;
+                    margin-bottom: 42px;
+                    @include max_1200 {
+                        font-size: 33px;
+                    }
+                    @include max_768 {
+                        font-size: 28px;
+                        margin-bottom: 30px;
+                    }
+                }
+
+                .social-list {
+                    margin-bottom: 15px;
+                }
+
+                .btn-close {
+                    margin-left: auto;
+                    display: block;
+                    font-size: 21px;
+                    padding: 9px 45px;
+                    min-width: 1px;
+                    width: max-content;
+                }
+            }
         }
 
         .close-popup {
+            position: absolute;
+            top: 38px;
+            right: 109px;
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 100%;
+            border: 2px solid #fff;
+            @include max_992 {
+                right: 50px;
+                top: 18px;
+            }
+            @include max_768 {
+                right: 30px;
+            }
+            @include max_576 {
+                right: 15px;
+            }
         }
     }
 }

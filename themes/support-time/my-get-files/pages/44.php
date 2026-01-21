@@ -25,7 +25,7 @@
                                         </p>
                                         <a href="<?php the_sub_field('faq_item_link'); ?>" class="link">Learn more about
                                             this point</a>
-                                        <button class="btn btn-gradient">CONTACT us</button>
+                                        <button class="btn btn-gradient openPopup" data-pop="popupForm">CONTACT us</button>
                                     </div>
                                 </div>
                                 <?php $item_faq_counter++; ?>
