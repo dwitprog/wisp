@@ -12,7 +12,7 @@ export function initProjectStagesAnimation({
     itemsSelector = ".items .item",
     activeClass = "active",
     thresholdOffset = 6,
-    scrollLengthMultiplier = 4,
+    scrollLengthMultiplier = 3.5,
 } = {}) {
     if (!section) return;
 
@@ -42,7 +42,7 @@ export function initProjectStagesAnimation({
         contentPaddingTop = parseFloat(getComputedStyle(content).paddingTop) || 0;
         lineHeight = line.offsetHeight;
         circleHeight = circle.offsetHeight;
-        maxTravel = Math.max(0, lineHeight - circleHeight);
+        const lineMaxTravel = Math.max(0, lineHeight - circleHeight);
 
         lineContainerOffset = lineContainer.getBoundingClientRect().top + window.scrollY - sectionTop;
         lineOffset = line.getBoundingClientRect().top + window.scrollY - sectionTop;
@@ -50,6 +50,12 @@ export function initProjectStagesAnimation({
         itemThresholds = items.map(
             item => item.getBoundingClientRect().top + window.scrollY - sectionTop + thresholdOffset,
         );
+
+        const lastItemThreshold = itemThresholds[itemThresholds.length - 1];
+        maxTravel =
+            typeof lastItemThreshold === "number"
+                ? Math.min(lineMaxTravel, Math.max(0, lastItemThreshold - lineOffset))
+                : lineMaxTravel;
 
         stopPoints = [0, ...itemThresholds.map(threshold => threshold - lineOffset), maxTravel];
     };
