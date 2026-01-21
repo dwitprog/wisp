@@ -1,5 +1,13 @@
 <section class="page-32 banner">
-    <div class="service-menu"></div>
+    <div class="service-menu">
+        <div class="service-menu-list">
+            <a href="/services/full-service/" class="active">FULL </a>
+            <a href="/services/performance-marketing/">Performance marketing </a>
+            <a href="/services/audit-service/">AUDIT</a>
+            <a href="/services/strategy-service/">Strategy </a>
+            <a href="/services/consulting-service/">Consulting </a>
+        </div>
+    </div>
     <div class="title-desc color-white">
         <h1 class="title"><?php the_field('banner_title'); ?></h1>
         <p class="desc">
@@ -452,16 +460,16 @@
                             <div class="custom-select_item">
                                 <input type="checkbox" name="duration[]" value="monthly maintenance" id="duration_1">
                                 <label for="duration_1">
-                                <span>
-                                </span>
+                                    <span>
+                                    </span>
                                     monthly maintenance
                                 </label>
                             </div>
                             <div class="custom-select_item">
                                 <input type="checkbox" name="duration[]" value="support for a year" id="duration_2">
                                 <label for="duration_2">
-                                <span>
-                                </span>
+                                    <span>
+                                    </span>
                                     support for a year
                                 </label>
                             </div>

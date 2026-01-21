@@ -42,6 +42,50 @@
             width: 100%;
             display: flex;
             align-items: center;
+            justify-content: center;
+
+            &-list {
+                display: flex;
+                align-items: center;
+                height: 100%;
+
+                a {
+                    font-size: 24px;
+                    text-transform: uppercase;
+                    height: 100%;
+
+                    &:nth-of-type(1) {
+                        margin-right: 0px;
+                        padding: 21px 21px 0 52px;
+                    }
+
+                    &:nth-of-type(2) {
+                        margin-right: 0px;
+                        padding: 21px 30px 0 31px;
+                    }
+
+                    &:nth-of-type(3) {
+                        margin-right: 0px;
+                        padding: 21px 46px 0 21px;
+                    }
+
+                    &:nth-of-type(4) {
+                        margin-right: 0px;
+                        padding: 21px 43px 0 69px;
+                    }
+
+                    &:nth-of-type(5) {
+                        padding: 21px 32px 0 53px;
+                    }
+
+                    &.active {
+                        font-size: 36px;
+                        padding-top: 18px;
+                        color: #fff;
+                    }
+                }
+            }
+
             @include max_1400 {
                 display: none;
             }

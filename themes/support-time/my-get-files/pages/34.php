@@ -1,5 +1,13 @@
 <section class="page-34 banner">
-    <div class="service-menu"></div>
+    <div class="service-menu">
+        <div class="service-menu-list">
+            <a href="/services/full-service/">FULL </a>
+            <a href="/services/performance-marketing/" class="active">Performance marketing </a>
+            <a href="/services/audit-service/">AUDIT</a>
+            <a href="/services/strategy-service/">Strategy </a>
+            <a href="/services/consulting-service/">Consulting </a>
+        </div>
+    </div>
     <div class="title-desc color-white">
         <h1 class="title"><?php the_field('banner_title'); ?></h1>
         <p class="desc">
@@ -452,8 +460,8 @@
                                 <input type="checkbox" name="currentStatus[]"
                                        value="the first experience of cooperation" id="currentStatus_1">
                                 <label for="currentStatus_1">
-                                <span>
-                                </span>
+                                    <span>
+                                    </span>
                                     the first experience of cooperation
                                 </label>
                             </div>
@@ -461,8 +469,8 @@
                                 <input type="checkbox" name="currentStatus[]" value="worked with other companies"
                                        id="currentStatus_2">
                                 <label for="currentStatus_2">
-                                <span>
-                                </span>
+                                    <span>
+                                    </span>
                                     worked with other companies
                                 </label>
                             </div>

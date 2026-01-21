@@ -1,5 +1,13 @@
 <section class="page-36 banner">
-    <div class="service-menu"></div>
+    <div class="service-menu">
+        <div class="service-menu-list">
+            <a href="/services/full-service/">FULL </a>
+            <a href="/services/performance-marketing/">Performance marketing </a>
+            <a href="/services/audit-service/" class="active">AUDIT</a>
+            <a href="/services/strategy-service/">Strategy </a>
+            <a href="/services/consulting-service/">Consulting </a>
+        </div>
+    </div>
     <div class="title-desc color-white">
         <h1 class="title"><?php the_field('banner_title'); ?></h1>
         <p class="desc">
@@ -443,8 +451,7 @@
                                 id="dateInput"
                                 name="execution-speed"
                                 type="date"
-                                class="custom-date-input"
-                            >
+                                class="custom-date-input">
                             <span class="date-placeholder">2026/01/01</span>
                         </div>
                         <p>Execution speed</p>

@@ -41,6 +41,46 @@
             width: 100%;
             display: flex;
             align-items: center;
+            justify-content: center;
+
+            &-list {
+                display: flex;
+                align-items: center;
+                height: 100%;
+
+                a {
+                    font-size: 24px;
+                    text-transform: uppercase;
+                    height: 100%;
+
+                    &:nth-of-type(1) {
+                        padding: 21px 60px 0 50px;
+                    }
+
+                    &:nth-of-type(2) {
+                        padding: 21px 43px 0 38px;
+                    }
+
+                    &:nth-of-type(3) {
+                        padding: 21px 80px 0 80px;
+                    }
+
+                    &:nth-of-type(4) {
+                        padding: 21px 40px 0 47px;
+                    }
+
+                    &:nth-of-type(5) {
+                        padding: 21px 35px 0 55px;
+                    }
+
+                    &.active {
+                        font-size: 36px;
+                        padding-top: 18px;
+                        color: #fff;
+                    }
+                }
+            }
+
             @include max_1400 {
                 display: none;
             }

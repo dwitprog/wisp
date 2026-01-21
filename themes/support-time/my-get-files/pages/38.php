@@ -1,5 +1,13 @@
 <section class="page-38 banner">
-    <div class="service-menu"></div>
+    <div class="service-menu">
+        <div class="service-menu-list">
+            <a href="/services/full-service/">FULL </a>
+            <a href="/services/performance-marketing/">Performance marketing </a>
+            <a href="/services/audit-service/">AUDIT</a>
+            <a href="/services/strategy-service/" class="active">Strategy </a>
+            <a href="/services/consulting-service/">Consulting </a>
+        </div>
+    </div>
     <div class="title-desc color-white">
         <h1 class="title"><?php the_field('banner_title'); ?></h1>
         <p class="desc">
@@ -185,8 +193,8 @@
                                 <input type="checkbox" name="platformsOfInterest[]"
                                        value="Bing ads" id="platformsOfInterest_1">
                                 <label for="platformsOfInterest_1">
-                                <span>
-                                </span>
+                                    <span>
+                                    </span>
                                     Bing ads
                                 </label>
                             </div>
@@ -194,8 +202,8 @@
                                 <input type="checkbox" name="platformsOfInterest[]" value="google ads"
                                        id="platformsOfInterest_2">
                                 <label for="platformsOfInterest_2">
-                                <span>
-                                </span>
+                                    <span>
+                                    </span>
                                     google ads
                                 </label>
                             </div>
@@ -203,8 +211,8 @@
                                 <input type="checkbox" name="platformsOfInterest[]" value="LinkedIn ads"
                                        id="platformsOfInterest_3">
                                 <label for="platformsOfInterest_3">
-                                <span>
-                                </span>
+                                    <span>
+                                    </span>
                                     LinkedIn ads
                                 </label>
                             </div>
@@ -212,8 +220,8 @@
                                 <input type="checkbox" name="platformsOfInterest[]" value="reddit ads"
                                        id="platformsOfInterest_4">
                                 <label for="platformsOfInterest_4">
-                                <span>
-                                </span>
+                                    <span>
+                                    </span>
                                     reddit ads
                                 </label>
                             </div>
