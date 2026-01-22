@@ -148,10 +148,10 @@ $spacing-properties: (
 
 @mixin project-stages {
     .project-stages {
-        background: #fff;
         position: relative;
         padding-bottom: 130px;
         margin-top: -137px;
+        z-index: 6;
         min-height: 100vh;
         @include max_1200 {
             margin-top: -55px;

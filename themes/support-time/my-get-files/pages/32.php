@@ -349,7 +349,7 @@
         </div>
     </div>
 </section>
-<section class="page-32 project-stages">
+<section class="page-32 project-stages" data-header-theme="gradient">
     <h2 class="section-title"><?php the_field('project_stages_section-title'); ?></h2>
     <div class="content">
         <div class="stages">

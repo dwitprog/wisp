@@ -33,6 +33,8 @@ header#header.header {
 
         .container {
             max-width: 1184px;
+            position: relative;
+            z-index: 2;
             @include max_1400 {
                 max-width: 1140px;
             }
@@ -62,7 +64,7 @@ header#header.header {
             );
             text-align: center;
             display: block;
-            font-size: 128px;
+            font-size: 126px;
             font-weight: 900;
             margin-bottom: 40px;
             @include max_1400 {
