@@ -120,32 +120,23 @@
             </div>
         </div>
     </div>
-    <?php if (have_rows('project_stages_images')) : ?>
-        <picture class="image">
-            <?php while (have_rows('project_stages_images')) : the_row(); ?>
-                <?php if (get_sub_field('project_stages_image_768')) : ?>
-                    <source media="(max-width:767.98px)"
-                            srcset="<?php the_sub_field('project_stages_image_768'); ?>">
-                <?php endif ?>
-                <?php if (get_sub_field('project_stages_image_992')) : ?>
-                    <source media="(max-width:991.98px)"
-                            srcset="<?php the_sub_field('project_stages_image_992'); ?>">
-                <?php endif ?>
-                <?php if (get_sub_field('project_stages_image_1200')) : ?>
-                    <source media="(max-width:1199.98px)"
-                            srcset="<?php the_sub_field('project_stages_image_1200'); ?>">
-                <?php endif ?>
-                <?php if (get_sub_field('project_stages_image_1400')) : ?>
-                    <source media="(max-width:1399.98px)"
-                            srcset="<?php the_sub_field('project_stages_image_1400'); ?>">
-                <?php endif ?>
-                <?php if (get_sub_field('project_stages_image_full')) : ?>
-                    <img src="<?php the_sub_field('project_stages_image_full'); ?>"
-                         alt="<?php the_field('project_stages_section-title'); ?>">
-                <?php endif ?>
-            <?php endwhile; ?>
+    <div class="image">
+        <picture>
+            <source media="(max-width:991.98px)"
+                    srcset="/wp-content/themes/support-time/assets/img/repeat-elements/project-stages/project-stages-992.png">
+            <source media="(max-width:1199.98px)"
+                    srcset="/wp-content/themes/support-time/assets/img/repeat-elements/project-stages/project-stages-1200.png">
+            <img src="/wp-content/themes/support-time/assets/img/repeat-elements/project-stages/project-stages.png"
+                 alt="<?php the_field('project_stages_section-title'); ?>">
+
         </picture>
-    <?php endif; ?>
+        <div class="text">
+            <img src="/wp-content/themes/support-time/assets/img/repeat-elements/project-stages/i.svg" alt="i"
+                 class="i active">
+            <img src="/wp-content/themes/support-time/assets/img/repeat-elements/project-stages/r.svg" alt="r"
+                 class="r">
+        </div>
+    </div>
 </section>
 <section class="page-40 have-a-questions">
     <div class="container">

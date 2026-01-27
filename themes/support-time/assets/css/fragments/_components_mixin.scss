@@ -340,17 +340,52 @@ $spacing-properties: (
         .image {
             position: absolute;
             top: 246px;
-            right: -41px;
+            right: 120px;
+
             @include max_1200 {
-                top: 104px;
-                right: -57px;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 105px;
             }
             @include max_992 {
                 top: 50%;
+                right: 60px;
                 transform: translateY(-50%);
+            }
+            @include max_768 {
+                right: 30px;
             }
             @include max_576 {
                 display: none;
+            }
+
+            .text {
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                top: 0;
+                left: 0;
+
+                img {
+                    position: absolute;
+                    right: 50%;
+                    top: 50%;
+                    transform: translate(50%, -90%) scale(0.97);
+                    opacity: 0;
+                    transition:
+                        opacity 0.8s linear,
+                        transform 0.8s linear;
+                    @include max_1200 {
+                        width: 100px;
+                    }
+                    @include max_992 {
+                        width: 70px;
+                    }
+                    &.active {
+                        opacity: 1;
+                        transform: translate(50%, -90%) scale(1);
+                    }
+                }
             }
         }
 

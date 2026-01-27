@@ -10,9 +10,13 @@ export function initProjectStagesAnimation({
     lineSelector = ".line",
     circleSelector = ".circle",
     itemsSelector = ".items .item",
+    textImageSelector = ".image .text img",
     activeClass = "active",
     thresholdOffset = 6,
     scrollLengthMultiplier = 3.5,
+    textSwapMinDelay = 4000,
+    textSwapMaxDelay = 7000,
+    textSwapTransitionMs = 900,
 } = {}) {
     if (!section) return;
 
@@ -22,6 +26,7 @@ export function initProjectStagesAnimation({
     const circle = section.querySelector(`${lineContainerSelector} ${circleSelector}`);
     const items = Array.from(section.querySelectorAll(itemsSelector));
     const itemsContainer = section.querySelector(".items");
+    const textImages = Array.from(section.querySelectorAll(textImageSelector));
 
     if (!content || !lineContainer || !line || !circle || !items.length || !itemsContainer) {
         return;
@@ -62,6 +67,35 @@ export function initProjectStagesAnimation({
 
     measure();
     gsap.set(circle, { y: 0 });
+
+    if (textImages.length > 1 && window.matchMedia("(min-width: 575.98px)")) {
+        let activeTextIndex = textImages.findIndex(img => img.classList.contains(activeClass));
+        if (activeTextIndex < 0) {
+            activeTextIndex = 0;
+            textImages[0].classList.add(activeClass);
+        }
+
+        const transitionMs = Math.max(0, textSwapTransitionMs);
+        const scheduleNextSwap = () => {
+            const minDelay = Math.max(0, textSwapMinDelay);
+            const maxDelay = Math.max(minDelay, textSwapMaxDelay);
+            const delay = minDelay + Math.random() * (maxDelay - minDelay);
+
+            window.setTimeout(() => {
+                const nextIndex = (activeTextIndex + 1) % textImages.length;
+
+                textImages[activeTextIndex].classList.remove(activeClass);
+                window.setTimeout(() => {
+                    textImages[nextIndex].classList.add(activeClass);
+                    activeTextIndex = nextIndex;
+
+                    window.setTimeout(scheduleNextSwap, transitionMs);
+                }, transitionMs);
+            }, delay);
+        };
+
+        scheduleNextSwap();
+    }
 
     ScrollTrigger.create({
         trigger: section,
