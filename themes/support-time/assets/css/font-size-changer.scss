@@ -11,7 +11,7 @@
         background-image: linear-gradient(182deg, rgb(19, 8, 57), #282251) !important;
     }
 
-    .have-a-questions .content {
+    #post-7 .have-a-questions .content {
         background-image: linear-gradient(182deg, rgb(19, 8, 57), #282251) !important;
         border-radius: 0 !important;
     }
@@ -150,9 +150,46 @@
     }
 
     .page-7.faq .items .item.active .title {
-        font-size: min(calc(64px * var(--font-size-multiplier, 1)), 80px) !important;
+        font-size: min(calc(44px * var(--font-size-multiplier, 1)), 80px) !important;
     }
-
+    #header.header .header-menu_list > .menu-item.menu-item-has-children .sub-menu {
+        width: 180%;
+    }
+    .page-29.services .container .content {
+        flex-wrap: wrap;
+    }
+    .page-29.services .container .content h1 {
+        width: 100%;
+        margin-bottom: 60px;
+    }
+    .page-29.services .container .content .item {
+        max-width: 1175px;
+        margin: 0 auto;
+    }
+    .page-29.services .container .content .item .desc {
+        max-width: 90%;
+    }
+    .page-29.services .navigation .swiper-btn {
+        width: 52px;
+        height: 52px;
+    }
+    .page-29.services,
+    .page-32.banner {
+        background: linear-gradient(134.15deg, #130839, #4a2c5e) !important;
+    }
+    .page-32.banner .title-desc .desc {
+        max-width: 500px;
+    }
+    section.page-32 p.desc {
+        font-size: 20px !important;
+    }
+    .page-32.have-a-questions .subtitle {
+        margin-top: 30px;
+        font-size: 32px !important;
+    }
+    .highglass p.title {
+        font-size: min(28px * var(--font-size-multiplier, 1), 32px) !important;
+    }
     .page-7.services .list {
         max-width: 879px !important;
     }
@@ -173,7 +210,8 @@
         font-weight: 600 !important;
     }
 
-    .have-a-questions .lines .line-left .line.line-bottom {
+    #post-7 .have-a-questions .lines .line-left,
+    #post-7 .have-a-questions .lines .line-bottom {
         display: none !important;
     }
 
@@ -237,12 +275,12 @@
         height: 36px !important;
     }
 
-    .have-a-questions .container {
+    #post-7 .have-a-questions .container {
         max-width: 100% !important;
         background-image: linear-gradient(182deg, #130839, #282251) !important;
     }
 
-    .have-a-questions .content {
+    #post-7 .have-a-questions .content {
         max-width: 1178px !important;
         margin: 0 auto !important;
     }
@@ -271,7 +309,7 @@
     }
 
     p.custom-select_title {
-        font-size: 36px !important;
+        font-size: 32px !important;
     }
 
     .have-a-questions .form .input-wrapper input::placeholder {
