@@ -107,6 +107,9 @@ export const changeFontSize = () => {
             root.style.setProperty("--st-fs", `${newRootSize}px`);
         }
 
+        // Уведомляем другие модули (например, слайдер на /services/) о смене режима шрифта
+        window.dispatchEvent(new CustomEvent("highglasschange", { detail: { highglass: !isDefault } }));
+
         // Сохраняем состояние
         saveState(percent);
     }
@@ -201,41 +204,49 @@ export const changeFontSize = () => {
         return e.touches ? e.touches[0].clientX : e.clientX;
     }
 
-    thumb.addEventListener("touchstart", function (e) {
-        e.preventDefault();
-        const startX = getClientX(e);
-        const startLeft = parseFloat(thumb.style.left) || 0;
-
-        function onTouchMove(ev) {
-            ev.preventDefault();
-            const currentX = getClientX(ev);
-            const deltaX = currentX - startX;
-            const lineWidth = line.offsetWidth;
-            const thumbWidth = thumb.offsetWidth;
-            const availableWidth = lineWidth - thumbWidth;
-            let newLeft = startLeft + deltaX;
-            newLeft = Math.max(0, Math.min(availableWidth, newLeft));
-            const percent = Math.round(minPercent + (newLeft / availableWidth) * (maxPercent - minPercent));
-            thumb.style.left = `${newLeft}px`;
-            fontSizeInput.value = percent;
-            updateThumbPosition(percent);
-        }
-
-        function onTouchEnd() {
-            document.removeEventListener("touchmove", onTouchMove, { passive: false });
-            document.removeEventListener("touchend", onTouchEnd);
-        }
-
-        document.addEventListener("touchmove", onTouchMove, { passive: false });
-        document.addEventListener("touchend", onTouchEnd);
-    }, { passive: false });
-
-    line.addEventListener("touchstart", function (e) {
-        if (e.touches && e.touches.length) {
+    thumb.addEventListener(
+        "touchstart",
+        function (e) {
             e.preventDefault();
-            updateFromPosition(getClientX(e));
-        }
-    }, { passive: false });
+            const startX = getClientX(e);
+            const startLeft = parseFloat(thumb.style.left) || 0;
+
+            function onTouchMove(ev) {
+                ev.preventDefault();
+                const currentX = getClientX(ev);
+                const deltaX = currentX - startX;
+                const lineWidth = line.offsetWidth;
+                const thumbWidth = thumb.offsetWidth;
+                const availableWidth = lineWidth - thumbWidth;
+                let newLeft = startLeft + deltaX;
+                newLeft = Math.max(0, Math.min(availableWidth, newLeft));
+                const percent = Math.round(minPercent + (newLeft / availableWidth) * (maxPercent - minPercent));
+                thumb.style.left = `${newLeft}px`;
+                fontSizeInput.value = percent;
+                updateThumbPosition(percent);
+            }
+
+            function onTouchEnd() {
+                document.removeEventListener("touchmove", onTouchMove, { passive: false });
+                document.removeEventListener("touchend", onTouchEnd);
+            }
+
+            document.addEventListener("touchmove", onTouchMove, { passive: false });
+            document.addEventListener("touchend", onTouchEnd);
+        },
+        { passive: false },
+    );
+
+    line.addEventListener(
+        "touchstart",
+        function (e) {
+            if (e.touches && e.touches.length) {
+                e.preventDefault();
+                updateFromPosition(getClientX(e));
+            }
+        },
+        { passive: false },
+    );
 
     // Polling для отслеживания изменений значения
     let lastValue = parseInt(fontSizeInput.value);

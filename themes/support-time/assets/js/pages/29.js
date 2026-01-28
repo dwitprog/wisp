@@ -30,9 +30,9 @@ if (servicesSection) {
             return;
         }
 
-        // Инициализируем Swiper только на десктопе
-        swiperInstance = new Swiper(".swiper-container", {
-            slidesPerView: 3.4,
+        // На больших шрифтах (.highglass) — слайдер по центру: 1 центральный полностью, два по бокам наполовину
+        const isHighglass = document.body.classList.contains("highglass");
+        const swiperOptions = {
             spaceBetween: 20,
             grabCursor: true,
             modules: [Navigation, Pagination],
@@ -45,11 +45,29 @@ if (servicesSection) {
                 type: "bullets",
                 clickable: true,
             },
-        });
+        };
+        if (isHighglass) {
+            swiperOptions.centeredSlides = true;
+            swiperOptions.slidesPerView = 2;
+        } else {
+            swiperOptions.slidesPerView = 3.4;
+        }
+        swiperInstance = new Swiper(".swiper-container", swiperOptions);
     }
 
     // Инициализация при загрузке страницы
     initSwiper();
+
+    // При смене режима шрифта (большие шрифты) переинициализируем слайдер с другими параметрами
+    window.addEventListener("highglasschange", function () {
+        if (swiperInstance) {
+            swiperInstance.destroy(true, true);
+            swiperInstance = null;
+        }
+        if (isDesktopResolution()) {
+            initSwiper();
+        }
+    });
 
     // Обработчик изменения размера окна с debounce
     let resizeTimeout;
