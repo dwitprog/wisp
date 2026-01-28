@@ -389,6 +389,12 @@
         color: transparent;
         -webkit-background-clip: text;
     }
+    .gradient-text {
+        background: #130839;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        -webkit-background-clip: text;
+    }
     .have-a-questions .form .custom-select_item label {
         font-size: 24px;
     }
@@ -416,8 +422,21 @@
         background: linear-gradient(182deg, #130839, #282251) !important;
     }
     .have-a-questions .form .input-wrapper {
-        max-width: 340px;
+        max-width: 375px;
         margin-right: 0 !important;
+    }
+    .have-a-questions .select-current-status {
+        margin-right: 0 !important;
+    }
+    .have-a-questions .select-interest {
+        margin-right: 0 !important;
+        width: 330px !important;
+    }
+    .page-38.have-a-questions .input-wrapper_web-site p {
+        bottom: -24px;
+        color: #fff;
+        position: absolute;
+        font-size: min(12px * var(--font-size-multiplier, 1), 17px) !important;
     }
     .have-a-questions .form .bottom-wrapper {
         justify-content: space-between;
