@@ -50,8 +50,17 @@
     .changing-font-size__btn svg {
         width: 45px !important;
         height: 26px !important;
+        filter: brightness(0.5);
     }
-
+    .socials svg {
+        filter: brightness(0.5);
+    }
+    .logo svg {
+        filter: brightness(0.5);
+    }
+    .header-logo svg {
+        filter: brightness(0.5);
+    }
     // Стили для .page-7.banner
     .page-7.banner {
         .offer {
@@ -122,7 +131,7 @@
 
     footer.footer#footer .bottom a,
     footer.footer#footer .bottom p {
-        font-size: min(calc(10px * var(--font-size-multiplier, 1)), 20px) !important;
+        font-size: min(calc(12px * var(--font-size-multiplier, 1)), 20px) !important;
     }
 
     p {
@@ -174,16 +183,32 @@
         height: 52px;
     }
     .page-29.services,
-    .page-32.banner {
+    .page-32.banner,
+    .page-34.banner,
+    .page-36.banner,
+    .page-38.banner,
+    .page-40.banner {
         background: linear-gradient(182deg, #130839, #282251) !important;
     }
-    .page-32.banner .title-desc .desc {
+    .page-32.banner .title-desc .desc,
+    .page-34.banner .title-desc .desc,
+    .page-36.banner .title-desc .desc,
+    .page-38.banner .title-desc .desc,
+    .page-40.banner .title-desc .desc {
         max-width: 500px;
     }
-    section.page-32 .item > p.desc {
+    section.page-32 .item > p.desc,
+    section.page-34 .item > p.desc,
+    section.page-36 .item > p.desc,
+    section.page-38 .item > p.desc,
+    section.page-40 .item > p.desc {
         font-size: 20px !important;
     }
-    .page-32.have-a-questions .subtitle {
+    .page-32.have-a-questions .subtitle,
+    .page-34.have-a-questions .subtitle,
+    .page-36.have-a-questions .subtitle,
+    .page-38.have-a-questions .subtitle,
+    .page-40.have-a-questions .subtitle {
         margin-top: 30px;
         font-size: 32px !important;
     }
@@ -195,7 +220,11 @@
         font-size: 46px !important;
         border: 4px solid;
     }
-    .page-32.banner .wrapper .item .title {
+    .page-32.banner .wrapper .item .title,
+    .page-34.banner .wrapper .item .title,
+    .page-36.banner .wrapper .item .title,
+    .page-38.banner .wrapper .item .title,
+    .page-40.banner .wrapper .item .title {
         font-size: 48px !important;
     }
     p.title {
@@ -296,10 +325,60 @@
     .faq-accordion .item:before {
         background: linear-gradient(182deg, #130839, #282251) !important;
     }
-    section.page-32.have-a-questions .container {
+    .page-44.faq .items {
+        margin-left: 130px;
+    }
+    .page-44.faq .items .item:before {
+        opacity: 0;
+    }
+    .page-44.faq .items .item .title {
+        font-size: 40px !important;
+    }
+    .faq .slider-line {
+        background: linear-gradient(182deg, #130839, #282251) !important;
+    }
+    .faq .slider-fader span {
+        background: linear-gradient(182deg, #130839, #282251) !important;
+    }
+    .page-46.banner {
+        background: linear-gradient(182deg, #130839, #282251) !important;
+    }
+    .page-46.how-we-work .section-title {
+        font-size: 54px !important;
+    }
+    .page-46.banner .items .item .desc {
+        font-size: 24px !important;
+        max-width: 297px;
+    }
+    .page-46.banner .items .item {
+        max-width: 260px;
+    }
+    .page-46.banner .offer .desc {
+        font-size: 24px !important;
+        max-width: 1064px;
+    }
+    .page-46.how-we-work .items .item .title {
+        font-size: min(42px * var(--font-size-multiplier, 1), 64px) !important;
+        margin-bottom: 10px;
+    }
+    .page-46.how-we-work .items .item {
+        max-width: 930px;
+    }
+    .page-46.how-we-work .items .item .desc {
+        max-width: 930px;
+    }
+    section.page-32.have-a-questions .container,
+    section.page-34.have-a-questions .container,
+    section.page-36.have-a-questions .container,
+    section.page-38.have-a-questions .container,
+    section.page-40.have-a-questions .container {
         max-width: 1276px !important;
     }
-    section.page-32.have-a-questions .content {
+    section.page-32.have-a-questions .content,
+    section.page-34.have-a-questions .content,
+    section.page-36.have-a-questions .content,
+    section.page-38.have-a-questions .content,
+    section.page-40.have-a-questions .content {
         background: linear-gradient(182deg, #130839, #282251) !important;
     }
     .page-42.platforms .platforms-swiper-thumbs .item:before {
@@ -322,9 +401,41 @@
         color: transparent;
         text-transform: uppercase;
     }
+    .page-48.contacts .section-title {
+        font-size: 96px !important;
+        background: #130839 !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        text-transform: uppercase;
+        text-align: left;
+    }
+    .page-48.contacts .socials .social-item {
+        font-size: 24px;
+        padding: 8px 20px;
+    }
+    .page-48.contacts .socials .social-item:before {
+        background: linear-gradient(182deg, #130839, #282251) !important;
+    }
+    .page-48.contacts .socials .social-item:hover:after {
+        background: linear-gradient(182deg, #130839, #282251) !important;
+    }
+    footer.footer#footer .footer-menu_list a {
+        background: #130839 !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        text-transform: uppercase;
+        text-align: left;
+    }
     header#header.header.header-gradient .header-menu_list > .menu-item.current-menu-item,
     header#header.header.header-gradient .header-menu_list > .menu-item.current-page-parent,
     header#header.header.header-gradient .header-menu_list > .menu-item:hover {
+        background: linear-gradient(182deg, #130839, #282251) !important;
+    }
+    header#header.header .header-menu_list > .menu-item.current-menu-item,
+    header#header.header .header-menu_list > .menu-item.current-page-parent,
+    header#header.header .header-menu_list > .menu-item:hover {
         background: linear-gradient(182deg, #130839, #282251) !important;
     }
     .page-42.platforms .item-desc img {
@@ -333,7 +444,11 @@
     .page-42.platforms .item-desc .desc-wrapper {
         max-width: 100%;
     }
-    .page-32.have-a-questions .input-wrapper_budget p {
+    .page-32.have-a-questions .input-wrapper_budget p,
+    .page-34.have-a-questions .input-wrapper_budget p,
+    .page-36.have-a-questions .input-wrapper_budget p,
+    .page-38.have-a-questions .input-wrapper_budget p,
+    .page-40.have-a-questions .input-wrapper_budget p {
         bottom: -44px;
     }
 
