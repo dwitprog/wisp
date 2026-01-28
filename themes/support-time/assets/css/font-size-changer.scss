@@ -50,7 +50,7 @@
     .changing-font-size__btn svg {
         width: 45px !important;
         height: 26px !important;
-        filter: brightness(0.5);
+        filter: brightness(0.8);
     }
     .socials svg {
         filter: brightness(0.5);
@@ -59,7 +59,7 @@
         filter: brightness(0.5);
     }
     .header-logo svg {
-        filter: brightness(0.5);
+        filter: brightness(0.8);
     }
     // Стили для .page-7.banner
     .page-7.banner {
@@ -164,6 +164,9 @@
     #header.header .header-menu_list > .menu-item.menu-item-has-children .sub-menu {
         width: 180%;
     }
+    header#header.header .header-end .header-phone {
+        font-size: 18px;
+    }
     .page-29.services .container .content {
         flex-wrap: wrap;
     }
@@ -182,6 +185,7 @@
         width: 52px;
         height: 52px;
     }
+
     .page-29.services,
     .page-32.banner,
     .page-34.banner,
@@ -202,7 +206,7 @@
     section.page-36 .item > p.desc,
     section.page-38 .item > p.desc,
     section.page-40 .item > p.desc {
-        font-size: 20px !important;
+        font-size: 24px !important;
     }
     .page-32.have-a-questions .subtitle,
     .page-34.have-a-questions .subtitle,
@@ -366,6 +370,10 @@
     }
     .page-46.how-we-work .items .item .desc {
         max-width: 930px;
+    }
+    header#header.header .header-menu_list > .menu-item.current-menu-item a,
+    header#header.header .header-menu_list > .menu-item.current-page-parent a {
+        background: #fff;
     }
     section.page-32.have-a-questions .container,
     section.page-34.have-a-questions .container,
