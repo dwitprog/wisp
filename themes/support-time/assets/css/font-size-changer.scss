@@ -314,7 +314,7 @@
         padding: 7px 106px !important;
     }
     .have-a-questions .select-duration {
-        margin-right: 0;
+        margin-right: 0 !important;
     }
     article:not(#post-7) .btn-and-social {
         margin-top: 0px !important;
@@ -416,7 +416,11 @@
         background: linear-gradient(182deg, #130839, #282251) !important;
     }
     .have-a-questions .form .input-wrapper {
-        max-width: 300px;
+        max-width: 340px;
+        margin-right: 0 !important;
+    }
+    .have-a-questions .form .bottom-wrapper {
+        justify-content: space-between;
     }
     .page-42.platforms .platforms-swiper-thumbs .item:not(.swiper-slide-active) img {
         filter: brightness(0.6);
