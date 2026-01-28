@@ -70,6 +70,7 @@ export const changeFontSize = () => {
             if (wrapper.classList.contains("active")) {
                 setTimeout(() => {
                     document.addEventListener("click", handleClickOutside);
+                    syncThumbPosition(parseInt(fontSizeInput.value));
                 }, 0);
             } else {
                 document.removeEventListener("click", handleClickOutside);
@@ -110,18 +111,20 @@ export const changeFontSize = () => {
         saveState(percent);
     }
 
-    // Функция обновления позиции ползунка
-    function updateThumbPosition(percent) {
+    // Синхронизация только визуальной позиции ползунка (без вызова updateStyles)
+    function syncThumbPosition(percent) {
         const lineWidth = line.offsetWidth;
         const thumbWidth = thumb.offsetWidth;
         const availableWidth = lineWidth - thumbWidth;
-
+        if (availableWidth <= 0) return;
         const position = ((percent - minPercent) / (maxPercent - minPercent)) * availableWidth;
-
         thumb.style.left = `${position}px`;
         fontSizeInput.value = percent;
+    }
 
-        // Обновляем стили при изменении позиции
+    // Функция обновления позиции ползунка
+    function updateThumbPosition(percent) {
+        syncThumbPosition(percent);
         updateStyles(percent);
     }
 
@@ -152,8 +155,11 @@ export const changeFontSize = () => {
     });
 
     // Инициализация стилей при загрузке с сохраненным значением
-    updateThumbPosition(savedPercent);
     updateStyles(savedPercent);
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => syncThumbPosition(savedPercent));
+    });
+    window.addEventListener("resize", () => syncThumbPosition(parseInt(fontSizeInput.value)));
 
     thumb.addEventListener("mousedown", function (e) {
         e.preventDefault();
@@ -190,6 +196,46 @@ export const changeFontSize = () => {
     line.addEventListener("click", function (e) {
         updateFromPosition(e.clientX);
     });
+
+    function getClientX(e) {
+        return e.touches ? e.touches[0].clientX : e.clientX;
+    }
+
+    thumb.addEventListener("touchstart", function (e) {
+        e.preventDefault();
+        const startX = getClientX(e);
+        const startLeft = parseFloat(thumb.style.left) || 0;
+
+        function onTouchMove(ev) {
+            ev.preventDefault();
+            const currentX = getClientX(ev);
+            const deltaX = currentX - startX;
+            const lineWidth = line.offsetWidth;
+            const thumbWidth = thumb.offsetWidth;
+            const availableWidth = lineWidth - thumbWidth;
+            let newLeft = startLeft + deltaX;
+            newLeft = Math.max(0, Math.min(availableWidth, newLeft));
+            const percent = Math.round(minPercent + (newLeft / availableWidth) * (maxPercent - minPercent));
+            thumb.style.left = `${newLeft}px`;
+            fontSizeInput.value = percent;
+            updateThumbPosition(percent);
+        }
+
+        function onTouchEnd() {
+            document.removeEventListener("touchmove", onTouchMove, { passive: false });
+            document.removeEventListener("touchend", onTouchEnd);
+        }
+
+        document.addEventListener("touchmove", onTouchMove, { passive: false });
+        document.addEventListener("touchend", onTouchEnd);
+    }, { passive: false });
+
+    line.addEventListener("touchstart", function (e) {
+        if (e.touches && e.touches.length) {
+            e.preventDefault();
+            updateFromPosition(getClientX(e));
+        }
+    }, { passive: false });
 
     // Polling для отслеживания изменений значения
     let lastValue = parseInt(fontSizeInput.value);
