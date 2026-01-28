@@ -374,6 +374,18 @@
     header#header.header .header-menu_list > .menu-item.current-menu-item a,
     header#header.header .header-menu_list > .menu-item.current-page-parent a {
         background: #fff;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        -webkit-background-clip: text;
+    }
+    header#header.header .header-menu_list > .menu-item:hover a {
+        background: #fff;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        -webkit-background-clip: text;
+    }
+    .have-a-questions .form .custom-select_item label {
+        font-size: 24px;
     }
     section.page-32.have-a-questions .container,
     section.page-34.have-a-questions .container,
