@@ -309,11 +309,16 @@
 
     .have-a-questions .form .btn-send {
         font-size: 40px !important;
-        height: 69px !important;
+        height: 86px !important;
         max-width: 333px !important;
         padding: 7px 106px !important;
     }
-
+    .have-a-questions .select-duration {
+        margin-right: 0;
+    }
+    article:not(#post-7) .btn-and-social {
+        margin-top: 0px !important;
+    }
     .social-list svg {
         width: 36px !important;
         height: 36px !important;
@@ -409,6 +414,9 @@
     }
     .btn-gradient {
         background: linear-gradient(182deg, #130839, #282251) !important;
+    }
+    .have-a-questions .form .input-wrapper {
+        max-width: 300px;
     }
     .page-42.platforms .platforms-swiper-thumbs .item:not(.swiper-slide-active) img {
         filter: brightness(0.6);
