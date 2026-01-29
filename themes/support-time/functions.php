@@ -88,10 +88,8 @@ add_action('wp_head', 'st_preload_webfonts');
  */
 function st_css_and_js(): void
 {
-    // CSS (версия по времени файла — после пересборки font-size-changer и др. подхватываются без кэша)
-    $styles_file = get_stylesheet_directory() . '/assets/min/css/styles.min.css';
-    $styles_ver = file_exists($styles_file) ? (string) filemtime($styles_file) : '_rgbld_29_1_2026';
-    wp_enqueue_style('styles', get_stylesheet_directory_uri() . '/assets/min/css/styles.min.css', [], $styles_ver);
+    // CSS
+    wp_enqueue_style('styles', get_stylesheet_directory_uri() . '/assets/min/css/styles.min.css', [], '_rgbld_29_1_2026');
     wp_add_inline_style('styles', st_get_font_face_styles());
 
     // Для страниц и новостей подключаем стили отдельно
