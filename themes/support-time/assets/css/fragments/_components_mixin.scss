@@ -381,6 +381,7 @@ $spacing-properties: (
                     @include max_992 {
                         width: 70px;
                     }
+
                     &.active {
                         opacity: 1;
                         transform: translate(50%, -90%) scale(1);
@@ -1326,11 +1327,11 @@ $spacing-properties: (
     .popupForm {
         position: fixed;
         display: none;
-        top: 100px;
-        z-index: 9;
+        top: 0;
+        z-index: 90;
         left: 0;
         width: 100%;
-        height: calc(100vh - 100px);
+        height: 100vh;
         backdrop-filter: blur(6px);
         background: linear-gradient(180deg, rgba(18.7, 7.7, 57.21, 0.84) 0%, rgba(40, 34, 81, 0.84) 97.386%);
         overflow-y: auto;
@@ -1340,29 +1341,24 @@ $spacing-properties: (
         }
 
         @include have-a-questions;
-        @include max_1200 {
-            height: calc(100vh - 95px);
-            top: 95px;
-        }
 
         .have-a-questions {
             position: absolute;
-
             padding: 0;
             margin: 0;
             width: 100%;
-            top: calc(50% + 40px);
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            @include max_1200 {
-                top: 50%;
-            }
+
             @include max_992 {
                 padding: 0;
-                top: calc(50% + 20px);
             }
             @include max_768 {
-                top: calc(50% + 80px);
+                top: 57%;
+            }
+            @include max_576 {
+                top: 60%;
             }
 
             .container {
@@ -1682,10 +1678,15 @@ $spacing-properties: (
             }
         }
 
+        .container {
+            position: relative;
+        }
+
         .close-popup {
             position: absolute;
-            top: 38px;
-            right: 109px;
+            top: -68px;
+            z-index: 2;
+            right: -60px;
             cursor: pointer;
             width: 28px;
             height: 28px;
@@ -1694,14 +1695,18 @@ $spacing-properties: (
             justify-content: center;
             border-radius: 100%;
             border: 2px solid #fff;
+            @include max_1400 {
+                right: 10px;
+            }
+            @include max_1200 {
+            }
             @include max_992 {
-                right: 50px;
-                top: 18px;
+                top: -50px;
             }
             @include max_768 {
-                right: 30px;
             }
             @include max_576 {
+                top: -70px;
                 right: 15px;
             }
         }
