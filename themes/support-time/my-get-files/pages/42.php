@@ -84,7 +84,7 @@
                                         </svg>
 
                                     </a>
-                                    <button class="btn btn-gradient">star using</button>
+                                    <button class="btn btn-gradient openPopup" data-pop="popupForm">star using</button>
                                 </div>
                                 <img src="<?php the_sub_field('platforms_logo_desc'); ?>"
                                      alt="<?php the_sub_field('platforms_title'); ?>" />

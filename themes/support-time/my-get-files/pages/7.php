@@ -7,7 +7,7 @@
             <p class="color-white desc">
                 <?php the_field('banner_desc'); ?>
             </p>
-            <button class="btn">free consultation</button>
+            <button class="btn openPopup" data-pop="popupForm">free consultation</button>
         </div>
         <p class="bottom-text color-white">
             <?php the_field('banner_bottom_text'); ?>
@@ -88,7 +88,8 @@
                                 <p class="desc">
                                     <?php the_sub_field('service_text'); ?>
                                 </p>
-                                <button class="btn btn-gradient">free consultation</button>
+                                <button class="btn btn-gradient openPopup" data-pop="popupForm">free consultation
+                                </button>
                             </div>
                         </div>
                         <?php $item_counter++; ?>
