@@ -6,7 +6,7 @@ const platformsSection = document.querySelector(".platforms");
 if (platformsSection) {
     // Миниатюры
     const thumbsSwiper = new Swiper(".platforms-swiper-thumbs", {
-        slidesPerView: 1,
+        slidesPerView: 1.5,
         spaceBetween: 24,
         watchSlidesProgress: true,
         slideToClickedSlide: true,
