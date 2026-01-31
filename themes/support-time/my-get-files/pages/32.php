@@ -449,7 +449,8 @@
                         </div>
                         <div class="custom-select_list">
                             <div class="custom-select_item">
-                                <input type="checkbox" name="duration[]" value="monthly maintenance" id="duration_1">
+                                <input type="checkbox" class="onlyOne" name="duration[]" value="monthly maintenance"
+                                       id="duration_1">
                                 <label for="duration_1">
                                     <span>
                                     </span>
@@ -457,7 +458,8 @@
                                 </label>
                             </div>
                             <div class="custom-select_item">
-                                <input type="checkbox" name="duration[]" value="support for a year" id="duration_2">
+                                <input type="checkbox" class="onlyOne" name="duration[]" value="support for a year"
+                                       id="duration_2">
                                 <label for="duration_2">
                                     <span>
                                     </span>

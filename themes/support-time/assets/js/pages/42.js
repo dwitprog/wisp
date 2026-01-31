@@ -47,4 +47,37 @@ if (platformsSection) {
             clickable: true,
         },
     });
+
+    const getPlatformParam = () => {
+        const params = new URLSearchParams(window.location.search);
+        if (!params.has("platform")) {
+            return null;
+        }
+        const value = params.get("platform");
+        if (!value) {
+            return null;
+        }
+        try {
+            return decodeURIComponent(value);
+        } catch (error) {
+            return value;
+        }
+    };
+
+    const normalizeValue = value => (value || "").trim().replace(/\/$/, "").toLowerCase();
+    const platformParam = getPlatformParam();
+
+    if (platformParam) {
+        const normalizedParam = normalizeValue(platformParam);
+        const slides = Array.from(mainSwiper.slides);
+        const targetIndex = slides.findIndex(slide => {
+            const platformValue = normalizeValue(slide.dataset.platform);
+            return platformValue === normalizedParam;
+        });
+
+        if (targetIndex >= 0) {
+            mainSwiper.slideTo(targetIndex, 0);
+            thumbsSwiper.slideTo(targetIndex, 0);
+        }
+    }
 }

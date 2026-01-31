@@ -131,7 +131,7 @@
                                     </label>
                                 </div>
                                 <div class="custom-select_item">
-                                    <input type="checkbox" name="servicesPrice[]" value="100 000 $"
+                                    <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="100 000 $"
                                            id="services_price_2">
                                     <label for="services_price_2">
                                         <span>
@@ -140,7 +140,7 @@
                                     </label>
                                 </div>
                                 <div class="custom-select_item">
-                                    <input type="checkbox" name="servicesPrice[]" value="150 000 $"
+                                    <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="150 000 $"
                                            id="services_price_3">
                                     <label for="services_price_3">
                                         <span>
@@ -149,7 +149,7 @@
                                     </label>
                                 </div>
                                 <div class="custom-select_item">
-                                    <input type="checkbox" name="servicesPrice[]" value="200 000 $"
+                                    <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="200 000 $"
                                            id="services_price_4">
                                     <label for="services_price_4">
                                         <span>

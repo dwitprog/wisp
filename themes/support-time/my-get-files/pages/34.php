@@ -448,7 +448,7 @@
                         </div>
                         <div class="custom-select_list">
                             <div class="custom-select_item">
-                                <input type="checkbox" name="currentStatus[]"
+                                <input type="checkbox" class="onlyOne" name="currentStatus[]"
                                        value="the first experience of cooperation" id="currentStatus_1">
                                 <label for="currentStatus_1">
                                     <span>
@@ -457,7 +457,8 @@
                                 </label>
                             </div>
                             <div class="custom-select_item">
-                                <input type="checkbox" name="currentStatus[]" value="worked with other companies"
+                                <input type="checkbox" class="onlyOne" name="currentStatus[]"
+                                       value="worked with other companies"
                                        id="currentStatus_2">
                                 <label for="currentStatus_2">
                                     <span>

@@ -708,6 +708,8 @@ $spacing-properties: (
                     font-size: 32px;
                     color: #fff;
                     text-transform: uppercase;
+                    font-family: "Aeroport", "sans-serif";
+                    font-weight: 400;
 
                     @include max_1200 {
                         font-size: 24px;
@@ -740,11 +742,17 @@ $spacing-properties: (
                 border: 2px solid #fff;
                 border-radius: 18px;
                 background: transparent;
+                font-family: "Aeroport", "sans-serif";
+                font-weight: 400;
                 font-size: 32px;
                 color: #fff;
-                text-transform: uppercase;
                 width: 100%;
-                height: 76px;
+                height: 174px;
+                resize: none;
+                scrollbar-width: thin;
+                scrollbar-color: #888 #f1f1f1;
+                -ms-overflow-style: -ms-autohiding-scrollbar;
+
                 @include max_1200 {
                     max-width: 640px;
                     font-size: 24px;
@@ -1045,7 +1053,7 @@ $spacing-properties: (
             }
 
             .error-message {
-                color: #ff0000;
+                color: #ff5b5b;
                 font-size: 14px;
                 margin-top: 5px;
                 position: absolute;
@@ -1379,6 +1387,7 @@ $spacing-properties: (
                 border: 1px solid #fff;
                 @include max_1200 {
                     padding: 18px 34px 28px 26px;
+                    border: none;
                 }
                 @include max_992 {
                     padding: 25px 40px 23px;
@@ -1418,6 +1427,9 @@ $spacing-properties: (
                     -webkit-mask-composite: xor;
                     mask-composite: exclude;
                     pointer-events: none;
+                    @include max_1200 {
+                        content: none;
+                    }
                 }
 
                 h2 {
@@ -1526,7 +1538,6 @@ $spacing-properties: (
                     @include max_1200 {
                         font-size: 19px;
                         max-width: 512px;
-                        height: 60px;
                         padding-left: 14px;
                         margin-bottom: 28px;
                     }
@@ -1534,7 +1545,6 @@ $spacing-properties: (
                         font-size: 24px;
                         margin-bottom: 35px;
                         max-width: 100%;
-                        height: 76px;
                     }
 
                     &::placeholder {

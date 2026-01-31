@@ -526,7 +526,7 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
 
         // Применяем стили для сообщения об ошибке
         errorDiv.style.cssText = `
-            color: #ff0000;
+            color: #ff5b5b;
             font-size: 12px;
             margin-top: 4px;
             font-style: italic;
@@ -536,7 +536,7 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
         field.parentNode.appendChild(errorDiv);
 
         // Визуально выделяем поле с ошибкой (красная рамка)
-        field.style.borderColor = "#ff0000";
+        field.style.borderColor = "#ff5b5b";
     }
 
     /**
