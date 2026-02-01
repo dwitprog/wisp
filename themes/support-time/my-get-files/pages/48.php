@@ -1,4 +1,4 @@
-<section class="page-48 contacts">
+<section class="page-48 contacts" data-header-theme="white">
     <div class="container">
         <h1 class="section-title"><?php the_field('page_title'); ?></h1>
         <div class="mail-and-tel">

@@ -1,4 +1,4 @@
-<section class="page-34 banner">
+<section class="page-34 banner" data-header-theme="gradient1">
     <div class="service-menu">
         <div class="service-menu-list">
             <a href="/services/full-service/">FULL </a>
@@ -349,7 +349,7 @@
         </div>
     </div>
 </section>
-<section class="page-34 project-stages" data-header-theme="gradient">
+<section class="page-34 project-stages" data-header-theme="white">
     <h2 class="section-title"><?php the_field('project_stages_section-title'); ?></h2>
     <div class="content">
         <div class="stages">
@@ -405,7 +405,7 @@
         </div>
     </div>
 </section>
-<section class="page-34 have-a-questions">
+<section class="page-34 have-a-questions" data-header-theme="gradient1">
     <div class="container">
         <div class="content">
             <div class="section-title">
@@ -649,7 +649,7 @@
         </div>
     </div>
 </section>
-<section class="page-34 faq-accordion">
+<section class="page-34 faq-accordion" data-header-theme="gradient2">
     <div class="container">
         <?php if (have_rows('faq_list')) : ?>
             <?php while (have_rows('faq_list')) : the_row(); ?>

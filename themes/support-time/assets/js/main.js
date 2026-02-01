@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
             gradient2: "header-variant_3",
             white: "header-variant_4",
         };
-        const defaultHeaderVariant = "header-variant_2";
+        const defaultHeaderVariant = "header-variant_4";
 
         const applyHeaderVariant = variant => {
             headerSite.classList.remove(...headerVariants, "header-gradient");

@@ -1,4 +1,4 @@
-<section class="page-42 platforms">
+<section class="page-42 platforms" data-header-theme="white">
     <div class="platforms-swiper-thumbs swiper">
         <?php if (have_rows('platforms')) : ?>
             <div class="swiper-wrapper">

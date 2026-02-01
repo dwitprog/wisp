@@ -17,7 +17,7 @@ if (have_rows('services_list')) :
 endif;
 ?>
 
-<section class="page-29 services">
+<section class="page-29 services" data-header-theme="gradient2">
     <div class="container">
         <div class="content">
             <h1 class="color-white"><?php the_field('services_section_title'); ?></h1>
