@@ -57,8 +57,8 @@
                             <div class="custom-select_list">
                                 <div class="custom-select_item">
                                     <input type="checkbox" class="onlyOne" name="services[]" value="not defined"
-                                           id="services_1">
-                                    <label for="services_1">
+                                           id="services_popup_1">
+                                    <label for="services_popup_1">
                                         <span>
                                         </span>
                                         not defined
@@ -66,24 +66,26 @@
                                 </div>
                                 <div class="custom-select_item">
                                     <input type="checkbox" name="services[]" value="Consulting services"
-                                           id="services_2">
-                                    <label for="services_2">
+                                           id="services_popup_2">
+                                    <label for="services_popup_2">
                                         <span>
                                         </span>
                                         Consulting services
                                     </label>
                                 </div>
                                 <div class="custom-select_item">
-                                    <input type="checkbox" name="services[]" value="Strategy services" id="services_3">
-                                    <label for="services_3">
+                                    <input type="checkbox" name="services[]" value="Strategy services"
+                                           id="services_popup_3">
+                                    <label for="services_popup_3">
                                         <span>
                                         </span>
                                         Strategy services
                                     </label>
                                 </div>
                                 <div class="custom-select_item">
-                                    <input type="checkbox" name="services[]" value="Audit services" id="services_4">
-                                    <label for="services_4">
+                                    <input type="checkbox" name="services[]" value="Audit services"
+                                           id="services_popup_4">
+                                    <label for="services_popup_4">
                                         <span>
                                         </span>
                                         Audit services
@@ -91,8 +93,8 @@
                                 </div>
                                 <div class="custom-select_item">
                                     <input type="checkbox" name="services[]" value="Performance marketing services"
-                                           id="services_5">
-                                    <label for="services_5">
+                                           id="services_popup_5">
+                                    <label for="services_popup_5">
                                         <span>
                                         </span>
                                         Performance marketing services
@@ -100,8 +102,8 @@
                                 </div>
                                 <div class="custom-select_item">
                                     <input type="checkbox" class="onlyOne" name="services[]" value="Full service"
-                                           id="services_6">
-                                    <label for="services_6">
+                                           id="services_popup_6">
+                                    <label for="services_popup_6">
                                         <span>
                                         </span>
                                         Full service
@@ -123,8 +125,8 @@
                             <div class="custom-select_list">
                                 <div class="custom-select_item">
                                     <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="not defined"
-                                           id="services_price_1">
-                                    <label for="services_price_1">
+                                           id="services_price_popup_1">
+                                    <label for="services_price_popup_1">
                                         <span>
                                         </span>
                                         not defined
@@ -132,8 +134,8 @@
                                 </div>
                                 <div class="custom-select_item">
                                     <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="100 000 $"
-                                           id="services_price_2">
-                                    <label for="services_price_2">
+                                           id="services_price_popup_2">
+                                    <label for="services_price_popup_2">
                                         <span>
                                         </span>
                                         100 000 $
@@ -141,8 +143,8 @@
                                 </div>
                                 <div class="custom-select_item">
                                     <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="150 000 $"
-                                           id="services_price_3">
-                                    <label for="services_price_3">
+                                           id="services_price_popup_3">
+                                    <label for="services_price_popup_3">
                                         <span>
                                         </span>
                                         150 000 $
@@ -150,8 +152,8 @@
                                 </div>
                                 <div class="custom-select_item">
                                     <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="200 000 $"
-                                           id="services_price_4">
-                                    <label for="services_price_4">
+                                           id="services_price_popup_4">
+                                    <label for="services_price_popup_4">
                                         <span>
                                         </span>
                                         200 000 $
