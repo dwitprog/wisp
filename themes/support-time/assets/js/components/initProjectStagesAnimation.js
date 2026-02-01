@@ -35,11 +35,14 @@ export function initProjectStagesAnimation({
     let lineHeight = 0;
     let circleHeight = 0;
     let maxTravel = 0;
-    let lineContainerOffset = 0;
     let lineOffset = 0;
     let itemThresholds = [];
     let stopPoints = [];
     let contentPaddingTop = 0;
+    let currentStopIndex = 0;
+    let holdUntil = 0;
+    const holdDurationMs = 1000;
+    let scrollTriggerInstance = null;
 
     const measure = () => {
         const sectionTop = section.getBoundingClientRect().top + window.scrollY;
@@ -49,24 +52,105 @@ export function initProjectStagesAnimation({
         circleHeight = circle.offsetHeight;
         const lineMaxTravel = Math.max(0, lineHeight - circleHeight);
 
-        lineContainerOffset = lineContainer.getBoundingClientRect().top + window.scrollY - sectionTop;
         lineOffset = line.getBoundingClientRect().top + window.scrollY - sectionTop;
 
         itemThresholds = items.map(
             item => item.getBoundingClientRect().top + window.scrollY - sectionTop + thresholdOffset,
         );
 
-        const lastItemThreshold = itemThresholds[itemThresholds.length - 1];
-        maxTravel =
-            typeof lastItemThreshold === "number"
-                ? Math.min(lineMaxTravel, Math.max(0, lastItemThreshold - lineOffset))
-                : lineMaxTravel;
-
-        stopPoints = [0, ...itemThresholds.map(threshold => threshold - lineOffset), maxTravel];
+        stopPoints = itemThresholds.map(threshold => threshold - lineOffset);
+        const lastStop = stopPoints[stopPoints.length - 1];
+        maxTravel = typeof lastStop === "number" ? Math.min(lineMaxTravel, Math.max(0, lastStop)) : lineMaxTravel;
+        currentStopIndex = Math.min(currentStopIndex, Math.max(0, stopPoints.length - 1));
     };
 
-    measure();
-    gsap.set(circle, { y: 0 });
+    const setInitialState = () => {
+        measure();
+        gsap.set(line, { height: "100%", scaleY: 0, transformOrigin: "top" });
+        gsap.set(circle, { y: stopPoints[0] || 0 });
+        items.forEach((item, index) => {
+            item.classList.toggle(activeClass, index === 0);
+        });
+    };
+
+    const createScrollTrigger = () => {
+        if (scrollTriggerInstance) {
+            scrollTriggerInstance.kill();
+        }
+        const lineGrowScroll = Math.max(lineHeight, window.innerHeight * 0.1);
+        const circleScrollLength = Math.max(maxTravel, window.innerHeight) * scrollLengthMultiplier;
+        const totalLength = lineGrowScroll + circleScrollLength;
+        const linePart = lineGrowScroll / totalLength;
+        scrollTriggerInstance = ScrollTrigger.create({
+            trigger: section,
+            start: () => `top+=${contentPaddingTop} top`,
+            end: () => `+=${totalLength}`,
+            pin: true,
+            pinSpacing: true,
+            scrub: true,
+            onRefresh: measure,
+            onUpdate: self => {
+                if (!stopPoints.length) {
+                    return;
+                }
+                const progress = self.progress;
+                const lineProgress = Math.min(1, progress / linePart);
+                gsap.set(line, { scaleY: lineProgress });
+
+                if (progress < linePart) {
+                    gsap.set(circle, { y: stopPoints[0] || 0 });
+                    items.forEach((item, index) => {
+                        item.classList.toggle(activeClass, index === 0);
+                    });
+                    return;
+                }
+
+                const circleProgress = (progress - linePart) / Math.max(0.0001, 1 - linePart);
+                const rawTravel = Math.min(maxTravel, Math.max(0, circleProgress * maxTravel));
+                let desiredStopIndex = 0;
+                let minDistance = Math.abs(stopPoints[0] - rawTravel);
+
+                for (let i = 1; i < stopPoints.length; i += 1) {
+                    const distance = Math.abs(stopPoints[i] - rawTravel);
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        desiredStopIndex = i;
+                    }
+                }
+
+                const now = performance.now();
+                if (desiredStopIndex !== currentStopIndex && now < holdUntil) {
+                    const travelProgress = maxTravel > 0 ? stopPoints[currentStopIndex] / maxTravel : 0;
+                    const lockedProgress = linePart + travelProgress * (1 - linePart);
+                    const targetScroll = self.start + (self.end - self.start) * lockedProgress;
+                    if (Math.abs(self.scroll() - targetScroll) > 1) {
+                        self.scroll(targetScroll);
+                    }
+                    return;
+                }
+
+                if (desiredStopIndex !== currentStopIndex) {
+                    currentStopIndex = desiredStopIndex;
+                    holdUntil = now + holdDurationMs;
+                }
+
+                const travel = Math.min(maxTravel, Math.max(0, stopPoints[currentStopIndex]));
+                gsap.set(circle, { y: travel });
+
+                items.forEach((item, index) => {
+                    item.classList.toggle(activeClass, index <= currentStopIndex);
+                });
+            },
+        });
+    };
+
+    setInitialState();
+    createScrollTrigger();
+    if (scrollTriggerInstance) {
+        requestAnimationFrame(() => {
+            scrollTriggerInstance.refresh();
+        });
+    }
 
     if (textImages.length > 1 && window.matchMedia("(min-width: 575.98px)")) {
         let activeTextIndex = textImages.findIndex(img => img.classList.contains(activeClass));
@@ -97,41 +181,10 @@ export function initProjectStagesAnimation({
         scheduleNextSwap();
     }
 
-    ScrollTrigger.create({
-        trigger: section,
-        start: () => `top+=${contentPaddingTop} top`,
-        end: () => `+=${Math.max(1, maxTravel) * scrollLengthMultiplier}`,
-        pin: true,
-        pinSpacing: true,
-        scrub: true,
-        onRefresh: measure,
-        onUpdate: self => {
-            const rawTravel = Math.min(maxTravel, Math.max(0, self.progress * maxTravel));
-
-            let snappedTravel = stopPoints[0];
-
-            for (let i = 1; i < stopPoints.length; i += 1) {
-                if (Math.abs(stopPoints[i] - rawTravel) < Math.abs(snappedTravel - rawTravel)) {
-                    snappedTravel = stopPoints[i];
-                }
-            }
-
-            const travel = Math.min(maxTravel, Math.max(0, snappedTravel));
-
-            gsap.set(circle, { y: travel });
-
-            const circleTop = lineOffset + travel;
-            let activeIndex = 0;
-
-            for (let i = 0; i < itemThresholds.length; i += 1) {
-                if (circleTop >= itemThresholds[i]) {
-                    activeIndex = i;
-                }
-            }
-
-            items.forEach((item, index) => {
-                item.classList.toggle(activeClass, index <= activeIndex);
-            });
-        },
+    window.addEventListener("resize", () => {
+        measure();
+        if (scrollTriggerInstance) {
+            scrollTriggerInstance.refresh();
+        }
     });
 }
