@@ -727,6 +727,17 @@ $spacing-properties: (
                     font-family: "Aeroport", "sans-serif";
                     font-weight: 400;
 
+                    &:-webkit-autofill,
+                    &:-webkit-autofill:hover,
+                    &:-webkit-autofill:focus,
+                    &:-webkit-autofill:active {
+                        -webkit-text-fill-color: #fff !important;
+                        background-color: transparent !important;
+                        background-image: none !important;
+                        color: #fff !important;
+                        transition: background-color 50000s ease-in-out 0s;
+                    }
+
                     @include max_1200 {
                         font-size: 24px;
                         width: 100%;
