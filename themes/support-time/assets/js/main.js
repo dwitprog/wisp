@@ -170,34 +170,25 @@ document.addEventListener("DOMContentLoaded", () => {
             subMenu.classList.toggle("active");
         });
 
-        // Переключаем .header-gradient в зависимости от фона под хедером
-        const parseRgb = value => {
-            const match = value.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
-            if (!match) return null;
-            return {
-                r: Number(match[1]),
-                g: Number(match[2]),
-                b: Number(match[3]),
-            };
+        // Переключаем вариант хедера в зависимости от data-header-theme
+        const headerVariants = ["header-variant_1", "header-variant_2", "header-variant_3", "header-variant_4"];
+        const headerThemeMap = {
+            blur: "header-variant_1",
+            gradient1: "header-variant_2",
+            gradient2: "header-variant_3",
+            white: "header-variant_4",
+        };
+        const defaultHeaderVariant = "header-variant_2";
+
+        const applyHeaderVariant = variant => {
+            headerSite.classList.remove(...headerVariants, "header-gradient");
+            headerSite.classList.add(variant);
         };
 
-        const isLight = color => {
-            const rgb = parseRgb(color);
-            if (!rgb) return true;
-            const luma = 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b;
-            return luma >= 200;
-        };
-
-        const getSectionBackground = element => {
-            const section = element?.closest("section") || document.body;
-            const dataTheme = section.getAttribute("data-header-theme");
-            if (dataTheme === "gradient") {
-                return "rgb(255, 255, 255)";
-            }
-            if (dataTheme === "default") {
-                return "rgb(0, 0, 0)";
-            }
-            return getComputedStyle(section).backgroundColor;
+        const getSectionHeaderVariant = element => {
+            const section = element?.closest("section");
+            const themeKey = section?.getAttribute("data-header-theme");
+            return headerThemeMap[themeKey] || defaultHeaderVariant;
         };
 
         let scheduled = false;
@@ -214,9 +205,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!target) {
                 return;
             }
-            const bg = getSectionBackground(target);
-            const isTransparent = bg === "rgba(255, 255, 255, 1)" || bg === "transparent";
-            headerSite.classList.toggle("header-gradient", isTransparent || isLight(bg));
+            const variant = getSectionHeaderVariant(target);
+            applyHeaderVariant(variant);
         };
 
         const scheduleUpdate = () => {

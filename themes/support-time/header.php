@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<header class="header" id="header">
+<header class="header header-variant_2" id="header">
     <div class="header-container">
         <a href="/" class="header-logo">
             <span class=" white">

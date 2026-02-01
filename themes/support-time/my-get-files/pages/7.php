@@ -1,4 +1,4 @@
-<section class="page-7 banner">
+<section class="page-7 banner" data-header-theme="blur">
     <div class="container">
         <div class="offer">
             <div class="title">
@@ -60,7 +60,7 @@
     <?php endif; ?>
 
 </section>
-<section class="page-7 services">
+<section class="page-7 services" data-header-theme="white">
     <div class="service-knob">
         <picture class="image">
             <source media="(max-width:767.98px)"
@@ -100,7 +100,7 @@
     </div>
 
 </section>
-<section class="page-7 platforms">
+<section class="page-7 platforms" data-header-theme="gradient1">
     <div class="container">
         <h2 class="section-title color-white"><?php the_field('platforms_section_title'); ?></h2>
         <div class="items grid st-grid-column-lg-2">
@@ -190,7 +190,7 @@
         </div>
     </div>
 </section>
-<section class="page-7 project-stages" data-header-theme="gradient">
+<section class="page-7 project-stages" data-header-theme="white">
     <h2 class="section-title"><?php the_field('project_stages_section-title'); ?></h2>
     <div class="content">
         <div class="stages">
@@ -248,7 +248,7 @@
 
 
 </section>
-<section class="page-7 have-a-questions">
+<section class="page-7 have-a-questions" data-header-theme="gradient1">
     <div class="container">
         <div class="content">
             <div class="section-title">
@@ -569,7 +569,7 @@
         </div>
     </div>
 </section>
-<section class="page-7 faq">
+<section class="page-7 faq" data-header-theme="gradient2">
     <h2 class="section-title color-white"><?php the_field('faq_section_title'); ?></h2>
     <div class="container">
         <div class="faq-content">
