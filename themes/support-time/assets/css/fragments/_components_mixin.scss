@@ -153,16 +153,29 @@ $spacing-properties: (
         margin-top: -137px;
         z-index: 6;
         min-height: 100vh;
+        @include max_1400 {
+            margin-top: -100px;
+        }
         @include max_1200 {
-            margin-top: -55px;
+            margin-top: -65px;
             padding-bottom: 81px;
+            min-height: 1px;
+        }
+        @include max_768 {
+            margin-top: -55px;
+        }
+        @include max_576 {
+            margin-top: -40px;
         }
 
         &:before {
             content: "";
             width: 100%;
-            height: 100%;
+            height: 137px;
             position: absolute;
+            min-width: 1920px;
+            left: 50%;
+            transform: translateX(-50%);
             top: 0;
             background: #fff;
             -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1447 1014" xmlns="http://www.w3.org/2000/svg"><path d="M390.188 0C373.194 0.000113941 358.513 11.8851 354.977 28.5078L344.182 79.2429C341.235 93.0955 329.002 103 314.839 103H1C0.447715 103 6.60566e-09 103.448 0 104V984C0 1000.57 13.4315 1014 30 1014H1417C1433.57 1014 1447 1000.57 1447 984V104C1447 103.448 1446.55 103 1446 103H1139.16C1125 103 1112.77 93.095 1109.82 79.242L1099.03 28.5098C1095.49 11.8863 1080.81 0 1063.82 0H390.188Z"/></svg>');
@@ -173,21 +186,32 @@ $spacing-properties: (
             mask-position: center top;
             -webkit-mask-repeat: no-repeat;
             mask-repeat: no-repeat;
+            @include max_1400 {
+                min-width: 1400px;
+                height: 100px;
+            }
             @include max_1200 {
                 -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1002 739" xmlns="http://www.w3.org/2000/svg"><path d="M334.803 0C325.783 0.000164165 317.991 6.30831 316.114 15.1309L310.315 42.3909C308.75 49.7431 302.257 55 294.74 55H0.532227C0.239259 55 0.00123558 55.2374 0.000976562 55.5303V723.077C0.000976562 731.871 7.12977 739 15.9236 739H985.12C993.914 739 1001.04 731.871 1001.04 723.077V55.5312C1001.04 55.2383 1000.81 55.0003 1000.51 55H709.886C702.369 55 695.876 49.743 694.312 42.3906L688.513 15.1318C686.636 6.30896 678.844 0.000126682 669.824 0H334.803Z"/></svg>');
                 mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1002 739" xmlns="http://www.w3.org/2000/svg"><path d="M334.803 0C325.783 0.000164165 317.991 6.30831 316.114 15.1309L310.315 42.3909C308.75 49.7431 302.257 55 294.74 55H0.532227C0.239259 55 0.00123558 55.2374 0.000976562 55.5303V723.077C0.000976562 731.871 7.12977 739 15.9236 739H985.12C993.914 739 1001.04 731.871 1001.04 723.077V55.5312C1001.04 55.2383 1000.81 55.0003 1000.51 55H709.886C702.369 55 695.876 49.743 694.312 42.3906L688.513 15.1318C686.636 6.30896 678.844 0.000126682 669.824 0H334.803Z"/></svg>');
+                min-width: 1200px;
+                height: 65px;
             }
             @include max_992 {
                 -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 775 739" xmlns="http://www.w3.org/2000/svg"><path d="M221.927 0C212.907 0.000171279 205.115 6.30831 203.238 15.1309L197.439 42.3909C195.874 49.7431 189.381 55 181.865 55H0.53125C0.238283 55 0.000259193 55.2374 0 55.5303V723.077C0 731.871 7.12879 739 15.9226 739H759.077C767.871 739 775 731.871 775 723.077V55.5312C775 55.2383 774.763 55.0003 774.47 55H597.01C589.493 55 583 49.743 581.436 42.3906L575.637 15.1318C573.76 6.30896 565.969 0.000119567 556.948 0H221.927Z"/></svg>');
                 mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 775 739" xmlns="http://www.w3.org/2000/svg"><path d="M221.927 0C212.907 0.000171279 205.115 6.30831 203.238 15.1309L197.439 42.3909C195.874 49.7431 189.381 55 181.865 55H0.53125C0.238283 55 0.000259193 55.2374 0 55.5303V723.077C0 731.871 7.12879 739 15.9226 739H759.077C767.871 739 775 731.871 775 723.077V55.5312C775 55.2383 774.763 55.0003 774.47 55H597.01C589.493 55 583 49.743 581.436 42.3906L575.637 15.1318C573.76 6.30896 565.969 0.000119567 556.948 0H221.927Z"/></svg>');
+                min-width: 992px;
             }
             @include max_768 {
                 -webkit-mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 576 550" xmlns="http://www.w3.org/2000/svg"><path d="M164.942 0C158.239 0.00018084 152.448 4.68899 151.053 11.2461L146.742 31.5066C145.579 36.971 140.754 40.8779 135.167 40.8779H0.394531C0.176672 40.8779 0 41.0546 0 41.2725V537.41C0 543.946 5.2983 549.244 11.8341 549.244H564.166C570.702 549.244 576 543.946 576 537.41V41.2725C576 41.0546 575.823 40.8779 575.605 40.8779H443.714C438.127 40.8779 433.302 36.9708 432.139 31.5063L427.829 11.2461C426.434 4.68868 420.643 0 413.938 0H164.942Z"/></svg>');
                 mask-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 576 550" xmlns="http://www.w3.org/2000/svg"><path d="M164.942 0C158.239 0.00018084 152.448 4.68899 151.053 11.2461L146.742 31.5066C145.579 36.971 140.754 40.8779 135.167 40.8779H0.394531C0.176672 40.8779 0 41.0546 0 41.2725V537.41C0 543.946 5.2983 549.244 11.8341 549.244H564.166C570.702 549.244 576 543.946 576 537.41V41.2725C576 41.0546 575.823 40.8779 575.605 40.8779H443.714C438.127 40.8779 433.302 36.9708 432.139 31.5063L427.829 11.2461C426.434 4.68868 420.643 0 413.938 0H164.942Z"/></svg>');
+                min-width: 768px;
+                height: 55px;
             }
             @include max_576 {
                 -webkit-mask-size: cover;
                 mask-size: cover;
+                min-width: 576px;
+                height: 40px;
             }
         }
 
@@ -225,13 +249,20 @@ $spacing-properties: (
             margin-bottom: 100px;
             height: 100%;
             @include max_1400 {
-                padding-top: 86px;
+                padding-top: 100px;
             }
             @include max_1200 {
+                padding-top: 65px;
+                height: auto;
+            }
+            @include max_992 {
+                margin-bottom: 0;
+            }
+            @include max_768 {
                 padding-top: 55px;
             }
             @include max_576 {
-                padding-top: 49px;
+                padding-top: 40px;
             }
         }
 
@@ -241,6 +272,9 @@ $spacing-properties: (
             display: flex;
             @include max_1200 {
                 margin-left: 52px;
+            }
+            @include max_992 {
+                height: auto;
             }
             @include max_576 {
                 margin-left: 30px;
@@ -252,9 +286,12 @@ $spacing-properties: (
             margin-left: 120px;
 
             @include max_1200 {
-                padding-top: 98px;
+                padding-top: 150px;
                 margin-left: 42px;
                 padding-bottom: 77px;
+            }
+            @include max_768 {
+                padding-top: 180px;
             }
 
             .item {
@@ -278,7 +315,7 @@ $spacing-properties: (
                 &:not(:last-child) {
                     margin-bottom: 70px;
                     @include max_1200 {
-                        margin-bottom: 46px;
+                        margin-bottom: 120px;
                     }
                 }
 
