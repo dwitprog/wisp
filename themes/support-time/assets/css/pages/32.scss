@@ -465,6 +465,11 @@
                 justify-content: center;
                 cursor: pointer;
 
+                .start {
+                    display: block;
+                    margin-left: 3px;
+                }
+
                 &.play {
                     .pause {
                         display: none;

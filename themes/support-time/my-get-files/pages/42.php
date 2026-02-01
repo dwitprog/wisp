@@ -7,9 +7,9 @@
                         <?php while (have_rows('platforms_item')) : the_row(); ?>
                             <div class="swiper-slide item">
                                 <img src="<?php the_sub_field('platforms_logo_default'); ?>" class="default"
-                                    alt="<?php the_sub_field('platforms_title'); ?>">
+                                     alt="<?php the_sub_field('platforms_title'); ?>">
                                 <img src="<?php the_sub_field('platforms_logo_hover'); ?>" class="active"
-                                    alt="<?php the_sub_field('platforms_title'); ?>">
+                                     alt="<?php the_sub_field('platforms_title'); ?>">
                             </div>
                         <?php endwhile; ?>
                     <?php endif; ?>
@@ -25,7 +25,7 @@
                         stroke="url(#paint0_linear_781_87989)" stroke-width="2" />
                     <defs>
                         <linearGradient id="paint0_linear_781_87989" x1="5.95318" y1="0.733643" x2="5.95318"
-                            y2="11.8191" gradientUnits="userSpaceOnUse">
+                                        y2="11.8191" gradientUnits="userSpaceOnUse">
                             <stop stop-color="#130839" />
                             <stop offset="0.360577" stop-color="#282251" />
                             <stop offset="0.764423" stop-color="#793971" />
@@ -42,7 +42,7 @@
                         stroke="url(#paint0_linear_781_87988)" stroke-width="2" />
                     <defs>
                         <linearGradient id="paint0_linear_781_87988" x1="5.95307" y1="0.733643" x2="5.95307"
-                            y2="11.8191" gradientUnits="userSpaceOnUse">
+                                        y2="11.8191" gradientUnits="userSpaceOnUse">
                             <stop stop-color="#130839" />
                             <stop offset="0.360577" stop-color="#282251" />
                             <stop offset="0.764423" stop-color="#793971" />
@@ -61,16 +61,16 @@
                     <?php if (have_rows('platforms_item')) : ?>
                         <?php while (have_rows('platforms_item')) : the_row(); ?>
                             <div class="swiper-slide item-desc"
-                                data-platform="<?php the_sub_field('data_platform'); ?>">
+                                 data-platform="<?php the_sub_field('data_platform'); ?>">
                                 <div class="desc-wrapper">
                                     <p class="title"><?php the_sub_field('platforms_title'); ?></p>
                                     <p class="desc">
                                         <?php the_sub_field('platforms_text'); ?>
                                     </p>
                                     <a href="<?php the_sub_field('platforms_link'); ?>" class="link">
-                                        Lear what we can do with it
+                                        Learn what we can do with it
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
+                                             xmlns="http://www.w3.org/2000/svg">
                                             <g clip-path="url(#clip0_781_87984)">
                                                 <path
                                                     d="M11.2 8.54028e-07H15.4667C15.6081 8.54028e-07 15.7438 0.0561912 15.8438 0.156211C15.9438 0.25623 16 0.391885 16 0.533334V4.8C16.0002 4.90562 15.969 5.00892 15.9104 5.0968C15.8518 5.18469 15.7685 5.25319 15.6709 5.29364C15.5733 5.33408 15.4659 5.34465 15.3624 5.32399C15.2588 5.30333 15.1637 5.25238 15.0891 5.1776L13.3333 3.4208L0.910933 15.8443L0.155733 15.0891L12.5792 2.66667L10.8224 0.910934C10.7476 0.836343 10.6967 0.741226 10.676 0.637644C10.6554 0.534062 10.6659 0.426678 10.7064 0.329107C10.7468 0.231535 10.8153 0.14817 10.9032 0.0895793C10.9911 0.0309888 11.0944 -0.000188122 11.2 8.54028e-07Z"
@@ -79,16 +79,16 @@
                                             <defs>
                                                 <clipPath id="clip0_781_87984">
                                                     <rect width="16" height="16" fill="white"
-                                                        transform="matrix(-1 0 0 1 16 0)" />
+                                                          transform="matrix(-1 0 0 1 16 0)" />
                                                 </clipPath>
                                             </defs>
                                         </svg>
 
                                     </a>
-                                    <button class="btn btn-gradient openPopup" data-pop="popupForm">star using</button>
+                                    <button class="btn btn-gradient openPopup" data-pop="popupForm">start using</button>
                                 </div>
                                 <img src="<?php the_sub_field('platforms_logo_desc'); ?>"
-                                    alt="<?php the_sub_field('platforms_title'); ?>" />
+                                     alt="<?php the_sub_field('platforms_title'); ?>" />
                             </div>
                         <?php endwhile; ?>
                     <?php endif; ?>
