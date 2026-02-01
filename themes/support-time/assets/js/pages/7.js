@@ -71,23 +71,33 @@ if (coordinateContainer) {
     setTimeout(animateLines, 300);
 }
 
-// Анимация секции services (pin + шаги)
+// Анимация секции services (шаги по клику + drag)
 const servicesSection = document.querySelector(".page-7.services");
 if (servicesSection) {
     const knob = servicesSection.querySelector(".service-knob .knob");
     const items = Array.from(servicesSection.querySelectorAll(".list .item"));
     const totalSteps = 5;
-    const stepScrollPercent = 80;
     const stepClasses = Array.from({ length: totalSteps }, (_, idx) => `step_${idx + 1}`);
+    const maxItemIndex = Math.max(0, items.length - 1);
+    const dragStepThreshold = 80;
+    let currentStep = 1;
+    let isDragging = false;
+    let dragStartY = 0;
+    let dragStartStep = 1;
 
     const setStep = stepNumber => {
+        const normalizedStep = Math.min(totalSteps, Math.max(1, stepNumber));
+        if (normalizedStep === currentStep) {
+            return;
+        }
+        currentStep = normalizedStep;
         if (knob) {
             knob.classList.remove(...stepClasses);
-            knob.classList.add(`step_${stepNumber}`);
+            knob.classList.add(`step_${normalizedStep}`);
         }
 
         if (items.length) {
-            const targetIndex = Math.min(stepNumber - 1, items.length - 1);
+            const targetIndex = Math.min(normalizedStep - 1, maxItemIndex);
             items.forEach((item, index) => {
                 item.classList.toggle("active", index === targetIndex);
             });
@@ -96,18 +106,57 @@ if (servicesSection) {
 
     setStep(1);
 
-    ScrollTrigger.create({
-        trigger: servicesSection,
-        start: "top top",
-        end: `+=${(totalSteps - 1) * stepScrollPercent}%`,
-        pin: true,
-        pinSpacing: true,
-        scrub: true,
-        anticipatePin: 1,
-        onUpdate: self => {
-            const stepNumber = Math.min(totalSteps, Math.max(1, Math.floor(self.progress * totalSteps) + 1));
-            setStep(stepNumber);
-        },
+    items.forEach((item, index) => {
+        item.addEventListener("click", event => {
+            event.preventDefault();
+            setStep(index + 1);
+        });
+    });
+
+    if (knob) {
+        knob.addEventListener("pointerdown", event => {
+            event.preventDefault();
+            isDragging = true;
+            dragStartY = event.clientY;
+            dragStartStep = currentStep;
+            knob.classList.add("is-dragging");
+            try {
+                knob.setPointerCapture(event.pointerId);
+            } catch (error) {
+                // ignore capture errors in unsupported browsers
+            }
+        });
+
+        const handlePointerMove = event => {
+            if (!isDragging) {
+                return;
+            }
+            const deltaY = event.clientY - dragStartY;
+            const stepOffset = Math.trunc(deltaY / dragStepThreshold);
+            setStep(dragStartStep + stepOffset);
+        };
+
+        const stopDragging = event => {
+            if (!isDragging) {
+                return;
+            }
+            isDragging = false;
+            knob.classList.remove("is-dragging");
+            try {
+                knob.releasePointerCapture(event.pointerId);
+            } catch (error) {
+                // ignore release errors in unsupported browsers
+            }
+        };
+
+        knob.addEventListener("pointermove", handlePointerMove);
+        knob.addEventListener("pointerup", stopDragging);
+        knob.addEventListener("pointercancel", stopDragging);
+        knob.addEventListener("pointerleave", stopDragging);
+    }
+
+    window.addEventListener("resize", () => {
+        setStep(currentStep);
     });
 }
 

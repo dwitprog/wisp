@@ -275,6 +275,10 @@
                     }
                 }
 
+                &:not(.active) {
+                    cursor: pointer;
+                }
+
                 &.active {
                     grid-template-rows: auto 1fr;
 
@@ -363,8 +367,19 @@
                 display: none;
             }
 
+            img {
+                pointer-events: none;
+                user-drag: none;
+                -webkit-user-drag: none;
+            }
+
             .knob {
                 transition: $transition-default;
+                position: relative;
+                z-index: 2;
+                pointer-events: auto;
+                cursor: grab;
+                touch-action: none;
 
                 &.step {
                     &_1 {
@@ -402,6 +417,9 @@
                         }
                     }
                 }
+            }
+            .knob.is-dragging {
+                cursor: grabbing;
             }
 
             .line {
