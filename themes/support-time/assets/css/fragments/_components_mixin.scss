@@ -273,24 +273,6 @@ $spacing-properties: (
                         height: 16px;
                         left: -51px;
                     }
-
-                    &_1 {
-                        top: 230px;
-                        @include max_1200 {
-                            top: 98px;
-                        }
-                    }
-
-                    &_2 {
-                        top: 426px;
-                        @include max_1200 {
-                            top: 308px;
-                        }
-                    }
-
-                    &_3 {
-                        top: 611px;
-                    }
                 }
 
                 &:not(:last-child) {
@@ -395,13 +377,11 @@ $spacing-properties: (
 
             .line {
                 width: 3px;
-                height: 100%;
+                height: 0;
                 background: rgba(19, 8, 57, 1);
                 position: relative;
                 display: block;
-                @include max_1200 {
-                    height: 100%;
-                }
+                transition: all 0.5s linear;
 
                 &:before,
                 &:after {
@@ -434,7 +414,6 @@ $spacing-properties: (
                 position: absolute;
                 background: $st-gradient-main;
                 border-radius: 100%;
-                transition: all 0.5s linear;
                 top: 0;
                 left: 50%;
                 transform: translateX(-50%);
