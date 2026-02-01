@@ -350,6 +350,18 @@
             }
         }
 
+        &.is-measuring {
+            .list {
+                .item,
+                .title,
+                .content,
+                .desc,
+                .btn {
+                    transition: none;
+                }
+            }
+        }
+
         .service-knob {
             position: absolute;
             left: -197px;
