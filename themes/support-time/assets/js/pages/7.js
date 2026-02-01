@@ -75,6 +75,7 @@ if (coordinateContainer) {
 const servicesSection = document.querySelector(".page-7.services");
 if (servicesSection) {
     const knob = servicesSection.querySelector(".service-knob .knob");
+    const list = servicesSection.querySelector(".list");
     const items = Array.from(servicesSection.querySelectorAll(".list .item"));
     const totalSteps = 5;
     const stepClasses = Array.from({ length: totalSteps }, (_, idx) => `step_${idx + 1}`);
@@ -104,7 +105,35 @@ if (servicesSection) {
         }
     };
 
+    const measureListHeight = () => {
+        if (!list || !items.length) {
+            return;
+        }
+        const activeIndex = items.findIndex(item => item.classList.contains("active"));
+        servicesSection.classList.add("is-measuring");
+        items.forEach(item => item.classList.remove("active"));
+        let maxHeight = 0;
+
+        items.forEach(item => {
+            item.classList.add("active");
+            const height = list.getBoundingClientRect().height;
+            maxHeight = Math.max(maxHeight, height);
+            item.classList.remove("active");
+        });
+
+        if (activeIndex >= 0) {
+            items[activeIndex].classList.add("active");
+        } else if (items[0]) {
+            items[0].classList.add("active");
+        }
+        servicesSection.classList.remove("is-measuring");
+        if (maxHeight) {
+            list.style.minHeight = `${Math.ceil(maxHeight)}px`;
+        }
+    };
+
     setStep(1);
+    setTimeout(measureListHeight, 0);
 
     items.forEach((item, index) => {
         item.addEventListener("click", event => {
@@ -157,7 +186,9 @@ if (servicesSection) {
 
     window.addEventListener("resize", () => {
         setStep(currentStep);
+        measureListHeight();
     });
+    window.addEventListener("load", measureListHeight);
 }
 
 // Анимация секции project-stages (pin + движение круга)
