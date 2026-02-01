@@ -36,14 +36,16 @@
         }
     }
 
-    #header.header .header-end {
-        flex-wrap: wrap !important;
-        max-width: 155px !important;
-        justify-content: center !important;
-        gap: 12px !important;
+    @media (min-width: 576px) {
+        #header.header .header-end {
+            flex-wrap: wrap !important;
+            max-width: 155px !important;
+            justify-content: center !important;
+            gap: 12px !important;
 
-        .header-phone {
-            order: 2 !important;
+            .header-phone {
+                order: 2 !important;
+            }
         }
     }
 
@@ -61,51 +63,44 @@
     .header-logo svg {
         filter: brightness(0.8);
     }
-    // Стили для .page-7.banner
-    .page-7.banner {
-        .offer {
-            .title {
-                border: 0px solid #fff !important;
-                padding: 19px 0 !important;
-            }
+    @media (min-width: 576px) {
+        .page-7.banner .offer .title {
+            border: 0px solid #fff !important;
+            padding: 19px 0 !important;
+        }
+        .page-7.banner .offer .desc {
+            max-width: 880px !important;
+        }
+        .project-stages .items .item {
+            max-width: 738px !important;
 
             .desc {
-                max-width: 880px !important;
+                max-width: 738px !important;
             }
         }
-    }
+        .have-a-questions {
+            .container {
+                max-width: 100% !important;
+            }
 
-    // Дополнительные стили
-    .project-stages .items .item {
-        max-width: 738px !important;
-
-        .desc {
-            max-width: 738px !important;
-        }
-    }
-
-    .have-a-questions {
-        .container {
-            max-width: 100% !important;
+            .subtitle {
+                opacity: 0.99 !important;
+            }
         }
 
-        .subtitle {
-            opacity: 0.99 !important;
-        }
-    }
+        .page-7.platforms {
+            .section-title {
+                right: 10% !important;
+            }
 
-    .page-7.platforms {
-        .section-title {
-            right: 10% !important;
+            .items .item .desc {
+                max-width: 599px !important;
+            }
         }
 
-        .items .item .desc {
-            max-width: 599px !important;
+        .st-grid-column-lg-2 {
+            grid-template-columns: repeat(1, 1fr) !important;
         }
-    }
-
-    .st-grid-column-lg-2 {
-        grid-template-columns: repeat(1, 1fr) !important;
     }
 
     // Шрифты будут управляться через CSS переменные
@@ -165,23 +160,25 @@
     header#header.header .header-end .header-phone {
         font-size: 18px;
     }
-    .page-29.services .container .content {
-        flex-wrap: wrap;
-    }
-    .page-29.services .container .content h1 {
-        width: 100%;
-        margin-bottom: 60px;
-    }
-    .page-29.services .container .content .item {
-        max-width: 1175px;
-        margin: 0 auto;
-    }
-    .page-29.services .container .content .item .desc {
-        max-width: 90%;
-    }
-    .page-29.services .navigation .swiper-btn {
-        width: 52px;
-        height: 52px;
+    @media (min-width: 576px) {
+        .page-29.services .container .content {
+            flex-wrap: wrap;
+        }
+        .page-29.services .container .content h1 {
+            width: 100%;
+            margin-bottom: 60px;
+        }
+        .page-29.services .container .content .item {
+            max-width: 1175px;
+            margin: 0 auto;
+        }
+        .page-29.services .container .content .item .desc {
+            max-width: 90%;
+        }
+        .page-29.services .navigation .swiper-btn {
+            width: 52px;
+            height: 52px;
+        }
     }
 
     .page-29.services,
@@ -192,12 +189,14 @@
     .page-40.banner {
         background: linear-gradient(182deg, #130839, #282251) !important;
     }
-    .page-32.banner .title-desc .desc,
-    .page-34.banner .title-desc .desc,
-    .page-36.banner .title-desc .desc,
-    .page-38.banner .title-desc .desc,
-    .page-40.banner .title-desc .desc {
-        max-width: 500px;
+    @media (min-width: 576px) {
+        .page-32.banner .title-desc .desc,
+        .page-34.banner .title-desc .desc,
+        .page-36.banner .title-desc .desc,
+        .page-38.banner .title-desc .desc,
+        .page-40.banner .title-desc .desc {
+            max-width: 500px;
+        }
     }
     section.page-32 .item > p.desc,
     section.page-34 .item > p.desc,
@@ -232,99 +231,101 @@
     p.title {
         font-size: min(28px * var(--font-size-multiplier, 1), 30px) !important;
     }
-    .page-7.services .list {
-        max-width: 879px !important;
-    }
+    @media (min-width: 576px) {
+        .page-7.services .list {
+            max-width: 879px !important;
+        }
 
-    .page-7.banner .offer {
-        margin-bottom: 120px !important;
-    }
+        .page-7.banner .offer {
+            margin-bottom: 120px !important;
+        }
 
-    .page-7.platforms .swiper-content .swiper-wrapper .swiper-slide .desc {
-        max-width: 350px !important;
-    }
+        .page-7.platforms .swiper-content .swiper-wrapper .swiper-slide .desc {
+            max-width: 350px !important;
+        }
 
-    .project-stages .section-title {
-        max-width: 480px !important;
-        margin: 0 auto !important;
-        left: 0 !important;
-        right: 0 !important;
-        font-weight: 600 !important;
-    }
+        .project-stages .section-title {
+            max-width: 480px !important;
+            margin: 0 auto !important;
+            left: 0 !important;
+            right: 0 !important;
+            font-weight: 600 !important;
+        }
 
-    #post-7 .have-a-questions .lines .line-left,
-    #post-7 .have-a-questions .lines .line-bottom {
-        display: none !important;
-    }
+        #post-7 .have-a-questions .lines .line-left,
+        #post-7 .have-a-questions .lines .line-bottom {
+            display: none !important;
+        }
 
-    .have-a-questions .form .message {
-        padding: 36px 40px !important;
-        height: 106px !important;
-        overflow: hidden !important;
-    }
+        .have-a-questions .form .message {
+            padding: 36px 40px !important;
+            height: 106px !important;
+            overflow: hidden !important;
+        }
 
-    .have-a-questions .form {
-        max-width: 1178px !important;
-        margin: 0 auto !important;
-    }
+        .have-a-questions .form {
+            max-width: 1178px !important;
+            margin: 0 auto !important;
+        }
 
-    .have-a-questions .form .input-wrapper input {
-        max-width: 100% !important;
-    }
+        .have-a-questions .form .input-wrapper input {
+            max-width: 100% !important;
+        }
 
-    .input-wrapper.input-wrapper_email {
-        max-width: 46% !important;
-        margin-left: 4% !important;
-        box-sizing: border-box !important;
-    }
+        .input-wrapper.input-wrapper_email {
+            max-width: 46% !important;
+            margin-left: 4% !important;
+            box-sizing: border-box !important;
+        }
 
-    .have-a-questions .form .input-wrapper_name {
-        max-width: 46% !important;
-        margin-right: 4% !important;
-        box-sizing: border-box !important;
-    }
+        .have-a-questions .form .input-wrapper_name {
+            max-width: 46% !important;
+            margin-right: 4% !important;
+            box-sizing: border-box !important;
+        }
 
-    .have-a-questions .form .bottom-wrapper {
-        gap: 0 !important;
-        width: 100% !important;
-    }
+        .have-a-questions .form .bottom-wrapper {
+            gap: 0 !important;
+            width: 100% !important;
+        }
 
-    .have-a-questions .form .custom-select.select-services {
-        width: 46% !important;
-        margin-right: 4% !important;
-        margin-left: 0 !important;
-    }
+        .have-a-questions .form .custom-select.select-services {
+            width: 46% !important;
+            margin-right: 4% !important;
+            margin-left: 0 !important;
+        }
 
-    .have-a-questions .form .custom-select.select-services-price {
-        margin-right: 0 !important;
-        width: 46% !important;
-        margin-left: 4% !important;
-    }
+        .have-a-questions .form .custom-select.select-services-price {
+            margin-right: 0 !important;
+            width: 46% !important;
+            margin-left: 4% !important;
+        }
 
-    .btn-and-social {
-        margin-top: 100px !important;
-    }
+        .btn-and-social {
+            margin-top: 100px !important;
+        }
 
-    .have-a-questions .form .btn-send {
-        font-size: min(calc(40px * var(--font-size-multiplier, 1)), 44px) !important;
-        height: 86px !important;
-        max-width: 333px !important;
-        padding: 7px 106px !important;
-    }
-    .have-a-questions .select-duration {
-        margin-right: 0 !important;
-    }
-    article:not(#post-7) .btn-and-social {
-        margin-top: 0px !important;
-    }
-    .social-list svg {
-        width: 36px !important;
-        height: 36px !important;
-    }
+        .have-a-questions .form .btn-send {
+            font-size: min(calc(40px * var(--font-size-multiplier, 1)), 44px) !important;
+            height: 86px !important;
+            max-width: 333px !important;
+            padding: 7px 106px !important;
+        }
+        .have-a-questions .select-duration {
+            margin-right: 0 !important;
+        }
+        article:not(#post-7) .btn-and-social {
+            margin-top: 0px !important;
+        }
+        .social-list svg {
+            width: 36px !important;
+            height: 36px !important;
+        }
 
-    #post-7 .have-a-questions .container {
-        max-width: 100% !important;
-        background-image: linear-gradient(182deg, #130839, #282251) !important;
+        #post-7 .have-a-questions .container {
+            max-width: 100% !important;
+            background-image: linear-gradient(182deg, #130839, #282251) !important;
+        }
     }
     .faq-accordion .item.open {
         background: linear-gradient(182deg, #130839, #282251) !important;
@@ -332,8 +333,10 @@
     .faq-accordion .item:before {
         background: linear-gradient(182deg, #130839, #282251) !important;
     }
-    .page-44.faq .items {
-        margin-left: 130px;
+    @media (min-width: 576px) {
+        .page-44.faq .items {
+            margin-left: 130px;
+        }
     }
     .page-44.faq .items .item:before {
         opacity: 0;
@@ -353,26 +356,28 @@
     .page-46.how-we-work .section-title {
         font-size: 54px !important;
     }
-    .page-46.banner .items .item .desc {
-        font-size: 24px !important;
-        max-width: 297px;
-    }
-    .page-46.banner .items .item {
-        max-width: 260px;
-    }
-    .page-46.banner .offer .desc {
-        font-size: 24px !important;
-        max-width: 1064px;
-    }
-    .page-46.how-we-work .items .item .title {
-        font-size: min(42px * var(--font-size-multiplier, 1), 52px) !important;
-        margin-bottom: 10px;
-    }
-    .page-46.how-we-work .items .item {
-        max-width: 930px;
-    }
-    .page-46.how-we-work .items .item .desc {
-        max-width: 930px;
+    @media (min-width: 576px) {
+        .page-46.banner .items .item .desc {
+            font-size: 24px !important;
+            max-width: 297px;
+        }
+        .page-46.banner .items .item {
+            max-width: 260px;
+        }
+        .page-46.banner .offer .desc {
+            font-size: 24px !important;
+            max-width: 1064px;
+        }
+        .page-46.how-we-work .items .item .title {
+            font-size: min(42px * var(--font-size-multiplier, 1), 52px) !important;
+            margin-bottom: 10px;
+        }
+        .page-46.how-we-work .items .item {
+            max-width: 930px;
+        }
+        .page-46.how-we-work .items .item .desc {
+            max-width: 930px;
+        }
     }
     header#header.header .header-menu_list > .menu-item.current-menu-item a,
     header#header.header .header-menu_list > .menu-item.current-page-parent a {
@@ -396,19 +401,21 @@
     .have-a-questions .form .custom-select_item label {
         font-size: 24px;
     }
-    section.page-32.have-a-questions .container,
-    section.page-34.have-a-questions .container,
-    section.page-36.have-a-questions .container,
-    section.page-38.have-a-questions .container,
-    section.page-40.have-a-questions .container {
-        max-width: 1276px !important;
-    }
-    section.page-32.have-a-questions .content,
-    section.page-34.have-a-questions .content,
-    section.page-36.have-a-questions .content,
-    section.page-38.have-a-questions .content,
-    section.page-40.have-a-questions .content {
-        background: linear-gradient(182deg, #130839, #282251) !important;
+    @media (min-width: 576px) {
+        section.page-32.have-a-questions .container,
+        section.page-34.have-a-questions .container,
+        section.page-36.have-a-questions .container,
+        section.page-38.have-a-questions .container,
+        section.page-40.have-a-questions .container {
+            max-width: 1276px !important;
+        }
+        section.page-32.have-a-questions .content,
+        section.page-34.have-a-questions .content,
+        section.page-36.have-a-questions .content,
+        section.page-38.have-a-questions .content,
+        section.page-40.have-a-questions .content {
+            background: linear-gradient(182deg, #130839, #282251) !important;
+        }
     }
     .page-42.platforms .platforms-swiper-thumbs .item:before {
         background: linear-gradient(182deg, #130839, #282251) !important;
@@ -419,16 +426,18 @@
     .btn-gradient {
         background: linear-gradient(182deg, #130839, #282251) !important;
     }
-    .have-a-questions .form .input-wrapper {
-        max-width: 375px;
-        margin-right: 0 !important;
-    }
-    .have-a-questions .select-current-status {
-        margin-right: 0 !important;
-    }
-    .have-a-questions .select-interest {
-        margin-right: 0 !important;
-        width: 330px !important;
+    @media (min-width: 576px) {
+        .have-a-questions .form .input-wrapper {
+            max-width: 375px;
+            margin-right: 0 !important;
+        }
+        .have-a-questions .select-current-status {
+            margin-right: 0 !important;
+        }
+        .have-a-questions .select-interest {
+            margin-right: 0 !important;
+            width: 330px !important;
+        }
     }
     .page-38.have-a-questions .input-wrapper_web-site p {
         bottom: -24px;
@@ -436,8 +445,10 @@
         position: absolute;
         font-size: min(12px * var(--font-size-multiplier, 1), 14px) !important;
     }
-    .have-a-questions .form .bottom-wrapper {
-        justify-content: space-between;
+    @media (min-width: 576px) {
+        .have-a-questions .form .bottom-wrapper {
+            justify-content: space-between;
+        }
     }
     .page-42.platforms .platforms-swiper-thumbs .item:not(.swiper-slide-active) img {
         filter: brightness(0.6);
@@ -490,8 +501,10 @@
     .page-42.platforms .item-desc img {
         display: none;
     }
-    .page-42.platforms .item-desc .desc-wrapper {
-        max-width: 100%;
+    @media (min-width: 576px) {
+        .page-42.platforms .item-desc .desc-wrapper {
+            max-width: 100%;
+        }
     }
     .page-32.have-a-questions .input-wrapper_budget p,
     .page-34.have-a-questions .input-wrapper_budget p,
@@ -501,25 +514,27 @@
         bottom: -44px;
     }
 
-    #post-7 .have-a-questions .content {
-        max-width: 1178px !important;
-        margin: 0 auto !important;
-    }
+    @media (min-width: 576px) {
+        #post-7 .have-a-questions .content {
+            max-width: 1178px !important;
+            margin: 0 auto !important;
+        }
 
-    .have-a-questions {
-        margin-bottom: 140px !important;
-    }
+        .have-a-questions {
+            margin-bottom: 140px !important;
+        }
 
-    .page-7.faq .items .item {
-        max-width: 1170px !important;
-    }
+        .page-7.faq .items .item {
+            max-width: 1170px !important;
+        }
 
-    .page-7.faq .items {
-        margin-left: 130px !important;
-    }
+        .page-7.faq .items {
+            margin-left: 130px !important;
+        }
 
-    .page-7.faq .items .item:before {
-        opacity: 0 !important;
+        .page-7.faq .items .item:before {
+            opacity: 0 !important;
+        }
     }
 
     .color-white.desc,
@@ -547,7 +562,7 @@
         .h2,
         h1,
         h2 {
-            font-size: min(calc(64px * var(--font-size-multiplier, 1)), 48px) !important;
+            font-size: min(calc(32px * var(--font-size-multiplier, 1)), 28px) !important;
         }
         .btn {
             font-size: min(calc(16px * var(--font-size-multiplier, 1)), 18px) !important;
