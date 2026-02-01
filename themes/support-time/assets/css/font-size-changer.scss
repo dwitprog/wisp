@@ -111,55 +111,53 @@
     // Шрифты будут управляться через CSS переменные
     // Базовые размеры и пропорции задаются через --font-size-multiplier
     // Конкретные максимальные значения для разных элементов
+    // Небольшое увеличение шрифтов: лимиты чуть выше базовых (верстка не ломается)
     header#header.header .header-menu_list > .menu-item a {
-        font-size: min(calc(18px * var(--font-size-multiplier, 1)), 28px) !important;
+        font-size: min(calc(18px * var(--font-size-multiplier, 1)), 20px) !important;
     }
 
     .h1,
     .h2,
     h1,
     h2 {
-        font-size: min(calc(64px * var(--font-size-multiplier, 1)), 96px) !important;
+        font-size: min(calc(64px * var(--font-size-multiplier, 1)), 72px) !important;
     }
 
-    // CSS переменная для корневого шрифта (устанавливается через JS на :root)
-    // Стили применяются когда класс .highglass на body
-
     .btn {
-        font-size: min(calc(16px * var(--font-size-multiplier, 1)), 24px) !important;
+        font-size: min(calc(16px * var(--font-size-multiplier, 1)), 18px) !important;
     }
 
     footer.footer#footer .bottom a,
     footer.footer#footer .bottom p {
-        font-size: min(calc(12px * var(--font-size-multiplier, 1)), 20px) !important;
+        font-size: min(calc(12px * var(--font-size-multiplier, 1)), 14px) !important;
     }
 
     p {
-        font-size: min(calc(16px * var(--font-size-multiplier, 1)), 32px) !important;
+        font-size: min(calc(16px * var(--font-size-multiplier, 1)), 18px) !important;
     }
 
     .page-7.services .list .item .title {
-        font-size: min(calc(32px * var(--font-size-multiplier, 1)), 40px) !important;
+        font-size: min(calc(32px * var(--font-size-multiplier, 1)), 36px) !important;
     }
 
     .page-7.services .list .item.active .title {
-        font-size: min(calc(56px * var(--font-size-multiplier, 1)), 70px) !important;
+        font-size: min(calc(56px * var(--font-size-multiplier, 1)), 62px) !important;
     }
 
     .project-stages .items .item .title {
-        font-size: min(calc(48px * var(--font-size-multiplier, 1)), 56px) !important;
+        font-size: min(calc(48px * var(--font-size-multiplier, 1)), 52px) !important;
     }
 
     .have-a-questions .form .input-wrapper input {
-        font-size: min(calc(40px * var(--font-size-multiplier, 1)), 48px) !important;
+        font-size: min(calc(40px * var(--font-size-multiplier, 1)), 44px) !important;
     }
 
     .page-7.faq .items .item .title {
-        font-size: min(calc(40px * var(--font-size-multiplier, 1)), 48px) !important;
+        font-size: min(calc(40px * var(--font-size-multiplier, 1)), 44px) !important;
     }
 
     .page-7.faq .items .item.active .title {
-        font-size: min(calc(44px * var(--font-size-multiplier, 1)), 80px) !important;
+        font-size: min(calc(44px * var(--font-size-multiplier, 1)), 52px) !important;
     }
     #header.header .header-menu_list > .menu-item.menu-item-has-children .sub-menu {
         width: 180%;
@@ -232,7 +230,7 @@
         font-size: 48px !important;
     }
     p.title {
-        font-size: min(28px * var(--font-size-multiplier, 1), 32px) !important;
+        font-size: min(28px * var(--font-size-multiplier, 1), 30px) !important;
     }
     .page-7.services .list {
         max-width: 879px !important;
@@ -308,7 +306,7 @@
     }
 
     .have-a-questions .form .btn-send {
-        font-size: 40px !important;
+        font-size: min(calc(40px * var(--font-size-multiplier, 1)), 44px) !important;
         height: 86px !important;
         max-width: 333px !important;
         padding: 7px 106px !important;
@@ -367,7 +365,7 @@
         max-width: 1064px;
     }
     .page-46.how-we-work .items .item .title {
-        font-size: min(42px * var(--font-size-multiplier, 1), 64px) !important;
+        font-size: min(42px * var(--font-size-multiplier, 1), 52px) !important;
         margin-bottom: 10px;
     }
     .page-46.how-we-work .items .item {
@@ -436,7 +434,7 @@
         bottom: -24px;
         color: #fff;
         position: absolute;
-        font-size: min(12px * var(--font-size-multiplier, 1), 17px) !important;
+        font-size: min(12px * var(--font-size-multiplier, 1), 14px) !important;
     }
     .have-a-questions .form .bottom-wrapper {
         justify-content: space-between;
@@ -445,7 +443,7 @@
         filter: brightness(0.6);
     }
     .page-42.platforms .item-desc .title {
-        font-size: 96px !important;
+        font-size: min(calc(96px * var(--font-size-multiplier, 1)), 72px) !important;
         background: #130839 !important;
         background-clip: text !important;
         -webkit-text-fill-color: transparent;
@@ -453,7 +451,7 @@
         text-transform: uppercase;
     }
     .page-48.contacts .section-title {
-        font-size: 96px !important;
+        font-size: min(calc(96px * var(--font-size-multiplier, 1)), 72px) !important;
         background: #130839 !important;
         background-clip: text !important;
         -webkit-text-fill-color: transparent;
@@ -528,18 +526,77 @@
     .bottom-text.color-white,
     .page-7.services .list .item .desc,
     p.desc {
-        font-size: 32px !important;
+        font-size: min(calc(20px * var(--font-size-multiplier, 1)), 22px) !important;
     }
 
     p.custom-select_title {
-        font-size: 32px !important;
+        font-size: min(calc(20px * var(--font-size-multiplier, 1)), 22px) !important;
     }
 
     .have-a-questions .form .input-wrapper input::placeholder {
-        font-size: 48px !important;
+        font-size: min(calc(36px * var(--font-size-multiplier, 1)), 40px) !important;
     }
 
     .have-a-questions .form .message::placeholder {
-        font-size: 32px !important;
+        font-size: min(calc(22px * var(--font-size-multiplier, 1)), 24px) !important;
+    }
+
+    // Мобильная версия: ограничение размеров шрифтов при увеличенном режиме
+    @media screen and (max-width: 575.98px) {
+        .h1,
+        .h2,
+        h1,
+        h2 {
+            font-size: min(calc(64px * var(--font-size-multiplier, 1)), 48px) !important;
+        }
+        .btn {
+            font-size: min(calc(16px * var(--font-size-multiplier, 1)), 18px) !important;
+        }
+        p {
+            font-size: min(calc(16px * var(--font-size-multiplier, 1)), 20px) !important;
+        }
+        header#header.header .header-menu_list > .menu-item a {
+            font-size: min(calc(18px * var(--font-size-multiplier, 1)), 20px) !important;
+        }
+        .page-7.services .list .item .title {
+            font-size: min(calc(32px * var(--font-size-multiplier, 1)), 28px) !important;
+        }
+        .page-7.services .list .item.active .title {
+            font-size: min(calc(56px * var(--font-size-multiplier, 1)), 40px) !important;
+        }
+        .project-stages .items .item .title {
+            font-size: min(calc(48px * var(--font-size-multiplier, 1)), 32px) !important;
+        }
+        .have-a-questions .form .input-wrapper input {
+            font-size: min(calc(40px * var(--font-size-multiplier, 1)), 28px) !important;
+        }
+        .page-7.faq .items .item .title {
+            font-size: min(calc(40px * var(--font-size-multiplier, 1)), 28px) !important;
+        }
+        .page-7.faq .items .item.active .title {
+            font-size: min(calc(44px * var(--font-size-multiplier, 1)), 36px) !important;
+        }
+        .color-white.desc,
+        .bottom-text.color-white,
+        .page-7.services .list .item .desc,
+        p.desc {
+            font-size: min(32px, calc(20px * var(--font-size-multiplier, 1))) !important;
+        }
+        p.custom-select_title {
+            font-size: min(32px, calc(20px * var(--font-size-multiplier, 1))) !important;
+        }
+        .have-a-questions .form .input-wrapper input::placeholder {
+            font-size: 28px !important;
+        }
+        .have-a-questions .form .message::placeholder {
+            font-size: 20px !important;
+        }
+        section.page-32 .item > p.desc,
+        section.page-34 .item > p.desc,
+        section.page-36 .item > p.desc,
+        section.page-38 .item > p.desc,
+        section.page-40 .item > p.desc {
+            font-size: min(24px, calc(18px * var(--font-size-multiplier, 1))) !important;
+        }
     }
 }

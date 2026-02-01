@@ -10,9 +10,9 @@ export const changeFontSize = () => {
         return;
     }
 
-    // Настройки - изменяем на проценты
+    // Настройки - изменяем на проценты (небольшое увеличение, чтобы верстка не ломалась)
     const minPercent = 100; // Минимум 100%
-    const maxPercent = 150; // Максимум 150%
+    const maxPercent = 115; // Максимум 115% (~15% увеличение)
 
     // Ключ для localStorage
     const STORAGE_KEY = "fontSizePercent";
