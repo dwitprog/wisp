@@ -13,7 +13,7 @@ export function initProjectStagesAnimation({
     textImageSelector = ".image .text img",
     activeClass = "active",
     thresholdOffset = 6,
-    scrollLengthMultiplier = 3.5,
+    scrollLengthMultiplier = 1.3,
     textSwapMinDelay = 4000,
     textSwapMaxDelay = 7000,
     textSwapTransitionMs = 900,
@@ -41,8 +41,11 @@ export function initProjectStagesAnimation({
     let contentPaddingTop = 0;
     let currentStopIndex = 0;
     let holdUntil = 0;
-    const holdDurationMs = 1000;
+    const holdDurationMs = 500;
     let scrollTriggerInstance = null;
+    let lineAnimationStarted = false;
+    let lineAnimationCompleted = false;
+    let lineTween = null;
 
     const measure = () => {
         const sectionTop = section.getBoundingClientRect().top + window.scrollY;
@@ -66,6 +69,7 @@ export function initProjectStagesAnimation({
 
     const setInitialState = () => {
         measure();
+        line.style.transition = "none";
         gsap.set(line, { height: "100%", scaleY: 0, transformOrigin: "top" });
         gsap.set(circle, { y: stopPoints[0] || 0 });
         items.forEach((item, index) => {
@@ -77,10 +81,8 @@ export function initProjectStagesAnimation({
         if (scrollTriggerInstance) {
             scrollTriggerInstance.kill();
         }
-        const lineGrowScroll = Math.max(lineHeight, window.innerHeight * 0.1);
         const circleScrollLength = Math.max(maxTravel, window.innerHeight) * scrollLengthMultiplier;
-        const totalLength = lineGrowScroll + circleScrollLength;
-        const linePart = lineGrowScroll / totalLength;
+        const totalLength = circleScrollLength;
         scrollTriggerInstance = ScrollTrigger.create({
             trigger: section,
             start: () => `top+=${contentPaddingTop} top`,
@@ -93,11 +95,27 @@ export function initProjectStagesAnimation({
                 if (!stopPoints.length) {
                     return;
                 }
-                const progress = self.progress;
-                const lineProgress = Math.min(1, progress / linePart);
-                gsap.set(line, { scaleY: lineProgress });
+                if (!lineAnimationStarted) {
+                    lineAnimationStarted = true;
+                    lineAnimationCompleted = false;
+                    if (lineTween) {
+                        lineTween.kill();
+                    }
+                    gsap.set(line, { scaleY: 0 });
+                    lineTween = gsap.to(line, {
+                        scaleY: 1,
+                        duration: 0.5,
+                        ease: "none",
+                        onComplete: () => {
+                            lineAnimationCompleted = true;
+                        },
+                    });
+                }
 
-                if (progress < linePart) {
+                if (!lineAnimationCompleted) {
+                    if (Math.abs(self.scroll() - self.start) > 1) {
+                        self.scroll(self.start);
+                    }
                     gsap.set(circle, { y: stopPoints[0] || 0 });
                     items.forEach((item, index) => {
                         item.classList.toggle(activeClass, index === 0);
@@ -105,8 +123,7 @@ export function initProjectStagesAnimation({
                     return;
                 }
 
-                const circleProgress = (progress - linePart) / Math.max(0.0001, 1 - linePart);
-                const rawTravel = Math.min(maxTravel, Math.max(0, circleProgress * maxTravel));
+                const rawTravel = Math.min(maxTravel, Math.max(0, self.progress * maxTravel));
                 let desiredStopIndex = 0;
                 let minDistance = Math.abs(stopPoints[0] - rawTravel);
 
@@ -121,8 +138,7 @@ export function initProjectStagesAnimation({
                 const now = performance.now();
                 if (desiredStopIndex !== currentStopIndex && now < holdUntil) {
                     const travelProgress = maxTravel > 0 ? stopPoints[currentStopIndex] / maxTravel : 0;
-                    const lockedProgress = linePart + travelProgress * (1 - linePart);
-                    const targetScroll = self.start + (self.end - self.start) * lockedProgress;
+                    const targetScroll = self.start + (self.end - self.start) * travelProgress;
                     if (Math.abs(self.scroll() - targetScroll) > 1) {
                         self.scroll(targetScroll);
                     }
