@@ -935,6 +935,24 @@ $spacing-properties: (
                             }
                         }
                     }
+
+                    &.valide {
+                        background: #fff;
+
+                        .custom-select_title {
+                            @include gradient-text;
+                        }
+
+                        .arrow {
+                            &_default {
+                                display: none;
+                            }
+
+                            &_active {
+                                display: block;
+                            }
+                        }
+                    }
                 }
 
                 &_title {

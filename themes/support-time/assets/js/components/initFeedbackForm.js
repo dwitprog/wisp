@@ -139,6 +139,7 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
             // Обработчик клика по верхней части селектора для открытия/закрытия списка
             customSelectorTop.addEventListener("click", () => {
                 toggleSelectList(customSelectorTop, customSelectorList);
+                updateCustomSelectValideState(customSelector);
             });
 
             // Инициализация логики exclusive чекбоксов (только один может быть выбран)
@@ -149,6 +150,7 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
                 if (!customSelector.contains(e.target)) {
                     customSelectorTop.classList.remove("active");
                     customSelectorList.classList.remove("active");
+                    updateCustomSelectValideState(customSelector);
                 }
             });
 
@@ -157,9 +159,12 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
                 checkboxes.forEach(checkbox => {
                     checkbox.addEventListener("change", () => {
                         validateCustomSelectField(customSelector);
+                        updateCustomSelectValideState(customSelector);
                     });
                 });
             }
+
+            updateCustomSelectValideState(customSelector);
         });
 
         /**
@@ -171,6 +176,26 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
         function toggleSelectList(topElement, listElement) {
             topElement.classList.toggle("active");
             listElement.classList.toggle("active");
+        }
+
+        /**
+         * Добавляет/убирает класс valide у .custom-select_top,
+         * если выбран хотя бы один чекбокс и селектор не активен.
+         *
+         * @param {HTMLElement} customSelectElement - DOM элемент кастомного селектора.
+         */
+        function updateCustomSelectValideState(customSelectElement) {
+            const customSelectTop = customSelectElement.querySelector(".custom-select_top");
+            if (!customSelectTop) return;
+
+            const hasChecked = customSelectElement.querySelectorAll('input[type="checkbox"]:checked').length > 0;
+            const isActive = customSelectTop.classList.contains("active");
+
+            if (hasChecked && !isActive) {
+                customSelectTop.classList.add("valide");
+            } else {
+                customSelectTop.classList.remove("valide");
+            }
         }
 
         /**
@@ -221,6 +246,27 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
                 }
             });
         }
+    }
+
+    /**
+     * Обновляет состояние класса valide у всех кастомных селекторов.
+     * Используется после сброса формы, чтобы убрать классы при отсутствии выбранных чекбоксов.
+     */
+    function refreshCustomSelectValideStates() {
+        const customSelectors = feedbackFormContainer.querySelectorAll(".custom-select");
+        customSelectors.forEach(customSelectElement => {
+            const customSelectTop = customSelectElement.querySelector(".custom-select_top");
+            if (!customSelectTop) return;
+
+            const hasChecked = customSelectElement.querySelectorAll('input[type="checkbox"]:checked').length > 0;
+            const isActive = customSelectTop.classList.contains("active");
+
+            if (hasChecked && !isActive) {
+                customSelectTop.classList.add("valide");
+            } else {
+                customSelectTop.classList.remove("valide");
+            }
+        });
     }
 
     /**
@@ -726,6 +772,7 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
 
         // Автоматически сбрасываем форму после успешной отправки
         formElement.reset();
+        refreshCustomSelectValideStates();
     }
 
     /**
@@ -803,6 +850,7 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
             if (form) {
                 form.reset();
                 clearAllErrors(form);
+                refreshCustomSelectValideStates();
                 // Вызываем callback onReset если он настроен
                 if (config.callbacks.onReset) {
                     config.callbacks.onReset();
