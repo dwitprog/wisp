@@ -861,8 +861,8 @@
         .faq-content {
             position: relative;
             padding-top: 143px;
-            padding-bottom: 102px;
-            min-height: 100vh;
+            padding-bottom: 103px;
+            align-items: center;
             display: flex;
             @include max_1200 {
                 padding-top: 75px;
@@ -877,7 +877,7 @@
         .items {
             padding-top: 33px;
             margin-left: 394px;
-            padding-bottom: 0;
+            padding-bottom: 102px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -1042,6 +1042,15 @@
                 left: 50%;
                 transform: translateX(-50%);
                 top: 0;
+                cursor: grab;
+                user-select: none;
+                -webkit-user-select: none;
+                -ms-user-select: none;
+
+                &:active {
+                    cursor: grabbing;
+                }
+
                 @include max_1200 {
                     width: 41px;
                     height: 68px;

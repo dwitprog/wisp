@@ -197,116 +197,184 @@ initProjectStagesAnimation({
     section: projectStagesSection,
 });
 
-// Анимация секции faq (pin + движение фейдера)
+// Анимация секции faq (клик + перетаскивание фейдера)
 const faqSection = document.querySelector(".page-7.faq");
 if (faqSection) {
     const faqContent = faqSection.querySelector(".faq-content");
     const slider = faqSection.querySelector(".slider");
+    const sliderLine = faqSection.querySelector(".slider-line");
     const sliderFader = faqSection.querySelector(".slider-fader");
+    const itemsContainer = faqSection.querySelector(".items");
     const items = Array.from(faqSection.querySelectorAll(".items .item"));
 
-    if (faqContent && slider && sliderFader && items.length) {
+    if (faqContent && slider && sliderLine && sliderFader && itemsContainer && items.length) {
         let sliderHeight = 0;
         let faderHeight = 0;
         let maxTravel = 0;
         let sliderOffset = 0;
         let itemThresholds = [];
         let contentPaddingTop = 0;
-        const scrollLengthMultiplier = 6;
+        const itemMarkerOffset = 15;
         const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-        let isClickScrolling = false;
-        let forcedIndex = null;
-        let clickTween = null;
+        let currentTravel = 0;
+        let activeIndex = Math.max(
+            0,
+            items.findIndex(item => item.classList.contains("active")),
+        );
+        let dragActive = false;
+        let dragFrame = null;
+        let moveTween = null;
+        let remeasureFrame = null;
 
         const measure = () => {
-            const sectionTop = faqSection.getBoundingClientRect().top + window.scrollY;
-
+            const contentTop = faqContent.getBoundingClientRect().top + window.scrollY;
             contentPaddingTop = parseFloat(getComputedStyle(faqContent).paddingTop) || 0;
-            sliderHeight = slider.offsetHeight;
+            sliderHeight = Math.max(itemsContainer.offsetHeight, slider.offsetHeight);
+            if (sliderHeight > 0) {
+                slider.style.height = `${sliderHeight}px`;
+            }
             faderHeight = sliderFader.offsetHeight;
             maxTravel = Math.max(0, sliderHeight - faderHeight);
-            sliderOffset = slider.getBoundingClientRect().top + window.scrollY - sectionTop;
-            const steps = Math.max(1, items.length - 1);
-            const stepSize = maxTravel / steps;
-            itemThresholds = items.map((_, index) => sliderOffset + stepSize * index);
+            sliderOffset = slider.getBoundingClientRect().top + window.scrollY - contentTop;
+            itemThresholds = items.map(item => {
+                const itemTop = item.getBoundingClientRect().top + window.scrollY - contentTop;
+                return itemTop + itemMarkerOffset;
+            });
+        };
+
+        const getFaderPoint = () => sliderOffset + currentTravel + faderHeight / 2;
+
+        const getTravelForIndex = index => clamp(itemThresholds[index] - sliderOffset - faderHeight / 2, 0, maxTravel);
+
+        const scheduleRemeasure = () => {
+            if (remeasureFrame) {
+                cancelAnimationFrame(remeasureFrame);
+            }
+            remeasureFrame = requestAnimationFrame(() => {
+                measure();
+                remeasureFrame = null;
+            });
+        };
+
+        const setActiveIndex = nextIndex => {
+            if (nextIndex === activeIndex) return;
+            activeIndex = nextIndex;
+            items.forEach((item, index) => {
+                item.classList.toggle("active", index === activeIndex);
+            });
+            scheduleRemeasure();
+        };
+
+        const setActiveByFader = () => {
+            const faderPoint = getFaderPoint();
+            let nextIndex = 0;
+
+            for (let i = 0; i < itemThresholds.length; i += 1) {
+                const start = itemThresholds[i];
+                const end = itemThresholds[i + 1] ?? Number.POSITIVE_INFINITY;
+                if (faderPoint >= start && faderPoint < end) {
+                    nextIndex = i;
+                    break;
+                }
+            }
+
+            setActiveIndex(nextIndex);
+        };
+
+        const setFaderPosition = (value, animate = false) => {
+            const nextTravel = clamp(value, 0, maxTravel);
+            if (moveTween) {
+                moveTween.kill();
+                moveTween = null;
+            }
+
+            if (animate) {
+                const state = { value: currentTravel };
+                moveTween = gsap.to(state, {
+                    value: nextTravel,
+                    duration: 0.35,
+                    ease: "power1.out",
+                    onUpdate: () => {
+                        currentTravel = state.value;
+                        gsap.set(sliderFader, { y: currentTravel });
+                        setActiveByFader();
+                    },
+                    onComplete: () => {
+                        currentTravel = nextTravel;
+                        gsap.set(sliderFader, { y: currentTravel });
+                        setActiveByFader();
+                        moveTween = null;
+                    },
+                });
+            } else {
+                currentTravel = nextTravel;
+                gsap.set(sliderFader, { y: currentTravel });
+                setActiveByFader();
+            }
+        };
+
+        const getTravelFromPointer = clientY => {
+            const lineRect = sliderLine.getBoundingClientRect();
+            return clientY - lineRect.top - faderHeight / 2;
+        };
+
+        const startDragging = event => {
+            event.preventDefault();
+            measure();
+            dragActive = true;
+            if (dragFrame) {
+                cancelAnimationFrame(dragFrame);
+            }
+            setFaderPosition(getTravelFromPointer(event.clientY));
+            window.addEventListener("pointermove", handleDragging);
+            window.addEventListener("pointerup", stopDragging);
+            window.addEventListener("pointercancel", stopDragging);
+        };
+
+        const handleDragging = event => {
+            if (!dragActive) return;
+            if (dragFrame) {
+                cancelAnimationFrame(dragFrame);
+            }
+            dragFrame = requestAnimationFrame(() => {
+                setFaderPosition(getTravelFromPointer(event.clientY));
+            });
+        };
+
+        const stopDragging = () => {
+            dragActive = false;
+            if (dragFrame) {
+                cancelAnimationFrame(dragFrame);
+                dragFrame = null;
+            }
+            window.removeEventListener("pointermove", handleDragging);
+            window.removeEventListener("pointerup", stopDragging);
+            window.removeEventListener("pointercancel", stopDragging);
         };
 
         measure();
-        gsap.set(sliderFader, { y: 0 });
+        setFaderPosition(getTravelForIndex(activeIndex));
 
-        const faqTrigger = ScrollTrigger.create({
-            trigger: faqContent,
-            start: () => `top+=50 top`,
-            end: () => `+=${Math.max(1, maxTravel) * scrollLengthMultiplier}`,
-            pin: true,
-            pinSpacing: true,
-            scrub: true,
-            onRefresh: measure,
-            onUpdate: self => {
-                const travel = Math.min(maxTravel, Math.max(0, self.progress * maxTravel));
-                gsap.set(sliderFader, { y: travel });
-                const faderTop = sliderOffset + travel;
-                let activeIndex = 0;
-
-                if (isClickScrolling && forcedIndex !== null) {
-                    activeIndex = forcedIndex;
-                } else {
-                    for (let i = 0; i < itemThresholds.length; i += 1) {
-                        if (faderTop >= itemThresholds[i]) {
-                            activeIndex = i;
-                        }
-                    }
-                }
-
-                items.forEach((item, index) => {
-                    item.classList.toggle("active", index === activeIndex);
-                });
-            },
-        });
+        sliderFader.addEventListener("pointerdown", startDragging);
+        sliderLine.addEventListener("pointerdown", startDragging);
 
         items.forEach((item, index) => {
             item.addEventListener("click", event => {
                 event.preventDefault();
-                if (!faqTrigger) {
-                    return;
-                }
                 measure();
                 if (maxTravel === 0) {
+                    setActiveIndex(index);
                     return;
                 }
-                const steps = Math.max(1, items.length - 1);
-                const stepSize = maxTravel / steps;
-                const targetTravel = Math.min(maxTravel, (index + 0.5) * stepSize);
-                const targetProgress = clamp(targetTravel / maxTravel, 0, 1);
-                const startScroll = faqTrigger.start;
-                const endScroll = faqTrigger.end;
-                const targetScroll = startScroll + (endScroll - startScroll) * targetProgress;
-                const tweenState = { value: faqTrigger.scroll() };
-
-                if (clickTween) {
-                    clickTween.kill();
-                }
-                isClickScrolling = true;
-                forcedIndex = index;
-                clickTween = gsap.to(tweenState, {
-                    value: targetScroll,
-                    duration: 0.6,
-                    ease: "power1.out",
-                    onUpdate: () => {
-                        faqTrigger.scroll(tweenState.value);
-                    },
-                    onComplete: () => {
-                        isClickScrolling = false;
-                        forcedIndex = null;
-                        clickTween = null;
-                    },
-                    onInterrupt: () => {
-                        isClickScrolling = false;
-                        forcedIndex = null;
-                        clickTween = null;
-                    },
-                });
+                const targetTravel = getTravelForIndex(index);
+                setFaderPosition(targetTravel, true);
+                setActiveIndex(index);
             });
+        });
+
+        window.addEventListener("resize", () => {
+            measure();
+            setFaderPosition(getTravelForIndex(activeIndex));
         });
     }
 }
