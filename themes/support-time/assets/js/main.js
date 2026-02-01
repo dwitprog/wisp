@@ -237,6 +237,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const closeButtons = haveAQuestionsPopupForm.querySelectorAll(".close-popup, .btn-close");
         let closeTimeoutId = null;
 
+        const clearPopupInputs = () => {
+            const fields = haveAQuestionsPopupForm.querySelectorAll(
+                ".have-a-questions input, .have-a-questions textarea",
+            );
+            fields.forEach(field => {
+                const type = field.getAttribute("type");
+                if (type === "checkbox" || type === "radio") {
+                    field.checked = false;
+                } else {
+                    field.value = "";
+                }
+            });
+        };
+
         const resetPopupState = () => {
             if (closeTimeoutId) {
                 clearTimeout(closeTimeoutId);
@@ -254,12 +268,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const closePopup = () => {
             resetPopupState();
+            clearPopupInputs();
             haveAQuestionsPopupForm.classList.remove("active");
             toggleScrollLock(false);
         };
 
         closeButtons.forEach(button => {
             button.addEventListener("click", closePopup);
+        });
+
+        haveAQuestionsPopupForm.addEventListener("click", event => {
+            const formContainer = haveAQuestionsPopupForm.querySelector(".have-a-questions");
+            if (formContainer && !formContainer.contains(event.target)) {
+                closePopup();
+            }
         });
         initFeedbackForm("#popupForm .have-a-questions", {
             validateFields: {

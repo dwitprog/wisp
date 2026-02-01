@@ -727,17 +727,6 @@ $spacing-properties: (
                     font-family: "Aeroport", "sans-serif";
                     font-weight: 400;
 
-                    &:-webkit-autofill,
-                    &:-webkit-autofill:hover,
-                    &:-webkit-autofill:focus,
-                    &:-webkit-autofill:active {
-                        -webkit-text-fill-color: #fff !important;
-                        background-color: transparent !important;
-                        background-image: none !important;
-                        color: #fff !important;
-                        transition: background-color 50000s ease-in-out 0s;
-                    }
-
                     @include max_1200 {
                         font-size: 24px;
                         width: 100%;
@@ -750,6 +739,27 @@ $spacing-properties: (
 
                     &:focus {
                         outline: none;
+                    }
+
+                    &:-webkit-autofill,
+                    &:-webkit-autofill:hover,
+                    &:-webkit-autofill:focus,
+                    &:-webkit-autofill:active,
+                    &:autofill,
+                    &:autofill:hover,
+                    &:autofill:focus,
+                    &:autofill:active,
+                    &:-moz-autofill,
+                    &:-moz-autofill:hover,
+                    &:-moz-autofill:focus,
+                    &:-moz-autofill:active {
+                        -webkit-text-fill-color: #fff !important;
+                        caret-color: #fff !important;
+                        background-color: transparent !important;
+                        -webkit-box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0) inset !important;
+                        box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0) inset !important;
+                        border-bottom: 2px solid #fff !important;
+                        transition: background-color 9999s ease-in-out 0s;
                     }
 
                     &::placeholder {
@@ -1407,7 +1417,7 @@ $spacing-properties: (
             position: absolute;
             padding: 0;
             margin: 0;
-            width: 100%;
+            width: max-content;
             top: calc(50% + 60px);
             left: 50%;
             transform: translate(-50%, -50%);
@@ -1574,6 +1584,27 @@ $spacing-properties: (
                         }
                         @include max_992 {
                             font-size: 24px;
+                        }
+
+                        &:-webkit-autofill,
+                        &:-webkit-autofill:hover,
+                        &:-webkit-autofill:focus,
+                        &:-webkit-autofill:active,
+                        &:autofill,
+                        &:autofill:hover,
+                        &:autofill:focus,
+                        &:autofill:active,
+                        &:-moz-autofill,
+                        &:-moz-autofill:hover,
+                        &:-moz-autofill:focus,
+                        &:-moz-autofill:active {
+                            -webkit-text-fill-color: #fff !important;
+                            caret-color: #fff !important;
+                            background-color: transparent !important;
+                            -webkit-box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0) inset !important;
+                            box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0) inset !important;
+                            border-bottom: 2px solid #fff !important;
+                            transition: background-color 9999s ease-in-out 0s;
                         }
 
                         &::placeholder {
