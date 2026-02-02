@@ -1507,7 +1507,7 @@ $spacing-properties: (
                 top: calc(50% + 80px);
             }
             @include max_576 {
-                top: 120px;
+                top: 90px;
                 transform: translateX(-50%);
                 width: 100%;
             }
