@@ -21,6 +21,7 @@ export function initProjectStagesAnimation({
     textSwapTransitionMs = 900,
     tailAfterLastStep = 200,
     stepHoldMs = 300,
+    touchDeltaMultiplier = 2.5,
 } = {}) {
     if (!section) return;
 
@@ -54,6 +55,7 @@ export function initProjectStagesAnimation({
     let hasCompleted = false;
     let isCleaning = false;
     let isLocked = false;
+    let hasEnteredOnce = false;
     let savedScrollY = 0;
     let touchStartY = 0;
     let lastStepAt = 0;
@@ -118,6 +120,7 @@ export function initProjectStagesAnimation({
         hasCompleted = false;
         isCleaning = false;
         isLocked = false;
+        hasEnteredOnce = false;
         savedScrollY = 0;
         touchStartY = 0;
         lastStepAt = 0;
@@ -316,8 +319,10 @@ export function initProjectStagesAnimation({
             touchStartY = currentY;
             if (deltaY > 0) {
                 event.preventDefault();
+                event.stopPropagation();
                 unlockScroll();
                 removeInputListeners();
+                removeUnlockKeyListener();
                 if (pendingUnlockTimer) {
                     window.clearTimeout(pendingUnlockTimer);
                     pendingUnlockTimer = null;
@@ -325,7 +330,9 @@ export function initProjectStagesAnimation({
                 return;
             }
             event.preventDefault();
-            handleDelta(-deltaY);
+            event.stopPropagation();
+            const scaledDelta = Math.abs(deltaY) * Math.max(0.5, Number(touchDeltaMultiplier));
+            handleDelta(scaledDelta);
         };
 
         const addInputListeners = () => {
@@ -350,9 +357,10 @@ export function initProjectStagesAnimation({
                 setInitialState();
             },
             onEnter: () => {
-                if (hasCompleted || isCleaning) {
+                if (hasEnteredOnce || hasCompleted || isCleaning) {
                     return;
                 }
+                hasEnteredOnce = true;
                 measure();
                 lineContainer.style.height = `${lineHeight}px`;
                 lineContainer.style.visibility = "visible";
