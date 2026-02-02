@@ -87,39 +87,31 @@
     <div class="content">
         <div class="stages">
             <div class="line-container">
-                <div class="line">
-                </div>
-                <span class="circle">
-                    <span>
-                        <span></span>
-                    </span>
-                </span>
+                <div class="line"></div>
+
             </div>
             <div class="items">
                 <?php if (have_rows('project_stages_list')) : ?>
-                    <?php $item_counter = 0; ?>
-                    <?php while (have_rows('project_stages_list')) : the_row(); ?>
 
+                    <?php while (have_rows('project_stages_list')) : the_row(); ?>
                         <?php if (have_rows('project_stages_item')) : ?>
                             <?php while (have_rows('project_stages_item')) : the_row(); ?>
-                                <div class="item <?php echo $item_counter === 0 ? ' active' : ''; ?>">
-                                    <span class="step"></span>
+                                <div class="item ">
+                                    <div class="step"><span></span></div>
                                     <p class="title"> <?php the_sub_field('project_stages_item_title'); ?></p>
                                     <p class="desc">
                                         <?php the_sub_field('project_stages_item_text'); ?>
                                     </p>
                                 </div>
-                                <?php
-                                $item_counter++;
-                            endwhile; ?>
+
+                            <?php endwhile; ?>
                         <?php endif; ?>
                     <?php endwhile; ?>
                 <?php endif; ?>
-
-
             </div>
         </div>
     </div>
+
     <div class="image">
         <picture>
             <source media="(max-width:991.98px)"

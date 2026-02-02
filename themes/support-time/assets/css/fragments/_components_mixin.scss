@@ -1327,7 +1327,9 @@ $spacing-properties: (
             border-radius: 15px;
             position: relative;
             cursor: pointer;
-            transition: $transition-default;
+            transition:
+                background 0.4s ease,
+                color 0.4s ease;
             @include max_992 {
                 padding: 16px;
             }
@@ -1379,12 +1381,14 @@ $spacing-properties: (
                 .content {
                     grid-template-rows: 1fr;
                     opacity: 1;
+                    padding-top: 20px;
+                    padding-bottom: 0;
                 }
             }
 
             .title {
                 font-size: 32px;
-                transition: $transition-default;
+
                 @include max_992 {
                     font-size: 18px;
                 }
@@ -1394,12 +1398,14 @@ $spacing-properties: (
                 display: grid;
                 grid-template-rows: 0fr;
                 transition:
-                    grid-template-rows 0.5s ease,
-                    opacity 0.5s ease,
-                    padding-top 0.5s ease,
-                    padding-bottom 0.5s ease;
+                    grid-template-rows 0.6s ease,
+                    opacity 0.4s ease,
+                    padding 0.6s ease;
                 opacity: 0;
-                padding-top: 20px;
+                padding-top: 0;
+                padding-bottom: 0;
+                overflow: hidden;
+                will-change: grid-template-rows, opacity, padding;
 
                 > * {
                     min-height: 0;
