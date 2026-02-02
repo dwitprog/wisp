@@ -13,6 +13,9 @@ export function initProjectStagesAnimation({
     activeClass = "active",
     thresholdOffset = 6,
     scrollLengthMultiplier = 1.3,
+    headerSelector = "#header.header, header#header",
+    lockTopExtra = 0,
+    captureOffset = -100,
     textSwapMinDelay = 4000,
     textSwapMaxDelay = 7000,
     textSwapTransitionMs = 900,
@@ -31,6 +34,9 @@ export function initProjectStagesAnimation({
     if (!content || !lineContainer || !line || !items.length || !itemsContainer) {
         return;
     }
+
+    const headerEl = document.querySelector(headerSelector);
+    const getHeaderHeight = () => (headerEl ? headerEl.offsetHeight : 0);
 
     let lineHeight = 0;
     let maxTravel = 0;
@@ -99,6 +105,8 @@ export function initProjectStagesAnimation({
 
     const setInitialState = () => {
         measure();
+        lineContainer.style.visibility = "hidden";
+        lineContainer.style.height = "0";
         line.style.transition = "none";
         gsap.set(line, { height: 0 });
         setActiveStep(-1);
@@ -156,10 +164,13 @@ export function initProjectStagesAnimation({
         };
 
         const updateByProgress = progress => {
-            if (!stopPositions.length || hasCompleted) {
+            if (!stopPositions.length) {
                 return;
             }
             const clampedProgress = Math.max(0, Math.min(1, progress));
+            if (clampedProgress < 1) {
+                hasCompleted = false;
+            }
             const segmentCount = Math.max(1, stopPositions.length - 1);
             const scaled = clampedProgress * segmentCount;
             const segmentIndex = Math.min(segmentCount - 1, Math.floor(scaled));
@@ -206,7 +217,17 @@ export function initProjectStagesAnimation({
         };
 
         const handleDelta = delta => {
-            if (!isLocked || hasCompleted) {
+            if (!isLocked) {
+                return;
+            }
+            if (delta <= 0) {
+                unlockScroll();
+                removeInputListeners();
+                removeUnlockKeyListener();
+                if (pendingUnlockTimer) {
+                    window.clearTimeout(pendingUnlockTimer);
+                    pendingUnlockTimer = null;
+                }
                 return;
             }
             const now = performance.now();
@@ -216,6 +237,9 @@ export function initProjectStagesAnimation({
             const speed = Math.max(0.1, scrollLengthMultiplier);
             const deltaProgress = delta / (totalLength * speed);
             maxProgress = Math.max(0, Math.min(1, maxProgress + deltaProgress));
+            if (maxProgress < 1) {
+                hasCompleted = false;
+            }
             updateByProgress(maxProgress);
 
             if (delta > 0) {
@@ -236,13 +260,44 @@ export function initProjectStagesAnimation({
         };
 
         const onWheel = event => {
-            if (!isLocked || hasCompleted) {
+            if (!isLocked) {
+                return;
+            }
+            if (event.deltaY < 0) {
+                event.preventDefault();
+                event.stopPropagation();
+                unlockScroll();
+                removeInputListeners();
+                removeUnlockKeyListener();
+                if (pendingUnlockTimer) {
+                    window.clearTimeout(pendingUnlockTimer);
+                    pendingUnlockTimer = null;
+                }
                 return;
             }
             event.preventDefault();
-            if (event.deltaY > 0) {
-                handleDelta(event.deltaY);
+            handleDelta(event.deltaY);
+        };
+
+        const onUnlockKey = event => {
+            if (event.key === "Escape" || event.key === "ArrowUp") {
+                event.preventDefault();
+                unlockScroll();
+                removeInputListeners();
+                removeUnlockKeyListener();
+                if (pendingUnlockTimer) {
+                    window.clearTimeout(pendingUnlockTimer);
+                    pendingUnlockTimer = null;
+                }
             }
+        };
+
+        const addUnlockKeyListener = () => {
+            window.addEventListener("keydown", onUnlockKey, { capture: true });
+        };
+
+        const removeUnlockKeyListener = () => {
+            window.removeEventListener("keydown", onUnlockKey, { capture: true });
         };
 
         const onTouchStart = event => {
@@ -253,33 +308,43 @@ export function initProjectStagesAnimation({
         };
 
         const onTouchMove = event => {
-            if (!isLocked || hasCompleted) {
+            if (!isLocked) {
                 return;
             }
-            event.preventDefault();
             const currentY = event.touches[0].clientY;
             const deltaY = touchStartY - currentY;
             touchStartY = currentY;
             if (deltaY > 0) {
-                handleDelta(deltaY);
+                event.preventDefault();
+                unlockScroll();
+                removeInputListeners();
+                if (pendingUnlockTimer) {
+                    window.clearTimeout(pendingUnlockTimer);
+                    pendingUnlockTimer = null;
+                }
+                return;
             }
+            event.preventDefault();
+            handleDelta(-deltaY);
         };
 
         const addInputListeners = () => {
-            window.addEventListener("wheel", onWheel, { passive: false });
+            window.addEventListener("wheel", onWheel, { passive: false, capture: true });
             window.addEventListener("touchstart", onTouchStart, { passive: false });
             window.addEventListener("touchmove", onTouchMove, { passive: false });
+            addUnlockKeyListener();
         };
 
         const removeInputListeners = () => {
-            window.removeEventListener("wheel", onWheel);
+            window.removeEventListener("wheel", onWheel, { capture: true });
             window.removeEventListener("touchstart", onTouchStart);
             window.removeEventListener("touchmove", onTouchMove);
+            removeUnlockKeyListener();
         };
 
         scrollTriggerInstance = ScrollTrigger.create({
             trigger: section,
-            start: () => `top+=${contentPaddingTop} top`,
+            start: () => `top+=${contentPaddingTop + Number(captureOffset)} top`,
             end: () => `+=${totalLength}`,
             onRefresh: () => {
                 setInitialState();
@@ -288,6 +353,9 @@ export function initProjectStagesAnimation({
                 if (hasCompleted || isCleaning) {
                     return;
                 }
+                measure();
+                lineContainer.style.height = `${lineHeight}px`;
+                lineContainer.style.visibility = "visible";
                 lockScroll();
                 addInputListeners();
             },
