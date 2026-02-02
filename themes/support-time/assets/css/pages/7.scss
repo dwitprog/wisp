@@ -245,22 +245,29 @@
             padding: 150px 0 170px;
         }
         @include max_576 {
-            padding: 70px 0 150px;
+            padding: 70px 0 100px;
         }
 
         .list {
             margin-left: 35%;
             max-width: 679px;
+            min-height: 650px;
+            @include max_1400 {
+                min-height: 610px;
+            }
             @include max_1200 {
                 max-width: 448px;
+                min-height: 410px;
             }
             @include max_768 {
                 margin-left: 28%;
                 max-width: 338px;
+                min-height: 440px;
             }
             @include max_576 {
                 padding: 0 15px 0 0;
                 max-width: 100%;
+                min-height: 500px;
             }
 
             .item {

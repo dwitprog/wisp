@@ -112,12 +112,9 @@ if (servicesSection) {
         const activeIndex = items.findIndex(item => item.classList.contains("active"));
         servicesSection.classList.add("is-measuring");
         items.forEach(item => item.classList.remove("active"));
-        let maxHeight = 0;
 
         items.forEach(item => {
             item.classList.add("active");
-            const height = list.getBoundingClientRect().height;
-            maxHeight = Math.max(maxHeight, height);
             item.classList.remove("active");
         });
 
@@ -127,9 +124,6 @@ if (servicesSection) {
             items[0].classList.add("active");
         }
         servicesSection.classList.remove("is-measuring");
-        if (maxHeight) {
-            list.style.minHeight = `${Math.ceil(maxHeight)}px`;
-        }
     };
 
     setStep(1);
