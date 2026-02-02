@@ -1492,7 +1492,7 @@ $spacing-properties: (
         .have-a-questions {
             position: absolute;
             padding: 0;
-            margin: 0;
+            margin: 0 !important;
             width: max-content;
             top: calc(50% + 60px);
             left: 50%;
@@ -1507,7 +1507,8 @@ $spacing-properties: (
                 top: calc(50% + 80px);
             }
             @include max_576 {
-                top: calc(50% + 100px);
+                top: 120px;
+                transform: translateX(-50%);
                 width: 100%;
             }
 
@@ -1531,6 +1532,9 @@ $spacing-properties: (
                 }
                 @include max_992 {
                     padding: 25px 40px 23px;
+                }
+                @include max_576 {
+                    padding-bottom: 70px;
                 }
             }
 
@@ -1601,6 +1605,10 @@ $spacing-properties: (
                     font-size: 16px;
                     margin: 0 0 60px;
                 }
+                @include max_576 {
+                    font-size: 12px;
+                    margin: 0 0 30px;
+                }
             }
 
             .form {
@@ -1630,6 +1638,9 @@ $spacing-properties: (
                         @include max_992 {
                             margin: 0 0 48px;
                         }
+                        @include max_576 {
+                            margin: 0 0 25px;
+                        }
                     }
 
                     input {
@@ -1639,6 +1650,10 @@ $spacing-properties: (
                         }
                         @include max_992 {
                             font-size: 24px;
+                        }
+                        @include max_576 {
+                            font-size: 20px;
+                            padding: 0 0 8px;
                         }
 
                         &:-webkit-autofill,
@@ -1670,6 +1685,9 @@ $spacing-properties: (
                             @include max_992 {
                                 font-size: 20px;
                             }
+                            @include max_576 {
+                                font-size: 18px;
+                            }
                         }
                     }
                 }
@@ -1687,6 +1705,12 @@ $spacing-properties: (
                         margin-bottom: 35px;
                         max-width: 100%;
                     }
+                    @include max_576 {
+                        font-size: 20px;
+                        margin-bottom: 25px;
+                        height: 100px;
+                        padding: 10px;
+                    }
 
                     &::placeholder {
                         font-size: 17px;
@@ -1696,6 +1720,9 @@ $spacing-properties: (
                         @include max_992 {
                             font-size: 20px;
                         }
+                        @include max_576 {
+                            font-size: 18px;
+                        }
                     }
                 }
 
@@ -1703,11 +1730,17 @@ $spacing-properties: (
                     @include max_992 {
                         margin-bottom: 35px;
                     }
+                    @include max_576 {
+                        margin-bottom: 20px;
+                    }
 
                     &.select-services-price {
                         margin-right: 71px;
                         @include max_1200 {
                             margin-right: 48px;
+                        }
+                        @include max_576 {
+                            margin-right: 0;
                         }
                     }
 
@@ -1720,6 +1753,9 @@ $spacing-properties: (
                         }
                         @include max_992 {
                             padding: 21px 22px;
+                        }
+                        @include max_576 {
+                            padding: 15px 20px;
                         }
 
                         img {

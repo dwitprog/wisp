@@ -34,7 +34,7 @@ header#header.header {
                 padding: 0 30px;
             }
             @include max_576 {
-                padding: 0 15px;
+                padding: 0 15px 0 30px;
             }
         }
 
@@ -47,6 +47,9 @@ header#header.header {
             @include max_992 {
                 padding-top: 100px;
                 padding-bottom: 50px;
+            }
+            @include max_576 {
+                padding-bottom: 30px;
             }
         }
 
@@ -210,6 +213,11 @@ header#header.header {
                 width: 8px;
                 height: 100%;
                 position: relative;
+                @include max_1200 {
+                    box-shadow: inset 0px 1px 3.4000000953674316px 0px rgba(0, 0, 0, 1);
+                    background: var(--blindwhite, rgba(255, 255, 255, 1));
+                    opacity: 0.73;
+                }
             }
 
             &-fader {
