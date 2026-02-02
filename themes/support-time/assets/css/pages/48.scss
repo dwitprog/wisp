@@ -214,10 +214,6 @@ header#header.header {
         }
 
         .image {
-            @include max_768 {
-                display: none;
-            }
-
             img {
                 position: absolute;
                 right: 0;
@@ -229,6 +225,14 @@ header#header.header {
                 @include max_992 {
                     right: 0;
                     top: 173px;
+                }
+                @include max_768 {
+                    right: -170px;
+                }
+                @include max_576 {
+                    right: -120px;
+                    max-width: 270px;
+                    top: 203px;
                 }
             }
         }

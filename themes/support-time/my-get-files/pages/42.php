@@ -87,8 +87,15 @@
                                     </a>
                                     <button class="btn btn-gradient openPopup" data-pop="popupForm">start using</button>
                                 </div>
-                                <img src="<?php the_sub_field('platforms_logo_desc'); ?>"
-                                     alt="<?php the_sub_field('platforms_title'); ?>" />
+                                <?php if (get_sub_field('platforms_logo_desc')) : ?>
+                                    <img src="<?php the_sub_field('platforms_logo_desc'); ?>"
+                                         alt="<?php the_sub_field('platforms_title'); ?>" />
+                                <?php else: ?>
+                                    <img src="<?php the_sub_field('platforms_logo_default'); ?>"
+                                         alt="<?php the_sub_field('platforms_title'); ?>" />
+                                <?php endif ?>
+
+
                             </div>
                         <?php endwhile; ?>
                     <?php endif; ?>
