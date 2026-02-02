@@ -10,6 +10,7 @@
 /* Часто повторяющиеся элементы (/components/) - все они находятся в файле _components_mixin.scss */
 @include project-stages;
 @include have-a-questions;
+@include popupBorderForm;
 /* Стили страницы */
 .page-7 {
     &.banner {
@@ -258,9 +259,8 @@
                 max-width: 338px;
             }
             @include max_576 {
-                margin: 0;
-                padding: 0 15px;
-                max-width: 90%;
+                padding: 0 15px 0 0;
+                max-width: 100%;
             }
 
             .item {
@@ -376,7 +376,8 @@
                 left: -149px;
             }
             @include max_576 {
-                display: none;
+                left: -160px;
+                max-width: 250px;
             }
 
             img {
