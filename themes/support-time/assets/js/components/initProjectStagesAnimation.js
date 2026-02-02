@@ -38,6 +38,7 @@ export function initProjectStagesAnimation({
 
     const headerEl = document.querySelector(headerSelector);
     const getHeaderHeight = () => (headerEl ? headerEl.offsetHeight : 0);
+    const isTouchDevice = () => "ontouchstart" in window || navigator.maxTouchPoints > 0;
 
     let lineHeight = 0;
     let maxTravel = 0;
@@ -60,6 +61,7 @@ export function initProjectStagesAnimation({
     let touchStartY = 0;
     let lastStepAt = 0;
     let pendingUnlockTimer = null;
+    let mobileMaxProgress = 0;
 
     const measure = () => {
         const containerRect = lineContainer.getBoundingClientRect();
@@ -128,6 +130,9 @@ export function initProjectStagesAnimation({
             window.clearTimeout(pendingUnlockTimer);
             pendingUnlockTimer = null;
         }
+        if (!isTouchDevice()) {
+            mobileMaxProgress = 0;
+        }
     };
 
     const setFinalState = () => {
@@ -149,20 +154,38 @@ export function initProjectStagesAnimation({
         const lockScroll = () => {
             if (isLocked) return;
             isLocked = true;
-            savedScrollY = window.scrollY;
-            document.body.style.position = "fixed";
-            document.body.style.top = `-${savedScrollY}px`;
-            document.body.style.left = "0";
-            document.body.style.right = "0";
+            const currentScroll = window.scrollY;
+            const triggerStart = scrollTriggerInstance?.start ?? currentScroll;
+            savedScrollY = Math.min(currentScroll, triggerStart);
+            if (!isTouchDevice()) {
+                const docEl = document.documentElement;
+                docEl.style.overflow = "hidden";
+                docEl.style.height = "100%";
+                document.body.style.position = "fixed";
+                document.body.style.top = `-${savedScrollY}px`;
+                document.body.style.left = "0";
+                document.body.style.right = "0";
+                document.body.style.overflow = "hidden";
+                document.body.style.width = "100%";
+                document.body.style.webkitOverflowScrolling = "auto";
+            }
         };
 
         const unlockScroll = () => {
             if (!isLocked) return;
             isLocked = false;
-            document.body.style.position = "";
-            document.body.style.top = "";
-            document.body.style.left = "";
-            document.body.style.right = "";
+            if (!isTouchDevice()) {
+                const docEl = document.documentElement;
+                docEl.style.overflow = "";
+                docEl.style.height = "";
+                document.body.style.position = "";
+                document.body.style.top = "";
+                document.body.style.left = "";
+                document.body.style.right = "";
+                document.body.style.overflow = "";
+                document.body.style.width = "";
+                document.body.style.webkitOverflowScrolling = "";
+            }
             window.scrollTo(0, savedScrollY);
         };
 
@@ -206,15 +229,17 @@ export function initProjectStagesAnimation({
             if (clampedProgress >= 1) {
                 hasCompleted = true;
                 setFinalState();
-                unlockScroll();
-                removeInputListeners();
-                if (pendingUnlockTimer) {
-                    window.clearTimeout(pendingUnlockTimer);
-                    pendingUnlockTimer = null;
-                }
-                if (scrollTriggerInstance) {
-                    scrollTriggerInstance.kill();
-                    scrollTriggerInstance = null;
+                if (!isTouchDevice()) {
+                    unlockScroll();
+                    removeInputListeners();
+                    if (pendingUnlockTimer) {
+                        window.clearTimeout(pendingUnlockTimer);
+                        pendingUnlockTimer = null;
+                    }
+                    if (scrollTriggerInstance) {
+                        scrollTriggerInstance.kill();
+                        scrollTriggerInstance = null;
+                    }
                 }
             }
         };
@@ -331,43 +356,110 @@ export function initProjectStagesAnimation({
             }
             event.preventDefault();
             event.stopPropagation();
-            const scaledDelta = Math.abs(deltaY) * Math.max(0.5, Number(touchDeltaMultiplier));
+            const baseDelta = Math.abs(deltaY) * Math.max(0.5, Number(touchDeltaMultiplier));
+            const touchDivisor = isTouchDevice() ? 5 : 1;
+            const scaledDelta = baseDelta / touchDivisor;
             handleDelta(scaledDelta);
         };
 
         const addInputListeners = () => {
-            window.addEventListener("wheel", onWheel, { passive: false, capture: true });
-            window.addEventListener("touchstart", onTouchStart, { passive: false });
-            window.addEventListener("touchmove", onTouchMove, { passive: false });
+            document.documentElement.addEventListener("wheel", onWheel, { passive: false, capture: true });
             addUnlockKeyListener();
+            document.body.addEventListener("touchstart", onTouchStart, { passive: false, capture: true });
+            document.body.addEventListener("touchmove", onTouchMove, { passive: false, capture: true });
         };
 
         const removeInputListeners = () => {
-            window.removeEventListener("wheel", onWheel, { capture: true });
-            window.removeEventListener("touchstart", onTouchStart);
-            window.removeEventListener("touchmove", onTouchMove);
+            document.documentElement.removeEventListener("wheel", onWheel, { capture: true });
             removeUnlockKeyListener();
+            document.body.removeEventListener("touchstart", onTouchStart, { capture: true });
+            document.body.removeEventListener("touchmove", onTouchMove, { capture: true });
         };
 
-        scrollTriggerInstance = ScrollTrigger.create({
-            trigger: section,
-            start: () => `top+=${contentPaddingTop + Number(captureOffset)} top`,
-            end: () => `+=${totalLength}`,
-            onRefresh: () => {
-                setInitialState();
-            },
-            onEnter: () => {
-                if (hasEnteredOnce || hasCompleted || isCleaning) {
-                    return;
+        const mobileCaptureOffset = isTouchDevice() ? Number(captureOffset) - 60 : Number(captureOffset);
+
+        if (isTouchDevice()) {
+            const getMobileProgressFromScroll = (scrollY, triggerStart, triggerEnd) => {
+                if (itemThresholds.length === 0) return 0;
+                if (scrollY <= triggerStart) return 0;
+                const lastThreshold = itemThresholds[itemThresholds.length - 1];
+                const endY = lastThreshold + Math.max(200, tailAfterLastStep);
+                if (scrollY >= endY) return 1;
+                const segmentCount = itemThresholds.length;
+                const startY = triggerStart;
+                for (let i = 0; i < segmentCount; i++) {
+                    const segStart = i === 0 ? startY : itemThresholds[i - 1];
+                    const segEnd = itemThresholds[i];
+                    if (scrollY < segEnd) {
+                        const segLen = segEnd - segStart;
+                        const segProgress = segLen > 0 ? (scrollY - segStart) / segLen : 0;
+                        return Math.min(1, (i + segProgress) / segmentCount);
+                    }
                 }
-                hasEnteredOnce = true;
-                measure();
-                lineContainer.style.height = `${lineHeight}px`;
-                lineContainer.style.visibility = "visible";
-                lockScroll();
-                addInputListeners();
-            },
-        });
+                return Math.min(
+                    1,
+                    (segmentCount -
+                        1 +
+                        (scrollY - itemThresholds[segmentCount - 1]) / (endY - itemThresholds[segmentCount - 1])) /
+                        segmentCount,
+                );
+            };
+
+            const mobileEndLength = () => {
+                if (itemThresholds.length === 0) return totalLength;
+                const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+                const lastThreshold = itemThresholds[itemThresholds.length - 1];
+                const triggerStartY = sectionTop + contentPaddingTop + mobileCaptureOffset;
+                return Math.max(totalLength, lastThreshold - triggerStartY + Math.max(200, tailAfterLastStep));
+            };
+
+            scrollTriggerInstance = ScrollTrigger.create({
+                trigger: section,
+                start: () => `top+=${contentPaddingTop + mobileCaptureOffset} top`,
+                end: () => `+=${mobileEndLength()}`,
+                onRefresh: () => {
+                    measure();
+                },
+                onUpdate: self => {
+                    const scrollY = window.scrollY;
+                    const triggerStart = self.start;
+                    if (scrollY > triggerStart) {
+                        measure();
+                        if (lineContainer.style.visibility !== "visible") {
+                            lineContainer.style.height = `${lineHeight}px`;
+                            lineContainer.style.visibility = "visible";
+                        }
+                    }
+                    const rawProgress = getMobileProgressFromScroll(scrollY, triggerStart, self.end);
+                    if (rawProgress > 0) {
+                        mobileMaxProgress = Math.max(mobileMaxProgress, rawProgress);
+                        updateByProgress(mobileMaxProgress);
+                    } else {
+                        updateByProgress(mobileMaxProgress);
+                    }
+                },
+            });
+        } else {
+            scrollTriggerInstance = ScrollTrigger.create({
+                trigger: section,
+                start: () => `top+=${contentPaddingTop + mobileCaptureOffset} top`,
+                end: () => `+=${totalLength}`,
+                onRefresh: () => {
+                    setInitialState();
+                },
+                onEnter: () => {
+                    if (hasEnteredOnce || hasCompleted || isCleaning) {
+                        return;
+                    }
+                    hasEnteredOnce = true;
+                    measure();
+                    lineContainer.style.height = `${lineHeight}px`;
+                    lineContainer.style.visibility = "visible";
+                    lockScroll();
+                    addInputListeners();
+                },
+            });
+        }
     };
 
     setInitialState();
@@ -375,6 +467,16 @@ export function initProjectStagesAnimation({
     if (scrollTriggerInstance) {
         requestAnimationFrame(() => {
             scrollTriggerInstance.refresh();
+        });
+        window.addEventListener("load", () => {
+            measure();
+            scrollTriggerInstance?.refresh();
+        });
+        window.addEventListener("orientationchange", () => {
+            setTimeout(() => {
+                measure();
+                scrollTriggerInstance?.refresh();
+            }, 300);
         });
     }
 
