@@ -113,7 +113,7 @@
         .banner-image {
             position: absolute;
             right: 0;
-            top: 81px;
+            top: 131px;
             @include max_1400 {
                 right: -240px;
                 top: 191px;
@@ -122,6 +122,9 @@
                 right: 0;
                 top: auto;
                 bottom: 0;
+            }
+            @include max_definite_width(400) {
+                right: -40px !important;
             }
         }
 
