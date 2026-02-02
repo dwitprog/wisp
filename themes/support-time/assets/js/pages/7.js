@@ -215,8 +215,10 @@ if (faqSection) {
         let itemThresholds = [];
         let contentPaddingTop = 0;
         const itemMarkerOffset = 15;
+        const faderSwitchOffset = 5;
         const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
         let currentTravel = 0;
+        let lastTravel = 0;
         let activeIndex = Math.max(
             0,
             items.findIndex(item => item.classList.contains("active")),
@@ -225,6 +227,14 @@ if (faqSection) {
         let dragFrame = null;
         let moveTween = null;
         let remeasureFrame = null;
+        let clickDelayTimeout = null;
+        let dragOffsetY = 0;
+
+        const getItemMarkerTop = (item, contentTop) => {
+            const markerTarget = item.querySelector("input, .title") || item;
+            const markerTop = markerTarget.getBoundingClientRect().top + window.scrollY - contentTop;
+            return markerTarget === item ? markerTop + itemMarkerOffset : markerTop;
+        };
 
         const measure = () => {
             const contentTop = faqContent.getBoundingClientRect().top + window.scrollY;
@@ -237,14 +247,19 @@ if (faqSection) {
             maxTravel = Math.max(0, sliderHeight - faderHeight);
             sliderOffset = slider.getBoundingClientRect().top + window.scrollY - contentTop;
             itemThresholds = items.map(item => {
-                const itemTop = item.getBoundingClientRect().top + window.scrollY - contentTop;
-                return itemTop + itemMarkerOffset;
+                const markerTop = getItemMarkerTop(item, contentTop);
+                const itemBottom = item.getBoundingClientRect().bottom + window.scrollY - contentTop;
+                return {
+                    start: markerTop,
+                    end: itemBottom,
+                };
             });
         };
 
-        const getFaderPoint = () => sliderOffset + currentTravel + faderHeight / 2;
+        const getFaderTop = () => sliderOffset + currentTravel;
+        const getFaderBottom = () => getFaderTop() + faderHeight;
 
-        const getTravelForIndex = index => clamp(itemThresholds[index] - sliderOffset - faderHeight / 2, 0, maxTravel);
+        const getTravelForIndex = index => clamp(itemThresholds[index].start - sliderOffset, 0, maxTravel);
 
         const scheduleRemeasure = () => {
             if (remeasureFrame) {
@@ -265,23 +280,37 @@ if (faqSection) {
             scheduleRemeasure();
         };
 
-        const setActiveByFader = () => {
-            const faderPoint = getFaderPoint();
-            let nextIndex = 0;
+        const setActiveByFader = previousTravel => {
+            const faderTop = getFaderTop();
+            const faderBottom = getFaderBottom();
+            const lastPosition = typeof previousTravel === "number" ? previousTravel : lastTravel;
+            const isMovingDown = currentTravel >= lastPosition;
+            let nextIndex = activeIndex;
 
-            for (let i = 0; i < itemThresholds.length; i += 1) {
-                const start = itemThresholds[i];
-                const end = itemThresholds[i + 1] ?? Number.POSITIVE_INFINITY;
-                if (faderPoint >= start && faderPoint < end) {
-                    nextIndex = i;
-                    break;
+            if (isMovingDown) {
+                for (let i = 0; i < itemThresholds.length; i += 1) {
+                    const start = itemThresholds[i].start + faderSwitchOffset;
+                    if (faderBottom >= start) {
+                        nextIndex = i;
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                for (let i = 0; i < itemThresholds.length; i += 1) {
+                    const end = itemThresholds[i].end - faderSwitchOffset;
+                    if (faderTop <= end) {
+                        nextIndex = i;
+                        break;
+                    }
                 }
             }
 
             setActiveIndex(nextIndex);
+            lastTravel = currentTravel;
         };
 
-        const setFaderPosition = (value, animate = false) => {
+        const setFaderPosition = (value, animate = false, syncActive = true) => {
             const nextTravel = clamp(value, 0, maxTravel);
             if (moveTween) {
                 moveTween.kill();
@@ -295,33 +324,50 @@ if (faqSection) {
                     duration: 0.35,
                     ease: "power1.out",
                     onUpdate: () => {
+                        const previousTravel = currentTravel;
                         currentTravel = state.value;
                         gsap.set(sliderFader, { y: currentTravel });
-                        setActiveByFader();
+                        if (syncActive) {
+                            setActiveByFader(previousTravel);
+                        } else {
+                            lastTravel = currentTravel;
+                        }
                     },
                     onComplete: () => {
+                        const previousTravel = currentTravel;
                         currentTravel = nextTravel;
                         gsap.set(sliderFader, { y: currentTravel });
-                        setActiveByFader();
+                        if (syncActive) {
+                            setActiveByFader(previousTravel);
+                        } else {
+                            lastTravel = currentTravel;
+                        }
                         moveTween = null;
                     },
                 });
             } else {
+                const previousTravel = currentTravel;
                 currentTravel = nextTravel;
                 gsap.set(sliderFader, { y: currentTravel });
-                setActiveByFader();
+                if (syncActive) {
+                    setActiveByFader(previousTravel);
+                } else {
+                    lastTravel = currentTravel;
+                }
             }
         };
 
         const getTravelFromPointer = clientY => {
             const lineRect = sliderLine.getBoundingClientRect();
-            return clientY - lineRect.top - faderHeight / 2;
+            return clientY - lineRect.top - dragOffsetY;
         };
 
         const startDragging = event => {
             event.preventDefault();
             measure();
             dragActive = true;
+            const faderRect = sliderFader.getBoundingClientRect();
+            dragOffsetY = clamp(event.clientY - faderRect.top, 0, faderRect.height);
             if (dragFrame) {
                 cancelAnimationFrame(dragFrame);
             }
@@ -361,14 +407,15 @@ if (faqSection) {
         items.forEach((item, index) => {
             item.addEventListener("click", event => {
                 event.preventDefault();
-                measure();
-                if (maxTravel === 0) {
-                    setActiveIndex(index);
-                    return;
-                }
-                const targetTravel = getTravelForIndex(index);
-                setFaderPosition(targetTravel, true);
                 setActiveIndex(index);
+                if (clickDelayTimeout) {
+                    clearTimeout(clickDelayTimeout);
+                }
+                clickDelayTimeout = setTimeout(() => {
+                    measure();
+                    const targetTravel = getTravelForIndex(index);
+                    setFaderPosition(targetTravel, maxTravel > 0, false);
+                }, 400);
             });
         });
 
