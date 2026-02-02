@@ -1487,6 +1487,19 @@ $spacing-properties: (
             display: block;
         }
 
+        .popupFormContent {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            height: 100%;
+
+            @include max_576 {
+                max-height: calc(100vh - 20px);
+                overflow-y: auto;
+            }
+        }
+
         @include have-a-questions;
 
         .have-a-questions {
