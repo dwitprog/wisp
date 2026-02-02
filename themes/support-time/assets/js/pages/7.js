@@ -357,33 +357,60 @@ if (faqSection) {
             }
         };
 
+        const touchListenerOptions = { passive: false };
+        const getClientY = event => {
+            if (event?.touches?.length) {
+                return event.touches[0].clientY;
+            }
+            if (event?.changedTouches?.length) {
+                return event.changedTouches[0].clientY;
+            }
+            return event?.clientY;
+        };
+
         const getTravelFromPointer = clientY => {
             const lineRect = sliderLine.getBoundingClientRect();
             return clientY - lineRect.top - dragOffsetY;
         };
 
         const startDragging = event => {
-            event.preventDefault();
+            if (event?.cancelable) {
+                event.preventDefault();
+            }
             measure();
             dragActive = true;
             const faderRect = sliderFader.getBoundingClientRect();
-            dragOffsetY = clamp(event.clientY - faderRect.top, 0, faderRect.height);
+            const clientY = getClientY(event);
+            if (typeof clientY !== "number") {
+                return;
+            }
+            dragOffsetY = clamp(clientY - faderRect.top, 0, faderRect.height);
             if (dragFrame) {
                 cancelAnimationFrame(dragFrame);
             }
-            setFaderPosition(getTravelFromPointer(event.clientY));
+            setFaderPosition(getTravelFromPointer(clientY));
             window.addEventListener("pointermove", handleDragging);
             window.addEventListener("pointerup", stopDragging);
             window.addEventListener("pointercancel", stopDragging);
+            window.addEventListener("touchmove", handleDragging, touchListenerOptions);
+            window.addEventListener("touchend", stopDragging);
+            window.addEventListener("touchcancel", stopDragging);
         };
 
         const handleDragging = event => {
             if (!dragActive) return;
+            if (event?.cancelable) {
+                event.preventDefault();
+            }
             if (dragFrame) {
                 cancelAnimationFrame(dragFrame);
             }
             dragFrame = requestAnimationFrame(() => {
-                setFaderPosition(getTravelFromPointer(event.clientY));
+                const clientY = getClientY(event);
+                if (typeof clientY !== "number") {
+                    return;
+                }
+                setFaderPosition(getTravelFromPointer(clientY));
             });
         };
 
@@ -396,6 +423,9 @@ if (faqSection) {
             window.removeEventListener("pointermove", handleDragging);
             window.removeEventListener("pointerup", stopDragging);
             window.removeEventListener("pointercancel", stopDragging);
+            window.removeEventListener("touchmove", handleDragging, touchListenerOptions);
+            window.removeEventListener("touchend", stopDragging);
+            window.removeEventListener("touchcancel", stopDragging);
         };
 
         measure();
@@ -403,6 +433,8 @@ if (faqSection) {
 
         sliderFader.addEventListener("pointerdown", startDragging);
         sliderLine.addEventListener("pointerdown", startDragging);
+        sliderFader.addEventListener("touchstart", startDragging, touchListenerOptions);
+        sliderLine.addEventListener("touchstart", startDragging, touchListenerOptions);
 
         items.forEach((item, index) => {
             item.addEventListener("click", event => {

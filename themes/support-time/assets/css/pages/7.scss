@@ -1045,14 +1045,12 @@
             display: flex;
             gap: 86px;
             height: 100%;
-            //height: 850px;
+
             @include max_1200 {
                 gap: 65px;
-                //height: 560px;
             }
             @include max_576 {
                 gap: 30px;
-                //height: 700px;
             }
 
             &-line {

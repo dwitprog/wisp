@@ -649,8 +649,8 @@ $spacing-properties: (
                 margin-bottom: 67px;
             }
             @include max_992 {
-                margin-left: 0;
-                margin-bottom: 60px;
+                font-size: 14px;
+                margin: 0 0 60px;
             }
         }
 
@@ -1858,28 +1858,30 @@ $spacing-properties: (
 }
 
 @mixin popupBorderForm {
-    .have-a-questions {
-        .content {
-            border: 1px solid #fff;
-        }
+    .popupForm {
+        .have-a-questions {
+            .content {
+                border: 1px solid #fff;
+            }
 
-        .section-title {
-            &:before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: linear-gradient(180deg, rgb(255, 255, 255) 0%, transparent 57%);
-                border-radius: 23px;
-                padding: 1px;
-                -webkit-mask:
-                    linear-gradient(#fff 0 0) content-box,
-                    linear-gradient(#fff 0 0);
-                -webkit-mask-composite: xor;
-                mask-composite: exclude;
-                pointer-events: none;
+            .section-title {
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: linear-gradient(180deg, rgb(255, 255, 255) 0%, transparent 57%);
+                    border-radius: 23px;
+                    padding: 1px;
+                    -webkit-mask:
+                        linear-gradient(#fff 0 0) content-box,
+                        linear-gradient(#fff 0 0);
+                    -webkit-mask-composite: xor;
+                    mask-composite: exclude;
+                    pointer-events: none;
+                }
             }
         }
     }
