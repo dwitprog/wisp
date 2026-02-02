@@ -350,7 +350,6 @@
         position: relative;
         background: #fff;
         padding-bottom: 67px;
-        min-height: 100vh;
 
         &:before {
             content: "";
@@ -426,7 +425,6 @@
         .stages {
             margin-left: 100px;
             position: relative;
-            height: 100%;
             z-index: 2;
             display: flex;
             @include max_1200 {
@@ -452,19 +450,65 @@
 
             .item {
                 .step {
-                    width: 20px;
-                    height: 20px;
-                    border-radius: 100%;
-                    background: $st-gradient-main;
-                    display: block;
                     position: absolute;
                     left: -131px;
                     top: 12px;
 
                     @include max_1200 {
-                        width: 16px;
-                        height: 16px;
                         left: -51px;
+                    }
+
+                    span {
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 100%;
+                        background: $st-gradient-main;
+                        display: block;
+                        position: relative;
+                        z-index: 3;
+                        @include max_1200 {
+                            width: 16px;
+                            height: 16px;
+                        }
+                    }
+
+                    &.active {
+                        animation: pulse 1s linear infinite;
+
+                        &:before {
+                            content: "";
+                            width: 34px;
+                            height: 34px;
+                            display: block;
+                            position: absolute;
+                            background: $st-gradient-main;
+                            border-radius: 100%;
+                            left: 50%;
+                            top: 50%;
+                            transform: translate(-50%, -50%);
+                            z-index: 1;
+                            @include max_1200 {
+                                width: 28px;
+                                height: 28px;
+                            }
+                        }
+
+                        &:after {
+                            content: "";
+                            width: 26px;
+                            height: 26px;
+                            border-radius: 100%;
+                            background: #fff;
+                            position: absolute;
+                            left: 50%;
+                            top: 50%;
+                            transform: translate(-50%, -50%);
+                            z-index: 2;
+                            @include max_1200 {
+                                width: 24px;
+                                height: 24px;
+                            }
+                        }
                     }
                 }
 
@@ -472,6 +516,9 @@
                     margin-bottom: 70px;
                     @include max_1200 {
                         margin-bottom: 120px;
+                    }
+                    @include max_576 {
+                        margin-bottom: 90px;
                     }
                 }
 
@@ -517,13 +564,11 @@
 
             .line {
                 width: 3px;
-                height: 745px;
+                height: 0;
                 background: rgba(19, 8, 57, 1);
                 position: relative;
                 display: block;
-                @include max_1200 {
-                    height: 100%;
-                }
+                transition: all 0.5s linear;
 
                 &:before,
                 &:after {
@@ -558,7 +603,6 @@
                 border-radius: 100%;
                 top: 0;
                 left: 50%;
-                transition: all 0.5s linear;
                 transform: translateX(-50%);
                 @include max_1200 {
                     width: 28px;

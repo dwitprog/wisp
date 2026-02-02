@@ -116,11 +116,6 @@
             <div class="line">
 
             </div>
-            <span class="circle">
-                <span>
-                    <span></span>
-                </span>
-            </span>
         </div>
         <div class="items">
             <?php if (have_rows('how_we_work_list')) : ?>
@@ -129,7 +124,7 @@
                     <?php if (have_rows('how_we_work_item')) : ?>
                         <?php while (have_rows('how_we_work_item')) : the_row(); ?>
                             <div class="item">
-                                <span class="step"></span>
+                                <div class="step"><span></span></div>
                                 <p class="title"><?php the_sub_field('how_we_work_title'); ?></p>
                                 <p class="desc">
                                     <?php the_sub_field('how_we_work_text'); ?>
