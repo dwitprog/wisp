@@ -44,6 +44,14 @@ export function initProjectStagesAnimation({
     let currentTargetIndex = 0;
     let holdUntil = 0;
     let holdScroll = null;
+    let maxProgress = 0;
+    let hasCompleted = false;
+    let isCleaning = false;
+    let isLocked = false;
+    let savedScrollY = 0;
+    let touchStartY = 0;
+    let lastStepAt = 0;
+    let pendingUnlockTimer = null;
 
     const measure = () => {
         const containerRect = lineContainer.getBoundingClientRect();
@@ -98,6 +106,17 @@ export function initProjectStagesAnimation({
         currentTargetIndex = 0;
         holdUntil = 0;
         holdScroll = null;
+        maxProgress = 0;
+        hasCompleted = false;
+        isCleaning = false;
+        isLocked = false;
+        savedScrollY = 0;
+        touchStartY = 0;
+        lastStepAt = 0;
+        if (pendingUnlockTimer) {
+            window.clearTimeout(pendingUnlockTimer);
+            pendingUnlockTimer = null;
+        }
     };
 
     const setFinalState = () => {
@@ -110,55 +129,167 @@ export function initProjectStagesAnimation({
         if (scrollTriggerInstance) {
             scrollTriggerInstance.kill();
         }
-        const totalLength = Math.max(maxTravel, 1) * scrollLengthMultiplier;
+        const totalLength = Math.max(maxTravel, 1) * Math.max(0.1, scrollLengthMultiplier);
         if (pulseTween) {
             pulseTween.kill();
             pulseTween = null;
         }
+
+        const lockScroll = () => {
+            if (isLocked) return;
+            isLocked = true;
+            savedScrollY = window.scrollY;
+            document.body.style.position = "fixed";
+            document.body.style.top = `-${savedScrollY}px`;
+            document.body.style.left = "0";
+            document.body.style.right = "0";
+        };
+
+        const unlockScroll = () => {
+            if (!isLocked) return;
+            isLocked = false;
+            document.body.style.position = "";
+            document.body.style.top = "";
+            document.body.style.left = "";
+            document.body.style.right = "";
+            window.scrollTo(0, savedScrollY);
+        };
+
+        const updateByProgress = progress => {
+            if (!stopPositions.length || hasCompleted) {
+                return;
+            }
+            const clampedProgress = Math.max(0, Math.min(1, progress));
+            const segmentCount = Math.max(1, stopPositions.length - 1);
+            const scaled = clampedProgress * segmentCount;
+            const segmentIndex = Math.min(segmentCount - 1, Math.floor(scaled));
+            const targetIndex = clampedProgress === 0 ? 0 : Math.min(stopPositions.length - 1, segmentIndex + 1);
+
+            const now = performance.now();
+            if (now < holdUntil) {
+                return;
+            }
+
+            if (segmentIndex !== currentSegmentIndex || targetIndex !== currentTargetIndex) {
+                currentSegmentIndex = segmentIndex;
+                currentTargetIndex = targetIndex;
+                holdUntil = now + Math.max(0, stepHoldMs);
+                const targetHeight = getStopPosition(targetIndex);
+                gsap.killTweensOf(line);
+                gsap.to(line, {
+                    height: targetHeight,
+                    duration: 0.6,
+                    ease: "none",
+                });
+                lastStepAt = now;
+
+                const activeIndex = Math.min(items.length - 1, targetIndex - 1);
+                setActiveStep(activeIndex);
+
+                maxProgress = segmentCount > 0 ? targetIndex / segmentCount : 0;
+            }
+
+            if (clampedProgress >= 1) {
+                hasCompleted = true;
+                setFinalState();
+                unlockScroll();
+                removeInputListeners();
+                if (pendingUnlockTimer) {
+                    window.clearTimeout(pendingUnlockTimer);
+                    pendingUnlockTimer = null;
+                }
+                if (scrollTriggerInstance) {
+                    scrollTriggerInstance.kill();
+                    scrollTriggerInstance = null;
+                }
+            }
+        };
+
+        const handleDelta = delta => {
+            if (!isLocked || hasCompleted) {
+                return;
+            }
+            const now = performance.now();
+            if (now < holdUntil) {
+                return;
+            }
+            const speed = Math.max(0.1, scrollLengthMultiplier);
+            const deltaProgress = delta / (totalLength * speed);
+            maxProgress = Math.max(0, Math.min(1, maxProgress + deltaProgress));
+            updateByProgress(maxProgress);
+
+            if (delta > 0) {
+                if (pendingUnlockTimer) {
+                    window.clearTimeout(pendingUnlockTimer);
+                }
+                const inputTime = now;
+                pendingUnlockTimer = window.setTimeout(
+                    () => {
+                        if (isLocked && !hasCompleted && lastStepAt < inputTime) {
+                            unlockScroll();
+                            removeInputListeners();
+                        }
+                    },
+                    Math.max(600, stepHoldMs + 500),
+                );
+            }
+        };
+
+        const onWheel = event => {
+            if (!isLocked || hasCompleted) {
+                return;
+            }
+            event.preventDefault();
+            if (event.deltaY > 0) {
+                handleDelta(event.deltaY);
+            }
+        };
+
+        const onTouchStart = event => {
+            if (!isLocked || hasCompleted) {
+                return;
+            }
+            touchStartY = event.touches[0].clientY;
+        };
+
+        const onTouchMove = event => {
+            if (!isLocked || hasCompleted) {
+                return;
+            }
+            event.preventDefault();
+            const currentY = event.touches[0].clientY;
+            const deltaY = touchStartY - currentY;
+            touchStartY = currentY;
+            if (deltaY > 0) {
+                handleDelta(deltaY);
+            }
+        };
+
+        const addInputListeners = () => {
+            window.addEventListener("wheel", onWheel, { passive: false });
+            window.addEventListener("touchstart", onTouchStart, { passive: false });
+            window.addEventListener("touchmove", onTouchMove, { passive: false });
+        };
+
+        const removeInputListeners = () => {
+            window.removeEventListener("wheel", onWheel);
+            window.removeEventListener("touchstart", onTouchStart);
+            window.removeEventListener("touchmove", onTouchMove);
+        };
+
         scrollTriggerInstance = ScrollTrigger.create({
             trigger: section,
             start: () => `top+=${contentPaddingTop} top`,
             end: () => `+=${totalLength}`,
-            pin: true,
-            pinSpacing: true,
-            scrub: true,
             onRefresh: () => {
                 setInitialState();
             },
-            onUpdate: self => {
-                if (!stopPositions.length) {
+            onEnter: () => {
+                if (hasCompleted || isCleaning) {
                     return;
                 }
-                const progress = Math.max(0, Math.min(1, self.progress));
-                const segmentCount = Math.max(1, stopPositions.length - 1);
-                const scaled = progress * segmentCount;
-                const segmentIndex = Math.min(segmentCount - 1, Math.floor(scaled));
-                const targetIndex = progress === 0 ? 0 : Math.min(stopPositions.length - 1, segmentIndex + 1);
-
-                const now = performance.now();
-                if (now < holdUntil) {
-                    if (holdScroll !== null && Math.abs(self.scroll() - holdScroll) > 1) {
-                        self.scroll(holdScroll);
-                    }
-                    return;
-                }
-
-                if (segmentIndex !== currentSegmentIndex || targetIndex !== currentTargetIndex) {
-                    currentSegmentIndex = segmentIndex;
-                    currentTargetIndex = targetIndex;
-                    holdUntil = now + Math.max(0, stepHoldMs);
-                    holdScroll = self.scroll();
-                    const targetHeight = getStopPosition(targetIndex);
-                    gsap.killTweensOf(line);
-                    gsap.to(line, {
-                        height: targetHeight,
-                        duration: 0.35,
-                        ease: "power1.out",
-                    });
-
-                    const activeIndex = Math.min(items.length - 1, targetIndex - 1);
-                    setActiveStep(activeIndex);
-                }
+                lockScroll();
+                addInputListeners();
             },
         });
     };
