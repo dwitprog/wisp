@@ -166,6 +166,7 @@ $spacing-properties: (
         }
         @include max_576 {
             margin-top: -40px;
+            padding-bottom: 100px;
         }
 
         &:before {
@@ -316,6 +317,9 @@ $spacing-properties: (
                     margin-bottom: 70px;
                     @include max_1200 {
                         margin-bottom: 120px;
+                    }
+                    @include max_576 {
+                        margin-bottom: 90px;
                     }
                 }
 
@@ -492,8 +496,14 @@ $spacing-properties: (
     .have-a-questions {
         padding-top: 70px;
         margin-bottom: 323px;
+        @include max_1200 {
+            margin-bottom: 170px;
+        }
         @include max_992 {
             padding-top: 39px;
+        }
+        @include max_576 {
+            margin-bottom: 140px;
         }
 
         .container {
@@ -598,6 +608,10 @@ $spacing-properties: (
         }
 
         .lines {
+            @include max_576 {
+                display: none;
+            }
+
             .line {
                 position: absolute;
                 opacity: 0.3;
@@ -1237,6 +1251,9 @@ $spacing-properties: (
 @mixin faq-accordion {
     .faq-accordion {
         margin-bottom: 36px;
+        @include max_768 {
+            margin-bottom: 0;
+        }
 
         .container {
             max-width: 1276px;
@@ -1450,6 +1467,7 @@ $spacing-properties: (
             }
             @include max_576 {
                 top: calc(50% + 100px);
+                width: 100%;
             }
 
             .container {

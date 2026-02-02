@@ -438,15 +438,16 @@
         }
 
         .items {
-            padding-top: 151px;
+            padding-top: 225px;
             margin-left: 120px;
+
             @include max_1200 {
-                padding-top: 98px;
+                padding-top: 150px;
                 margin-left: 42px;
                 padding-bottom: 77px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-evenly;
+            }
+            @include max_768 {
+                padding-top: 180px;
             }
 
             .item {
@@ -465,31 +466,13 @@
                         height: 16px;
                         left: -51px;
                     }
-
-                    &_1 {
-                        top: 230px;
-                        @include max_1200 {
-                            top: 98px;
-                        }
-                    }
-
-                    &_2 {
-                        top: 426px;
-                        @include max_1200 {
-                            top: 308px;
-                        }
-                    }
-
-                    &_3 {
-                        top: 611px;
-                    }
                 }
 
                 &:not(:last-child) {
                     margin-bottom: 70px;
-                    //@include max_1200 {
-                    //    margin-bottom: 46px;
-                    //}
+                    @include max_1200 {
+                        margin-bottom: 120px;
+                    }
                 }
 
                 position: relative;

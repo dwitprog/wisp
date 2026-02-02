@@ -144,77 +144,161 @@ if (howWeWorkSection) {
     const knob = howWeWorkSection.querySelector(".service-knob .knob");
 
     if (lineContainer && line && circle && items.length && knob) {
-        const totalSteps = 5;
-        const stepClasses = Array.from({ length: totalSteps }, (_, idx) => `step_${idx + 1}`);
+        const stepClasses = ["step_2", "step_3", "step_4"];
         const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-        const scrollLengthMultiplier = 4;
+        const thresholdOffset = 0;
+        const scrollLengthMultiplier = 1.3;
+        const holdDurationMs = 500;
 
         let lineOffset = 0;
         let circleHeight = 0;
         let maxTravel = 0;
         let itemThresholds = [];
         let stopPoints = [];
+        let contentPaddingTop = 0;
+        let currentStopIndex = 0;
+        let holdUntil = 0;
+        let scrollTriggerInstance = null;
+        let lineAnimationStarted = false;
+        let lineAnimationCompleted = false;
+        let lineTween = null;
 
-        const setKnobStep = stepNumber => {
+        const setKnobStepByIndex = index => {
+            const stepNumber = clamp(index + 2, 2, 4);
+            const nextClass = `step_${stepNumber}`;
             knob.classList.remove(...stepClasses);
-            knob.classList.add(`step_${stepNumber}`);
+            knob.classList.add(nextClass);
         };
 
         const measure = () => {
             const sectionTop = howWeWorkSection.getBoundingClientRect().top + window.scrollY;
 
+            contentPaddingTop = parseFloat(getComputedStyle(howWeWorkSection).paddingTop) || 0;
             circleHeight = circle.offsetHeight;
             lineOffset = line.getBoundingClientRect().top + window.scrollY - sectionTop;
-            maxTravel = Math.max(0, line.offsetHeight - circleHeight);
-            itemThresholds = items.map(item => item.getBoundingClientRect().top + window.scrollY - sectionTop + 6);
-            stopPoints = [
-                0,
-                ...itemThresholds.map(threshold => clamp(threshold - lineOffset, 0, maxTravel)),
-                maxTravel,
-            ];
+            const lineMaxTravel = Math.max(0, line.offsetHeight - circleHeight);
+            itemThresholds = items.map(item => {
+                const stepEl = item.querySelector(".step");
+                const target = stepEl || item;
+                const rect = target.getBoundingClientRect();
+                const center = rect.top + window.scrollY + rect.height / 2;
+                return center - sectionTop + thresholdOffset;
+            });
+            stopPoints = itemThresholds.map(threshold => threshold - lineOffset - circleHeight / 2);
+            const lastStop = stopPoints[stopPoints.length - 1];
+            maxTravel = typeof lastStop === "number" ? Math.min(lineMaxTravel, Math.max(0, lastStop)) : lineMaxTravel;
+            currentStopIndex = Math.min(currentStopIndex, Math.max(0, stopPoints.length - 1));
         };
 
-        measure();
-        gsap.set(circle, { y: 0 });
-        setKnobStep(1);
+        const setInitialState = () => {
+            measure();
+            line.style.transition = "none";
+            gsap.set(line, { height: "100%", scaleY: 0, transformOrigin: "top" });
+            gsap.set(circle, { y: stopPoints[0] || 0 });
+            items.forEach((item, index) => {
+                item.classList.toggle("active", index === 0);
+            });
+            setKnobStepByIndex(0);
+        };
 
-        ScrollTrigger.create({
-            trigger: howWeWorkSection,
-            start: "top top",
-            end: () => `+=${Math.max(1, maxTravel) * scrollLengthMultiplier}`,
-            pin: true,
-            pinSpacing: true,
-            scrub: true,
-            onRefresh: measure,
-            onUpdate: self => {
-                const rawTravel = clamp(self.progress * maxTravel, 0, maxTravel);
-                let snappedTravel = stopPoints[0] ?? 0;
-                let snappedIndex = 0;
-
-                for (let i = 1; i < stopPoints.length; i += 1) {
-                    if (Math.abs(stopPoints[i] - rawTravel) < Math.abs(snappedTravel - rawTravel)) {
-                        snappedTravel = stopPoints[i];
-                        snappedIndex = i;
+        const createScrollTrigger = () => {
+            if (scrollTriggerInstance) {
+                scrollTriggerInstance.kill();
+            }
+            const circleScrollLength = Math.max(maxTravel, window.innerHeight) * scrollLengthMultiplier;
+            scrollTriggerInstance = ScrollTrigger.create({
+                trigger: howWeWorkSection,
+                start: () => `top+=${contentPaddingTop} top`,
+                end: () => `+=${circleScrollLength}`,
+                pin: true,
+                pinSpacing: true,
+                scrub: true,
+                onRefresh: measure,
+                onUpdate: self => {
+                    if (!stopPoints.length) {
+                        return;
                     }
-                }
-
-                const travel = clamp(snappedTravel, 0, maxTravel);
-                gsap.set(circle, { y: travel });
-                const circleTop = lineOffset + travel;
-                let activeIndex = 0;
-
-                for (let i = 0; i < itemThresholds.length; i += 1) {
-                    if (circleTop >= itemThresholds[i]) {
-                        activeIndex = i;
+                    if (!lineAnimationStarted) {
+                        lineAnimationStarted = true;
+                        lineAnimationCompleted = false;
+                        if (lineTween) {
+                            lineTween.kill();
+                        }
+                        gsap.set(line, { scaleY: 0 });
+                        lineTween = gsap.to(line, {
+                            scaleY: 1,
+                            duration: 0.5,
+                            ease: "none",
+                            onComplete: () => {
+                                lineAnimationCompleted = true;
+                            },
+                        });
                     }
-                }
 
-                items.forEach((item, index) => {
-                    item.classList.toggle("active", index <= activeIndex);
-                });
+                    if (!lineAnimationCompleted) {
+                        if (Math.abs(self.scroll() - self.start) > 1) {
+                            self.scroll(self.start);
+                        }
+                        gsap.set(circle, { y: stopPoints[0] || 0 });
+                        items.forEach((item, index) => {
+                            item.classList.toggle("active", index === 0);
+                        });
+                        setKnobStepByIndex(0);
+                        return;
+                    }
 
-                setKnobStep(clamp(snappedIndex + 1, 1, totalSteps));
-            },
+                    const rawTravel = Math.min(maxTravel, Math.max(0, self.progress * maxTravel));
+                    let desiredStopIndex = 0;
+                    let minDistance = Math.abs(stopPoints[0] - rawTravel);
+
+                    for (let i = 1; i < stopPoints.length; i += 1) {
+                        const distance = Math.abs(stopPoints[i] - rawTravel);
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            desiredStopIndex = i;
+                        }
+                    }
+
+                    const now = performance.now();
+                    if (desiredStopIndex !== currentStopIndex && now < holdUntil) {
+                        const travelProgress = maxTravel > 0 ? stopPoints[currentStopIndex] / maxTravel : 0;
+                        const targetScroll = self.start + (self.end - self.start) * travelProgress;
+                        if (Math.abs(self.scroll() - targetScroll) > 1) {
+                            self.scroll(targetScroll);
+                        }
+                        return;
+                    }
+
+                    if (desiredStopIndex !== currentStopIndex) {
+                        currentStopIndex = desiredStopIndex;
+                        holdUntil = now + holdDurationMs;
+                    }
+
+                    const travel = Math.min(maxTravel, Math.max(0, stopPoints[currentStopIndex]));
+                    gsap.set(circle, { y: travel });
+
+                    items.forEach((item, index) => {
+                        item.classList.toggle("active", index <= currentStopIndex);
+                    });
+
+                    setKnobStepByIndex(currentStopIndex);
+                },
+            });
+        };
+
+        setInitialState();
+        createScrollTrigger();
+        if (scrollTriggerInstance) {
+            requestAnimationFrame(() => {
+                scrollTriggerInstance.refresh();
+            });
+        }
+
+        window.addEventListener("resize", () => {
+            measure();
+            if (scrollTriggerInstance) {
+                scrollTriggerInstance.refresh();
+            }
         });
     }
 }

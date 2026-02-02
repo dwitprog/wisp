@@ -28,9 +28,11 @@
         }
         @include max_992 {
             padding-top: 157px;
+            padding-bottom: 150px;
         }
         @include max_576 {
-            padding-top: 100px;
+            padding-top: 120px;
+            padding-bottom: 120px;
         }
 
         .service-menu {
@@ -331,6 +333,13 @@
                 margin-bottom: 68px;
                 color: #fff;
                 font-weight: 700;
+                @include max_992 {
+                    font-size: 36px;
+                    margin-bottom: 36px;
+                }
+                @include max_576 {
+                    font-size: 30px;
+                }
             }
 
             .item {
@@ -341,10 +350,29 @@
                 color: #fff;
                 max-width: 756px;
                 margin: 0 auto;
+                @include max_992 {
+                    max-width: 730px;
+                    padding: 45px 65px;
+                }
+                @include max_768 {
+                    max-width: 540px;
+                    padding: 35px 40px;
+                }
+                @include max_576 {
+                    max-width: 100%;
+                    margin: 0 15px;
+                    padding: 30px;
+                }
 
                 .desc {
                     font-size: 24px;
                     margin-bottom: 62px;
+                    @include max_992 {
+                        margin-bottom: 24px;
+                    }
+                    @include max_768 {
+                        font-size: 20px;
+                    }
                 }
 
                 .small {

@@ -114,9 +114,7 @@
     <div class="stages">
         <div class="line-container">
             <div class="line">
-                <span class="step step_1"></span>
-                <span class="step step_2"></span>
-                <span class="step step_3"></span>
+
             </div>
             <span class="circle">
                 <span>
@@ -156,7 +154,7 @@
                     srcset="/wp-content/themes/support-time/assets/img/pages/7/service-knob-992.png">
             <source media="(max-width:1199.98px)"
                     srcset="/wp-content/themes/support-time/assets/img/pages/7/service-knob-1200.png">
-            <img src="/wp-content/themes/support-time/assets/img/pages/7/service-knob.png" class="knob step_1"
+            <img src="/wp-content/themes/support-time/assets/img/pages/7/service-knob.png" class="knob step_2"
                  alt="Knob">
         </picture>
         <img src="/wp-content/themes/support-time/assets/img/pages/7/line.png" class="line" alt="Lines">

@@ -29,8 +29,11 @@
         @include max_992 {
             padding-top: 157px;
         }
+        @include max_768 {
+            padding-bottom: 90px;
+        }
         @include max_576 {
-            padding-top: 100px;
+            padding-top: 120px;
         }
 
         .service-menu {
@@ -346,6 +349,7 @@
                 max-width: 540px;
                 flex-direction: column;
                 gap: 20px;
+                padding: 0 15px;
             }
 
             .item {
