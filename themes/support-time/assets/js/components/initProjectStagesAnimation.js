@@ -8,7 +8,6 @@ export function initProjectStagesAnimation({
     contentSelector = ".content",
     lineContainerSelector = ".line-container",
     lineSelector = ".line",
-    circleSelector = ".circle",
     itemsSelector = ".items .item",
     textImageSelector = ".image .text img",
     activeClass = "active",
@@ -17,72 +16,105 @@ export function initProjectStagesAnimation({
     textSwapMinDelay = 4000,
     textSwapMaxDelay = 7000,
     textSwapTransitionMs = 900,
+    tailAfterLastStep = 200,
+    stepHoldMs = 300,
 } = {}) {
     if (!section) return;
 
     const content = section.querySelector(contentSelector);
     const lineContainer = section.querySelector(lineContainerSelector);
     const line = section.querySelector(`${lineContainerSelector} ${lineSelector}`);
-    const circle = section.querySelector(`${lineContainerSelector} ${circleSelector}`);
     const items = Array.from(section.querySelectorAll(itemsSelector));
     const itemsContainer = section.querySelector(".items");
     const textImages = Array.from(section.querySelectorAll(textImageSelector));
 
-    if (!content || !lineContainer || !line || !circle || !items.length || !itemsContainer) {
+    if (!content || !lineContainer || !line || !items.length || !itemsContainer) {
         return;
     }
 
     let lineHeight = 0;
-    let circleHeight = 0;
     let maxTravel = 0;
-    let lineOffset = 0;
     let itemThresholds = [];
     let stopPoints = [];
     let contentPaddingTop = 0;
-    let currentStopIndex = 0;
-    let holdUntil = 0;
-    const holdDurationMs = 500;
     let scrollTriggerInstance = null;
-    let lineAnimationStarted = false;
-    let lineAnimationCompleted = false;
-    let lineTween = null;
+    let pulseTween = null;
+    let stopPositions = [];
+    let currentSegmentIndex = -1;
+    let currentTargetIndex = 0;
+    let holdUntil = 0;
+    let holdScroll = null;
 
     const measure = () => {
-        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-
+        const containerRect = lineContainer.getBoundingClientRect();
+        const containerTop = containerRect.top + window.scrollY;
         contentPaddingTop = parseFloat(getComputedStyle(content).paddingTop) || 0;
-        lineHeight = line.offsetHeight;
-        circleHeight = circle.offsetHeight;
-        const lineMaxTravel = Math.max(0, lineHeight - circleHeight);
+        const stepData = items.map(item => {
+            const step = item.querySelector(".step");
+            const target = step || item;
+            const targetRect = target.getBoundingClientRect();
+            const start = targetRect.top + window.scrollY - targetRect.height;
+            return {
+                start: start + thresholdOffset,
+                height: targetRect.height,
+            };
+        });
 
-        lineOffset = line.getBoundingClientRect().top + window.scrollY - sectionTop;
+        itemThresholds = stepData.map(data => data.start);
+        stopPoints = itemThresholds.map(threshold => threshold - containerTop);
+        const lastStep = stepData[stepData.length - 1];
+        const lastStop = stopPoints[stopPoints.length - 1] ?? 0;
+        lineHeight = Math.max(0, lastStop + (lastStep?.height ?? 0) / 2 + Math.max(0, tailAfterLastStep));
+        const lineMaxTravel = Math.max(0, lineHeight);
+        lineContainer.style.height = `${lineHeight}px`;
+        maxTravel = lineMaxTravel;
+        stopPositions = [0, ...stopPoints.map(point => Math.min(lineMaxTravel, Math.max(0, point))), lineMaxTravel];
+    };
 
-        itemThresholds = items.map(
-            item => item.getBoundingClientRect().top + window.scrollY - sectionTop + thresholdOffset,
-        );
+    const getStopPosition = index => {
+        if (!stopPositions.length) {
+            return 0;
+        }
+        const rawStop = stopPositions[index] ?? stopPositions[0] ?? 0;
+        return Math.min(maxTravel, Math.max(0, rawStop));
+    };
 
-        stopPoints = itemThresholds.map(threshold => threshold - lineOffset);
-        const lastStop = stopPoints[stopPoints.length - 1];
-        maxTravel = typeof lastStop === "number" ? Math.min(lineMaxTravel, Math.max(0, lastStop)) : lineMaxTravel;
-        currentStopIndex = Math.min(currentStopIndex, Math.max(0, stopPoints.length - 1));
+    const setActiveStep = index => {
+        items.forEach((item, itemIndex) => {
+            item.classList.toggle(activeClass, index >= 0 && itemIndex <= index);
+            const step = item.querySelector(".step");
+            if (step) {
+                step.classList.toggle(activeClass, itemIndex === index);
+            }
+        });
     };
 
     const setInitialState = () => {
         measure();
         line.style.transition = "none";
-        gsap.set(line, { height: "100%", scaleY: 0, transformOrigin: "top" });
-        gsap.set(circle, { y: stopPoints[0] || 0 });
-        items.forEach((item, index) => {
-            item.classList.toggle(activeClass, index === 0);
-        });
+        gsap.set(line, { height: 0 });
+        setActiveStep(-1);
+        currentSegmentIndex = -1;
+        currentTargetIndex = 0;
+        holdUntil = 0;
+        holdScroll = null;
+    };
+
+    const setFinalState = () => {
+        measure();
+        gsap.set(line, { height: lineHeight });
+        setActiveStep(stopPoints.length - 1);
     };
 
     const createScrollTrigger = () => {
         if (scrollTriggerInstance) {
             scrollTriggerInstance.kill();
         }
-        const circleScrollLength = Math.max(maxTravel, window.innerHeight) * scrollLengthMultiplier;
-        const totalLength = circleScrollLength;
+        const totalLength = Math.max(maxTravel, 1) * scrollLengthMultiplier;
+        if (pulseTween) {
+            pulseTween.kill();
+            pulseTween = null;
+        }
         scrollTriggerInstance = ScrollTrigger.create({
             trigger: section,
             start: () => `top+=${contentPaddingTop} top`,
@@ -90,72 +122,43 @@ export function initProjectStagesAnimation({
             pin: true,
             pinSpacing: true,
             scrub: true,
-            onRefresh: measure,
+            onRefresh: () => {
+                setInitialState();
+            },
             onUpdate: self => {
-                if (!stopPoints.length) {
+                if (!stopPositions.length) {
                     return;
                 }
-                if (!lineAnimationStarted) {
-                    lineAnimationStarted = true;
-                    lineAnimationCompleted = false;
-                    if (lineTween) {
-                        lineTween.kill();
-                    }
-                    gsap.set(line, { scaleY: 0 });
-                    lineTween = gsap.to(line, {
-                        scaleY: 1,
-                        duration: 0.5,
-                        ease: "none",
-                        onComplete: () => {
-                            lineAnimationCompleted = true;
-                        },
-                    });
-                }
-
-                if (!lineAnimationCompleted) {
-                    if (Math.abs(self.scroll() - self.start) > 1) {
-                        self.scroll(self.start);
-                    }
-                    gsap.set(circle, { y: stopPoints[0] || 0 });
-                    items.forEach((item, index) => {
-                        item.classList.toggle(activeClass, index === 0);
-                    });
-                    return;
-                }
-
-                const rawTravel = Math.min(maxTravel, Math.max(0, self.progress * maxTravel));
-                let desiredStopIndex = 0;
-                let minDistance = Math.abs(stopPoints[0] - rawTravel);
-
-                for (let i = 1; i < stopPoints.length; i += 1) {
-                    const distance = Math.abs(stopPoints[i] - rawTravel);
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        desiredStopIndex = i;
-                    }
-                }
+                const progress = Math.max(0, Math.min(1, self.progress));
+                const segmentCount = Math.max(1, stopPositions.length - 1);
+                const scaled = progress * segmentCount;
+                const segmentIndex = Math.min(segmentCount - 1, Math.floor(scaled));
+                const targetIndex = progress === 0 ? 0 : Math.min(stopPositions.length - 1, segmentIndex + 1);
 
                 const now = performance.now();
-                if (desiredStopIndex !== currentStopIndex && now < holdUntil) {
-                    const travelProgress = maxTravel > 0 ? stopPoints[currentStopIndex] / maxTravel : 0;
-                    const targetScroll = self.start + (self.end - self.start) * travelProgress;
-                    if (Math.abs(self.scroll() - targetScroll) > 1) {
-                        self.scroll(targetScroll);
+                if (now < holdUntil) {
+                    if (holdScroll !== null && Math.abs(self.scroll() - holdScroll) > 1) {
+                        self.scroll(holdScroll);
                     }
                     return;
                 }
 
-                if (desiredStopIndex !== currentStopIndex) {
-                    currentStopIndex = desiredStopIndex;
-                    holdUntil = now + holdDurationMs;
+                if (segmentIndex !== currentSegmentIndex || targetIndex !== currentTargetIndex) {
+                    currentSegmentIndex = segmentIndex;
+                    currentTargetIndex = targetIndex;
+                    holdUntil = now + Math.max(0, stepHoldMs);
+                    holdScroll = self.scroll();
+                    const targetHeight = getStopPosition(targetIndex);
+                    gsap.killTweensOf(line);
+                    gsap.to(line, {
+                        height: targetHeight,
+                        duration: 0.35,
+                        ease: "power1.out",
+                    });
+
+                    const activeIndex = Math.min(items.length - 1, targetIndex - 1);
+                    setActiveStep(activeIndex);
                 }
-
-                const travel = Math.min(maxTravel, Math.max(0, stopPoints[currentStopIndex]));
-                gsap.set(circle, { y: travel });
-
-                items.forEach((item, index) => {
-                    item.classList.toggle(activeClass, index <= currentStopIndex);
-                });
             },
         });
     };
