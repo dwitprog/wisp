@@ -19,21 +19,24 @@
         position: relative;
         background: $st-gradient-main;
         padding-top: 140px;
-        padding-bottom: 160px;
+        padding-bottom: 210px;
         @include max_1400 {
             margin-top: 0;
+            padding-bottom: 190px;
         }
         @include max_1200 {
             padding-top: 134px;
+            padding-bottom: 130px;
         }
         @include max_992 {
             padding-top: 157px;
         }
         @include max_768 {
-            padding-bottom: 90px;
+            padding-bottom: 110px;
         }
         @include max_576 {
             padding-top: 120px;
+            padding-bottom: 90px;
         }
 
         .service-menu {
