@@ -3,40 +3,63 @@
 /**
  * Интеграция с YetiForce CRM: создание лида через REST API.
  *
- * Как получить данные (в админке YetiForce https://complexwisps.yetiforce.eu):
+ * Рабочий поток (как в Postman):
+ * 1) POST {{URL}}/webservice/WebserviceStandard/Users/Login
+ *    — Authorization: Basic base64(Basic Auth User : Basic Auth Password)
+ *    — Header X-API-KEY = API Key
+ *    — Body JSON: { "userName", "password", "code": "" }
+ * 2) В ответе — result.token; в последующие запросы заголовок x-token с этим значением.
  *
- * 1) ST_YETIFORCE_URL — адрес CRM без слэша в конце, например:
- *    https://complexwisps.yetiforce.eu
+ * Конфиг (config-local.php или wp-config.php):
+ *   ST_YETIFORCE_URL — адрес CRM без слэша (https://complexwisps.yetiforce.eu)
+ *   ST_YETIFORCE_API_KEY — API Key из Integration → Web service - Applications (копировать)
+ *   ST_YETIFORCE_USER, ST_YETIFORCE_PASSWORD — userName и password в теле Login (Webservice Users)
+ *   ST_YETIFORCE_BASIC_AUTH_USER, ST_YETIFORCE_BASIC_AUTH_PASSWORD — логин/пароль для Basic Auth
+ *     (если не заданы, используются ST_YETIFORCE_USER и ST_YETIFORCE_PASSWORD)
  *
- * 2) ST_YETIFORCE_API_KEY — API-ключ приложения:
- *    Меню: Integration → Web service - Applications → Add Key (или выберите существующее приложение).
- *    В форме: поле "Password" — это строка для API; после сохранения нажмите кнопку копирования ключа
- *    (copy to clipboard) и вставьте сюда. Либо используйте значение "Password", которое задали.
- *
- * 3) ST_YETIFORCE_USER и ST_YETIFORCE_PASSWORD — логин и пароль пользователя Webservice:
- *    Меню: Integration → Web service - Users → вкладка "Webservice Standard" → Add record.
- *    В форме: Server — выберите созданное приложение (из п.2); укажите логин (username) и пароль (Password).
- *    Сохраните. Эти логин и пароль подставляйте в ST_YETIFORCE_USER и ST_YETIFORCE_PASSWORD.
- *
- * Опционально: ST_YETIFORCE_AUTH_METHOD — способ авторизации при логине:
- *   'auto' (по умолчанию) — перебор методов 1–5 до первого успешного;
- *   '1' — только x-api-key + JSON body (userName, password);
- *   '2' — Basic Auth (user:password) + x-api-key + JSON body;
- *   '3' — Basic Auth (apikey:пусто) + x-api-key + JSON body;
- *   '4' — x-api-key + form-urlencoded body;
- *   '5' — только Basic Auth (user:password) + JSON body, без x-api-key.
- *   '6' — как 1, но URL: webservice.php?_container=...&module=Users&action=Login (без rewrite).
- *
- * В wp-config.php или config-local.php:
- *   define('ST_YETIFORCE_URL', 'https://complexwisps.yetiforce.eu');
- *   define('ST_YETIFORCE_API_KEY', 'ваш-api-key');
- *   define('ST_YETIFORCE_USER', 'логин webservice');
- *   define('ST_YETIFORCE_PASSWORD', 'пароль webservice');
- *
- * @param array $raw_fields Сантизированные поля формы (ключи: name, email, message, и др.)
- * @param string $message_text Готовый текст заявки (для поля description)
+ * @param array $raw_fields Sanitized form fields (keys: name, email, message, etc.)
+ * @param string $message_text Prepared request text (used for description; build in English for CRM)
  * @return array{ok: bool, id?: int, error?: string}
  */
+function st_yetiforce_build_description_english(array $raw_fields, string $fallback_message): string
+{
+    $label_map = [
+        'name' => 'Name',
+        'email' => 'Email',
+        'message' => 'Message',
+        'phone' => 'Phone',
+        'servicesPrice' => 'Planning budget',
+        'services' => 'Service of interest',
+        'platformsOfInterest' => 'Platforms of interest',
+        'budget' => 'Total Budget per month',
+        'duration' => 'Duration',
+        'currentStatus' => 'Current Status',
+        'scope' => 'Scope',
+        'execution-speed' => 'Execution Speed',
+        'web-site' => 'Web Site',
+        'company' => 'Company',
+    ];
+    $lines = [];
+    foreach ($raw_fields as $key => $value) {
+        if ($value === '' || $value === null || in_array($key, ['action', 'nonce', 'page_url'], true)) {
+            continue;
+        }
+        $label = $label_map[$key] ?? $key;
+        if (is_array($value)) {
+            $clean = array_filter(array_map('sanitize_text_field', $value), static fn($v) => $v !== '');
+            if ($clean) {
+                $lines[] = $label . ': ' . implode(', ', $clean);
+            }
+        } else {
+            $clean = sanitize_text_field((string) $value);
+            if ($clean !== '') {
+                $lines[] = $label . ': ' . $clean;
+            }
+        }
+    }
+    return $lines !== [] ? implode("\n", $lines) : $fallback_message;
+}
+
 function st_yetiforce_create_lead(array $raw_fields, string $message_text): array
 {
     $log = static function (string $msg, $context = null): void {
@@ -60,131 +83,66 @@ function st_yetiforce_create_lead(array $raw_fields, string $message_text): arra
     }
 
     $base_url = rtrim(ST_YETIFORCE_URL, '/');
-    $login_url_rewrite = $base_url . '/webservice/WebserviceStandard/Users/Login';
-    $login_url_query   = $base_url . '/webservice.php?_container=WebserviceStandard&module=Users&action=Login';
 
-    $auth_method = defined('ST_YETIFORCE_AUTH_METHOD') ? ST_YETIFORCE_AUTH_METHOD : 'auto';
-    $methods_to_try = $auth_method === 'auto' ? ['1', '2', '3', '4', '5', '6'] : [ (string) $auth_method ];
+    $basic_user = defined('ST_YETIFORCE_BASIC_AUTH_USER') ? ST_YETIFORCE_BASIC_AUTH_USER : ST_YETIFORCE_USER;
+    $basic_pass = defined('ST_YETIFORCE_BASIC_AUTH_PASSWORD') ? ST_YETIFORCE_BASIC_AUTH_PASSWORD : ST_YETIFORCE_PASSWORD;
 
-    $common_headers = [
-        'User-Agent' => 'WordPress-YetiForce-Integration/1.0',
-        'Accept'     => 'application/json',
+    $login_url = $base_url . '/webservice/WebserviceStandard/Users/Login';
+    $login_headers = [
+        'Content-Type'  => 'application/json',
+        'Authorization' => 'Basic ' . base64_encode($basic_user . ':' . $basic_pass),
+        'X-API-KEY'     => ST_YETIFORCE_API_KEY,
+        'User-Agent'    => 'WordPress-YetiForce-Integration/1.0',
+        'Accept'        => 'application/json',
     ];
-
-    $login_body_json = wp_json_encode([
+    $login_body = wp_json_encode([
         'userName' => ST_YETIFORCE_USER,
         'password' => ST_YETIFORCE_PASSWORD,
-    ]);
-    $login_body_form = http_build_query([
-        'userName' => ST_YETIFORCE_USER,
-        'password' => ST_YETIFORCE_PASSWORD,
+        'code'     => '',
     ]);
 
-    $token = null;
-    $last_code = null;
-    $last_body = null;
-    $used_method = null;
+    $log('Login request', ['url' => $login_url]);
+    $login_response = wp_remote_post($login_url, [
+        'timeout' => 15,
+        'headers' => $login_headers,
+        'body'    => $login_body,
+    ]);
 
-    foreach ($methods_to_try as $method) {
-        $headers = [];
-        $body = '';
-
-        switch ($method) {
-            case '1':
-                $headers = array_merge($common_headers, [ 'Content-Type' => 'application/json', 'x-api-key' => ST_YETIFORCE_API_KEY ]);
-                $body = $login_body_json;
-                $login_url = $login_url_rewrite;
-                break;
-            case '2':
-                $headers = array_merge($common_headers, [
-                    'Content-Type'  => 'application/json',
-                    'Authorization' => 'Basic ' . base64_encode(ST_YETIFORCE_USER . ':' . ST_YETIFORCE_PASSWORD),
-                    'x-api-key'     => ST_YETIFORCE_API_KEY,
-                ]);
-                $body = $login_body_json;
-                $login_url = $login_url_rewrite;
-                break;
-            case '3':
-                $headers = array_merge($common_headers, [
-                    'Content-Type'  => 'application/json',
-                    'Authorization' => 'Basic ' . base64_encode(ST_YETIFORCE_API_KEY . ':'),
-                    'x-api-key'     => ST_YETIFORCE_API_KEY,
-                ]);
-                $body = $login_body_json;
-                $login_url = $login_url_rewrite;
-                break;
-            case '4':
-                $headers = array_merge($common_headers, [
-                    'Content-Type' => 'application/x-www-form-urlencoded',
-                    'x-api-key'    => ST_YETIFORCE_API_KEY,
-                ]);
-                $body = $login_body_form;
-                $login_url = $login_url_rewrite;
-                break;
-            case '5':
-                $headers = array_merge($common_headers, [
-                    'Content-Type'  => 'application/json',
-                    'Authorization' => 'Basic ' . base64_encode(ST_YETIFORCE_USER . ':' . ST_YETIFORCE_PASSWORD),
-                ]);
-                $body = $login_body_json;
-                $login_url = $login_url_rewrite;
-                break;
-            case '6':
-                $headers = array_merge($common_headers, [ 'Content-Type' => 'application/json', 'x-api-key' => ST_YETIFORCE_API_KEY ]);
-                $body = $login_body_json;
-                $login_url = $login_url_query;
-                break;
-            default:
-                continue 2;
-        }
-
-        $log('Login try method', [ 'method' => $method, 'url' => $login_url ]);
-
-        $login_response = wp_remote_post($login_url, [
-            'timeout' => 15,
-            'headers' => $headers,
-            'body'    => $body,
-        ]);
-
-        if (is_wp_error($login_response)) {
-            $log('Login wp_remote_post error (method ' . $method . ')', $login_response->get_error_message());
-            continue;
-        }
-
-        $code = wp_remote_retrieve_response_code($login_response);
-        $rbody = wp_remote_retrieve_body($login_response);
-        $data = json_decode($rbody, true);
-
-        $last_code = $code;
-        $last_body = $rbody;
-        $log('Login response method ' . $method, ['code' => $code, 'body' => $rbody]);
-
-        if ($code === 200 && !empty($data['result']['token'])) {
-            $token = $data['result']['token'];
-            $used_method = $method;
-            $log('Login success with method', $method);
-            break;
-        }
+    if (is_wp_error($login_response)) {
+        $log('Login wp_remote_post error', $login_response->get_error_message());
+        return ['ok' => false, 'error' => $login_response->get_error_message()];
     }
 
-    if ($token === null) {
-        $log('Login failed all methods', ['tried' => $methods_to_try]);
+    $login_code = wp_remote_retrieve_response_code($login_response);
+    $login_body_resp = wp_remote_retrieve_body($login_response);
+    $login_data = json_decode($login_body_resp, true);
+    $log('Login response', ['code' => $login_code, 'body' => $login_body_resp]);
+
+    if ($login_code !== 200 || empty($login_data['result']['token'])) {
+        $log('Login failed', ['code' => $login_code]);
         return [
-            'ok'                    => false,
-            'error'                 => 'YetiForce login failed',
-            'login_response_code'   => $last_code,
-            'login_response_body'   => $last_body,
-            'auth_methods_tried'    => $methods_to_try,
+            'ok'                  => false,
+            'error'               => 'YetiForce login failed',
+            'login_response_code' => $login_code,
+            'login_response_body' => $login_body_resp,
         ];
     }
 
-    $name  = isset($raw_fields['name']) ? sanitize_text_field((string) $raw_fields['name']) : '';
-    $email = isset($raw_fields['email']) ? sanitize_email((string) $raw_fields['email']) : '';
-    $phone = isset($raw_fields['phone']) ? sanitize_text_field((string) $raw_fields['phone']) : '';
+    $token = $login_data['result']['token'];
+    $log('Login success', []);
 
+    $name    = isset($raw_fields['name']) ? sanitize_text_field((string) $raw_fields['name']) : '';
+    $email   = isset($raw_fields['email']) ? sanitize_email((string) $raw_fields['email']) : '';
+    $phone   = isset($raw_fields['phone']) ? sanitize_text_field((string) $raw_fields['phone']) : '';
+    $company = isset($raw_fields['company']) ? sanitize_text_field((string) $raw_fields['company']) : '';
+
+    $lead_name = $name !== '' ? $name : 'Lead from website';
+    $description_english = st_yetiforce_build_description_english($raw_fields, $message_text);
     $lead_data = [
-        'lastname'    => $name !== '' ? $name : 'Lead from website',
-        'description' => $message_text,
+        'lastname'    => $lead_name,
+        'company'     => $company !== '' ? $company : $lead_name,
+        'leadstatus'  => 'Pending',
+        'description' => $description_english,
     ];
 
     if ($email !== '') {
@@ -200,24 +158,24 @@ function st_yetiforce_create_lead(array $raw_fields, string $message_text): arra
             $lead_data['website'] = $v;
         }
     }
-    if (isset($raw_fields['company'])) {
-        $v = sanitize_text_field((string) $raw_fields['company']);
-        if ($v !== '') {
-            $lead_data['company'] = $v;
-        }
-    }
 
     $record_url = $base_url . '/webservice/WebserviceStandard/Leads/Record';
     $log('Create lead URL', $record_url);
     $log('Lead data', $lead_data);
 
+    $record_headers = [
+        'Content-Type'  => 'application/json',
+        'User-Agent'    => 'WordPress-YetiForce-Integration/1.0',
+        'Accept'        => 'application/json',
+        'x-token'       => $token,
+        'X-API-KEY'     => ST_YETIFORCE_API_KEY,
+        'Authorization' => 'Basic ' . base64_encode($basic_user . ':' . $basic_pass),
+    ];
+
     $record_response = wp_remote_post($record_url, [
         'timeout' => 15,
-        'headers' => [
-            'Content-Type' => 'application/json',
-            'x-token'      => $token,
-        ],
-        'body' => wp_json_encode($lead_data),
+        'headers' => $record_headers,
+        'body'    => wp_json_encode($lead_data),
     ]);
 
     if (is_wp_error($record_response)) {
@@ -233,7 +191,12 @@ function st_yetiforce_create_lead(array $raw_fields, string $message_text): arra
 
     if ($record_code !== 200) {
         $log('Create lead failed', ['code' => $record_code, 'result' => $record_data]);
-        return ['ok' => false, 'error' => 'YetiForce create lead failed'];
+        return [
+            'ok'                  => false,
+            'error'               => 'YetiForce create lead failed',
+            'record_response_code' => $record_code,
+            'record_response_body' => $record_body,
+        ];
     }
 
     $id = isset($record_data['result']['id']) ? (int) $record_data['result']['id'] : null;
@@ -346,7 +309,8 @@ function st_send_form(): void
 
     error_log('[st_send_form] wp_mail result: ' . ($sent ? 'true' : 'false'));
 
-    if ($sent) {
+    // Success if lead was created in CRM or email was sent (so user sees success and button unblocks)
+    if ($yetiforce_result['ok'] || $sent) {
         wp_send_json_success(['message' => 'Form sent']);
     }
 

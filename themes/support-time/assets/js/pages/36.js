@@ -38,7 +38,7 @@ if (haveAQuestionsForm) {
         showSuccessMessage: false,
         callbacks: {
             beforeSubmit: () => {
-                btnSubmit.setAttribute("disabled", "disabled");
+                if (btnSubmit) btnSubmit.setAttribute("disabled", "disabled");
             },
             onSubmit: formData => {
                 const ajaxUrl = window.rgData?.ajax_url;
@@ -61,14 +61,19 @@ if (haveAQuestionsForm) {
                     }
                 });
 
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 20000);
+
                 return fetch(ajaxUrl, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
                     },
                     body: payload.toString(),
+                    signal: controller.signal,
                 })
                     .then(response => {
+                        clearTimeout(timeoutId);
                         if (!response.ok) {
                             throw new Error("Request failed");
                         }
@@ -85,10 +90,14 @@ if (haveAQuestionsForm) {
                             afterSendContent.classList.add("active");
                         }
                         return result;
+                    })
+                    .catch(err => {
+                        clearTimeout(timeoutId);
+                        throw err;
                     });
             },
             onSuccess: () => {
-                btnSubmit.removeAttribute("disabled", "disabled");
+                if (btnSubmit) btnSubmit.removeAttribute("disabled");
                 if (formContent) {
                     gsap.to(formContent, {
                         autoAlpha: 0,
@@ -109,6 +118,9 @@ if (haveAQuestionsForm) {
                         },
                     );
                 }
+            },
+            onError: () => {
+                if (btnSubmit) btnSubmit.removeAttribute("disabled");
             },
         },
     });
