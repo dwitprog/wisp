@@ -11,6 +11,152 @@ import { initFeedbackForm } from "./components/initFeedbackForm";
 import { gsap } from "gsap";
 
 document.addEventListener("DOMContentLoaded", () => {
+    const ensureAutocompleteGuards = form => {
+        if (!form || form.dataset.autocompleteGuarded) return;
+        form.dataset.autocompleteGuarded = "true";
+
+        const guardWrap = document.createElement("div");
+        guardWrap.className = "autocomplete-guard";
+        guardWrap.setAttribute("aria-hidden", "true");
+        guardWrap.style.position = "absolute";
+        guardWrap.style.left = "-9999px";
+        guardWrap.style.width = "1px";
+        guardWrap.style.height = "1px";
+        guardWrap.style.overflow = "hidden";
+
+        const guardUser = document.createElement("input");
+        guardUser.type = "text";
+        guardUser.name = "fake-username";
+        guardUser.autocomplete = "username";
+        guardUser.tabIndex = -1;
+
+        const guardPass = document.createElement("input");
+        guardPass.type = "password";
+        guardPass.name = "fake-password";
+        guardPass.autocomplete = "new-password";
+        guardPass.tabIndex = -1;
+
+        guardWrap.append(guardUser, guardPass);
+        form.prepend(guardWrap);
+    };
+
+    const shouldRenameForAutocomplete = field => {
+        if (!field || field.dataset.autofillRenamed === "true") return false;
+        const name = field.getAttribute("name");
+        if (!name) return false;
+        if (field.hasAttribute("data-no-autofill-rename")) return false;
+
+        if (field.tagName === "INPUT") {
+            const type = (field.getAttribute("type") || "text").toLowerCase();
+            const skipTypes = [
+                "checkbox",
+                "radio",
+                "submit",
+                "button",
+                "image",
+                "file",
+                "hidden",
+                "range",
+                "color",
+                "reset",
+            ];
+            return !skipTypes.includes(type);
+        }
+
+        return field.tagName === "TEXTAREA";
+    };
+
+    const renameForAutocomplete = (field, index) => {
+        if (!shouldRenameForAutocomplete(field)) return;
+        const originalName = field.getAttribute("name");
+        if (!field.dataset.originalName) {
+            field.dataset.originalName = originalName;
+        }
+        if (!field.dataset.field) {
+            field.dataset.field = originalName;
+        }
+        const uniqueSuffix = `${Date.now().toString(36)}_${index}_${Math.random().toString(36).slice(2, 6)}`;
+        field.setAttribute("name", `af_${originalName}_${uniqueSuffix}`);
+        field.dataset.autofillRenamed = "true";
+    };
+
+    const disableAutocomplete = root => {
+        const container = root || document;
+        const fields = container.querySelectorAll("input, textarea, select");
+        fields.forEach((field, index) => {
+            field.setAttribute("autocomplete", "new-password");
+            field.setAttribute("autocorrect", "off");
+            field.setAttribute("autocapitalize", "off");
+            field.setAttribute("spellcheck", "false");
+            field.setAttribute("data-lpignore", "true");
+            field.setAttribute("data-1p-ignore", "true");
+            field.setAttribute("data-bwignore", "true");
+            field.setAttribute("data-form-type", "other");
+
+            if (field.tagName === "INPUT") {
+                const type = (field.getAttribute("type") || "text").toLowerCase();
+                const skipTypes = [
+                    "checkbox",
+                    "radio",
+                    "submit",
+                    "button",
+                    "image",
+                    "file",
+                    "hidden",
+                    "range",
+                    "color",
+                ];
+                if (!skipTypes.includes(type) && !field.dataset.autocompleteLocked) {
+                    field.dataset.autocompleteLocked = "true";
+                    field.setAttribute("readonly", "readonly");
+                    field.addEventListener(
+                        "focus",
+                        () => {
+                            field.removeAttribute("readonly");
+                        },
+                        { once: true },
+                    );
+                }
+            }
+
+            renameForAutocomplete(field, index);
+        });
+        const forms = container.querySelectorAll("form");
+        forms.forEach(form => {
+            form.setAttribute("autocomplete", "off");
+            ensureAutocompleteGuards(form);
+        });
+    };
+
+    disableAutocomplete();
+    setTimeout(disableAutocomplete, 300);
+    setTimeout(disableAutocomplete, 1500);
+
+    document.addEventListener("focusin", event => {
+        const target = event.target;
+        if (target && target.matches("input, textarea, select")) {
+            disableAutocomplete(target.closest("form") || document);
+        }
+    });
+
+    document.addEventListener(
+        "submit",
+        event => {
+            const form = event.target;
+            if (!form || form.tagName !== "FORM") return;
+            const renamedFields = form.querySelectorAll("[data-original-name]");
+            renamedFields.forEach(field => {
+                const originalName = field.dataset.originalName;
+                if (originalName) {
+                    field.setAttribute("name", originalName);
+                }
+                delete field.dataset.autofillRenamed;
+            });
+            setTimeout(() => disableAutocomplete(form), 0);
+        },
+        true,
+    );
+
     changeFontSize();
 
     const lazyLoadInstance = new LazyLoad({

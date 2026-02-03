@@ -33,14 +33,16 @@
                     <p class="subtitle color-white">
                         we guarantee complete confidentiality of your data
                     </p>
-                    <form class="form">
+                    <form class="form" autocomplete="off">
                         <div class="input-wrapper input-wrapper_name">
                             <span class="required">*</span>
-                            <input name="name" type="text" placeholder="NAME">
+                            <input name="name" type="text" autocomplete="off" readonly
+                                   onfocus="this.removeAttribute('readonly')" placeholder="NAME">
                         </div>
                         <div class="input-wrapper input-wrapper_email">
                             <span class="required">*</span>
-                            <input name="email" type="email" placeholder="E-MAIL">
+                            <input name="email" type="email" autocomplete="off" readonly
+                                   onfocus="this.removeAttribute('readonly')" placeholder="E-MAIL">
                         </div>
                         <textarea name="message" class="message" placeholder="MESSAGE"></textarea>
 

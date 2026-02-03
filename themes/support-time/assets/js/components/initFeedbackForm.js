@@ -312,8 +312,23 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
      * @param {Object} fieldConfig - Конфигурация поля (должен содержать selector).
      * @returns {HTMLElement|null} Найденный DOM элемент или null.
      */
+    function normalizeSelector(selector) {
+        if (!selector) return selector;
+        const nameSelectorRegex = /\[name=(["'])([^"']+)\1\]/g;
+        return selector.replace(nameSelectorRegex, '[data-field="$2"]');
+    }
+
+    function queryFieldBySelector(root, selector) {
+        if (!selector || !root) return null;
+        const directMatch = root.querySelector(selector);
+        if (directMatch) return directMatch;
+        const normalized = normalizeSelector(selector);
+        if (normalized === selector) return null;
+        return root.querySelector(normalized);
+    }
+
     function getFieldElement(formElement, fieldConfig) {
-        return formElement.querySelector(fieldConfig.selector);
+        return queryFieldBySelector(formElement, fieldConfig.selector);
     }
 
     /**
@@ -535,7 +550,7 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
         // Находим конфигурацию поля для этого селектора
         const fieldName = Object.keys(config.validateFields).find(name => {
             const fieldConfig = config.validateFields[name];
-            const field = document.querySelector(fieldConfig.selector);
+            const field = queryFieldBySelector(document, fieldConfig.selector);
             return field && getCustomSelectContainer(field) === customSelectElement;
         });
 
@@ -725,24 +740,60 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
      * @returns {Object} Объект с данными формы, где ключи - имена полей.
      */
     function getFormData(formElement) {
-        // Используем стандартный FormData для сбора данных
-        const formData = new FormData(formElement);
         const result = {};
+        const elements = Array.from(formElement.elements || []);
 
-        // Преобразуем FormData в обычный объект, обрабатывая массивы
-        formData.forEach((value, key) => {
-            if (result[key]) {
-                // Если поле уже существует (массив чекбоксов), добавляем значение в массив
-                if (Array.isArray(result[key])) {
-                    result[key].push(value);
-                } else {
-                    // Если это второе значение, создаем массив
-                    result[key] = [result[key], value];
-                }
-            } else {
-                // Первое значение для этого поля
+        const pushValue = (key, value) => {
+            if (result[key] === undefined) {
                 result[key] = value;
+            } else if (Array.isArray(result[key])) {
+                result[key].push(value);
+            } else {
+                result[key] = [result[key], value];
             }
+        };
+
+        elements.forEach(element => {
+            if (!element || element.disabled) return;
+
+            const originalName = element.dataset.originalName || element.dataset.field || element.getAttribute("name");
+            if (!originalName) return;
+
+            const tagName = element.tagName;
+            const type = (element.getAttribute("type") || "").toLowerCase();
+
+            if (["submit", "button", "image", "reset"].includes(type)) return;
+
+            if (type === "checkbox") {
+                if (element.checked) {
+                    pushValue(originalName, element.value);
+                }
+                return;
+            }
+
+            if (type === "radio") {
+                if (element.checked) {
+                    pushValue(originalName, element.value);
+                }
+                return;
+            }
+
+            if (tagName === "SELECT" && element.multiple) {
+                Array.from(element.selectedOptions).forEach(option => {
+                    pushValue(originalName, option.value);
+                });
+                return;
+            }
+
+            if (type === "file") {
+                const files = element.files ? Array.from(element.files) : [];
+                files.forEach(file => {
+                    pushValue(originalName, file);
+                });
+                return;
+            }
+
+            pushValue(originalName, element.value);
         });
 
         return result;

@@ -823,6 +823,9 @@ $spacing-properties: (
                         transition: background-color 9999s ease-in-out 0s;
                     }
 
+                    -webkit-text-fill-color: #fff;
+                    opacity: 1;
+
                     &::placeholder {
                         font-size: 20px;
                         opacity: 0.27;
@@ -1829,7 +1832,6 @@ $spacing-properties: (
                 }
                 @include max_768 {
                     padding: 50px;
-                    transform: translateY(-40%);
                 }
 
                 &:before,
@@ -1933,6 +1935,9 @@ $spacing-properties: (
                     -webkit-mask-composite: xor;
                     mask-composite: exclude;
                     pointer-events: none;
+                    @include max_576 {
+                        border-radius: 15px;
+                    }
                 }
             }
         }
