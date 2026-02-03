@@ -41,7 +41,7 @@
                                         </p>
                                     </div>
                                     <span class="line"></span>
-                                    <span class="number">1</span>
+                                    <span class="number"></span>
                                 </div>
 
 
@@ -59,7 +59,7 @@
                                         </p>
                                     </div>
                                     <span class="line"></span>
-                                    <span class="number">2</span>
+                                    <span class="number"></span>
                                 </div>
 
 
@@ -77,7 +77,7 @@
                                         </p>
                                     </div>
                                     <span class="line"></span>
-                                    <span class="number">3</span>
+                                    <span class="number"></span>
                                 </div>
 
 
@@ -95,7 +95,7 @@
                                         </p>
                                     </div>
                                     <span class="line"></span>
-                                    <span class="number">4</span>
+                                    <span class="number"></span>
                                 </div>
 
 

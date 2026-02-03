@@ -188,7 +188,7 @@ if (howWeWorkSection) {
 
         const setActiveStep = index => {
             items.forEach((item, itemIndex) => {
-                item.classList.toggle("active", index >= 0 && itemIndex === index);
+                item.classList.toggle("active", index >= 0 && itemIndex <= index);
                 const step = item.querySelector(".step");
                 if (step) {
                     step.classList.toggle("active", itemIndex === index);

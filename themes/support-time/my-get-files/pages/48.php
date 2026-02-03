@@ -2,9 +2,17 @@
     <div class="container">
         <h1 class="section-title"><?php the_field('page_title'); ?></h1>
         <div class="mail-and-tel">
-            <a href="mailto:<?php the_field('contacts_email'); ?>"
-               class="mail"><?php the_field('contacts_email'); ?></a>
-            <a href="tel:<?php the_field('contacts_tel'); ?>" class="tel"><?php the_field('contacts_tel'); ?></a>
+            <p class="mail-wrap">
+                <span>Email:</span>
+                <button class="mail openPopup" data-pop="popupForm"><?php the_field('contacts_email'); ?></button>
+            </p>
+            <p class="tel-wrap">
+                <span>
+                    Phone:
+                </span>
+                <a href="tel:<?php the_field('contacts_tel'); ?>" class="tel"><?php the_field('contacts_tel'); ?></a>
+
+            </p>
         </div>
         <?php if (have_rows('social')) : ?>
             <div class="socials">

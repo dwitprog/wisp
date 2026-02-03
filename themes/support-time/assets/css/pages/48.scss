@@ -97,7 +97,32 @@ header#header.header {
                 margin-bottom: 96px;
             }
 
-            a {
+            .mail {
+            }
+
+            .mail-wrap {
+                margin-bottom: 25px;
+            }
+
+            .tel-wrap,
+            .mail-wrap {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+
+                span {
+                    font-size: 36px;
+                    @include max_1400 {
+                        font-size: 32px;
+                    }
+                    @include max_1200 {
+                        font-size: 24px;
+                    }
+                }
+            }
+
+            a,
+            button {
                 display: block;
                 position: relative;
                 width: max-content;
@@ -107,13 +132,6 @@ header#header.header {
                 }
                 @include max_1200 {
                     font-size: 24px;
-                }
-
-                &:not(:last-of-type) {
-                    margin-bottom: 12px;
-                    @include max_992 {
-                        margin-bottom: 16px;
-                    }
                 }
 
                 &:before {
@@ -230,9 +248,12 @@ header#header.header {
                     right: -170px;
                 }
                 @include max_576 {
-                    right: -120px;
-                    max-width: 270px;
-                    top: 203px;
+                    max-width: 370px;
+                }
+                @include max_definite_width(500) {
+                    right: -120px !important;
+                    max-width: 270px !important;
+                    top: 368px !important;
                 }
             }
         }

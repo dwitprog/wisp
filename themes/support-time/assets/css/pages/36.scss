@@ -679,6 +679,30 @@
 
                 // Скрываем стандартный текст даты
                 color: transparent !important;
+                -webkit-text-fill-color: transparent;
+                caret-color: transparent;
+                -moz-appearance: textfield;
+
+                &::-ms-value {
+                    color: transparent;
+                }
+
+                &::placeholder,
+                &::-moz-placeholder,
+                &::-ms-input-placeholder {
+                    color: transparent;
+                    opacity: 0;
+                }
+
+                &::-webkit-datetime-edit,
+                &::-webkit-datetime-edit-fields-wrapper,
+                &::-webkit-datetime-edit-text,
+                &::-webkit-datetime-edit-month-field,
+                &::-webkit-datetime-edit-day-field,
+                &::-webkit-datetime-edit-year-field {
+                    color: transparent;
+                    opacity: 0;
+                }
 
                 &:focus {
                     outline: none;

@@ -6,23 +6,24 @@ const platformsSection = document.querySelector(".platforms");
 if (platformsSection) {
     // Миниатюры
     const thumbsSwiper = new Swiper(".platforms-swiper-thumbs", {
-        slidesPerView: 1.5,
+        slidesPerView: 1,
         spaceBetween: 24,
         watchSlidesProgress: true,
         slideToClickedSlide: true,
         breakpoints: {
-            576: {
-                slidesPerView: 1.5,
-                spaceBetween: 24,
-            },
             768: {
                 slidesPerView: 2.5,
                 spaceBetween: 32,
             },
             992: {
+                slidesPerView: 2.5,
                 spaceBetween: 24,
             },
             1200: {
+                slidesPerView: 4,
+                spaceBetween: 60,
+            },
+            1400: {
                 slidesPerView: 4,
                 spaceBetween: 60,
             },
@@ -33,7 +34,7 @@ if (platformsSection) {
     const mainSwiper = new Swiper(".platforms-swiper-main", {
         slidesPerView: 1,
         spaceBetween: 60,
-
+        grabCursor: true,
         modules: [Thumbs, Navigation, Pagination],
         thumbs: {
             swiper: thumbsSwiper,

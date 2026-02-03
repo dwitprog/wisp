@@ -1,5 +1,5 @@
 import Swiper from "swiper";
-import { Navigation } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { initFeedbackForm } from "../components/initFeedbackForm";
@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 // swiper в секции platforms
 const platformsSection = document.querySelector(".platforms");
 if (platformsSection) {
+    const autoplayButton = platformsSection.querySelector(".controls-btn");
     const swiper = new Swiper(".swiper-content", {
         slidesPerView: 1,
         spaceBetween: 0,
@@ -17,7 +18,11 @@ if (platformsSection) {
         loop: true,
         speed: 1000,
         grabCursor: true,
-        modules: [Navigation],
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        modules: [Navigation, Autoplay],
         navigation: {
             nextEl: ".swiper-next",
             prevEl: ".swiper-prev",
@@ -33,6 +38,20 @@ if (platformsSection) {
             },
         },
     });
+
+    if (autoplayButton) {
+        autoplayButton.classList.add("play");
+        autoplayButton.addEventListener("click", () => {
+            if (!swiper.autoplay) return;
+            if (autoplayButton.classList.contains("play")) {
+                swiper.autoplay.stop();
+                autoplayButton.classList.remove("play");
+            } else {
+                swiper.autoplay.start();
+                autoplayButton.classList.add("play");
+            }
+        });
+    }
 }
 
 // Анимация координат на первом экране

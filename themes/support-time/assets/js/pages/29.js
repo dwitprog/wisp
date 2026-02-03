@@ -1,6 +1,6 @@
 // swiper
 import Swiper from "swiper";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
 const servicesSection = document.querySelector(".page-29.services");
 
@@ -35,7 +35,12 @@ if (servicesSection) {
         const swiperOptions = {
             spaceBetween: 20,
             grabCursor: true,
-            modules: [Navigation, Pagination],
+            modules: [Navigation, Pagination, Autoplay],
+            loop: true,
+            autoplay: {
+                delay: 7000,
+                disableOnInteraction: false,
+            },
             navigation: {
                 nextEl: ".swiper-next",
                 prevEl: ".swiper-prev",

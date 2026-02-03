@@ -172,11 +172,19 @@
                         d="M1.5015 1.11279V16.9729M15.8984 2.76712V15.9529C15.8984 16.9297 14.8078 17.5401 13.9352 17.0518L2.15591 10.4589C1.28337 9.97049 1.28337 8.74958 2.15591 8.26122L13.9352 1.6683C14.8078 1.17994 15.8984 1.79039 15.8984 2.76712Z"
                         stroke="white" stroke-width="3" />
                 </svg>
-
-
             </button>
-            <div class="swiper-bullets">
-                <span></span><span></span><span></span>
+            <div class="controls-btn play">
+                <svg class="pause" width="14" height="22" viewBox="0 0 14 22" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <line x1="2" y1="2" x2="2" y2="20" stroke="white" stroke-width="4" stroke-linecap="round" />
+                    <line x1="12" y1="2" x2="12" y2="20" stroke="white" stroke-width="4" stroke-linecap="round" />
+                </svg>
+                <svg class="start" width="18" height="19" viewBox="0 0 18 19" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M15.2425 8.26113C16.1151 8.7495 16.1151 9.9704 15.2425 10.4588L3.46322 17.0517C2.59068 17.54 1.5 16.9296 1.5 15.9529V2.76704C1.5 1.79031 2.59068 1.17985 3.46322 1.66822L15.2425 8.26113Z"
+                        fill="white" stroke="white" stroke-width="3" />
+                </svg>
             </div>
             <button class="swiper-next swiper-btn">
                 <svg width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -184,8 +192,6 @@
                         d="M15.8969 1.11279V16.9729M1.5 2.76712V15.9529C1.5 16.9297 2.59068 17.5401 3.46322 17.0518L15.2425 10.4589C16.1151 9.97049 16.1151 8.74958 15.2425 8.26122L3.46322 1.6683C2.59068 1.17994 1.5 1.79039 1.5 2.76712Z"
                         stroke="white" stroke-width="3" />
                 </svg>
-
-
             </button>
         </div>
     </div>

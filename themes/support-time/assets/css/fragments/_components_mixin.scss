@@ -1633,6 +1633,7 @@ $spacing-properties: (
             .form {
                 .input-wrapper {
                     margin-bottom: 54px;
+                    padding-left: 0;
                     @include max_1200 {
                         max-width: 315px;
                     }
@@ -1709,6 +1710,10 @@ $spacing-properties: (
                             }
                         }
                     }
+
+                    .required {
+                        left: -9px;
+                    }
                 }
 
                 .message {
@@ -1746,6 +1751,7 @@ $spacing-properties: (
                 }
 
                 .custom-select {
+                    margin-left: 0 !important;
                     @include max_992 {
                         margin-bottom: 35px;
                     }
@@ -1758,6 +1764,7 @@ $spacing-properties: (
                         @include max_1200 {
                             margin-right: 48px;
                         }
+
                         @include max_576 {
                             margin-right: 0;
                         }

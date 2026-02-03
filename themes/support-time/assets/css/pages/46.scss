@@ -228,14 +228,13 @@
                     flex-direction: row-reverse;
                     max-width: 100%;
                     width: 100%;
-                    align-items: center;
                 }
 
                 &:nth-child(1) {
                     .line {
                         height: 43px;
                         @include max_576 {
-                            height: 1px;
+                            display: none;
                         }
                     }
                 }
@@ -244,7 +243,7 @@
                     .line {
                         height: 122px;
                         @include max_576 {
-                            height: 1px;
+                            display: none;
                         }
                     }
                 }
@@ -253,7 +252,7 @@
                     .line {
                         height: 217px;
                         @include max_576 {
-                            height: 1px;
+                            display: none;
                         }
                     }
                 }
@@ -262,7 +261,7 @@
                     .line {
                         height: 298px;
                         @include max_576 {
-                            height: 1px;
+                            display: none;
                         }
                     }
                 }
@@ -289,6 +288,7 @@
                     }
                     @include max_576 {
                         margin-bottom: 16px;
+                        text-align: start;
                     }
                 }
 
@@ -302,7 +302,8 @@
                     }
                     @include max_576 {
                         width: 100%;
-                        max-width: 100%;
+                        max-width: 300px;
+                        text-align: start;
                     }
                 }
 
@@ -310,17 +311,15 @@
                     width: 20px;
                     min-width: 20px;
                     height: 20px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+                    display: block;
                     background: #fff;
                     border-radius: 100%;
-                    font-weight: 900;
-                    font-size: 14px;
-                    color: #70376e;
                     margin: 0 auto;
                     @include max_576 {
-                        margin: 0;
+                        margin: 6px 20px 0 0;
+                        width: 12px;
+                        min-width: 12px;
+                        height: 12px;
                     }
                 }
 

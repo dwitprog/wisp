@@ -100,7 +100,7 @@ export function initProjectStagesAnimation({
 
     const setActiveStep = index => {
         items.forEach((item, itemIndex) => {
-            item.classList.toggle(activeClass, index >= 0 && itemIndex === index);
+            item.classList.toggle(activeClass, index >= 0 && itemIndex <= index);
             const step = item.querySelector(".step");
             if (step) {
                 step.classList.toggle(activeClass, itemIndex === index);

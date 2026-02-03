@@ -107,13 +107,13 @@ header#header.header {
             }
 
             .navigation {
-                display: flex;
+                display: none;
                 align-items: center;
                 justify-content: center;
                 gap: 30px;
-                margin-bottom: 77px;
-                @include max_992 {
-                    display: none;
+                margin-bottom: 40px;
+                @include max_1200 {
+                    display: flex;
                 }
 
                 .swiper-btn {
