@@ -441,7 +441,7 @@ if (faqSection) {
                     measure();
                     const targetTravel = getTravelForIndex(index);
                     setFaderPosition(targetTravel, maxTravel > 0, false);
-                }, 400);
+                }, 300);
             });
         });
 
