@@ -255,13 +255,6 @@ export function initProjectStagesAnimation({
                 return;
             }
             if (delta <= 0) {
-                unlockScroll();
-                removeInputListeners();
-                removeUnlockKeyListener();
-                if (pendingUnlockTimer) {
-                    window.clearTimeout(pendingUnlockTimer);
-                    pendingUnlockTimer = null;
-                }
                 return;
             }
             const now = performance.now();
@@ -300,13 +293,6 @@ export function initProjectStagesAnimation({
             if (event.deltaY < 0) {
                 event.preventDefault();
                 event.stopPropagation();
-                unlockScroll();
-                removeInputListeners();
-                removeUnlockKeyListener();
-                if (pendingUnlockTimer) {
-                    window.clearTimeout(pendingUnlockTimer);
-                    pendingUnlockTimer = null;
-                }
                 return;
             }
             event.preventDefault();
@@ -316,13 +302,7 @@ export function initProjectStagesAnimation({
         const onUnlockKey = event => {
             if (event.key === "Escape" || event.key === "ArrowUp") {
                 event.preventDefault();
-                unlockScroll();
-                removeInputListeners();
-                removeUnlockKeyListener();
-                if (pendingUnlockTimer) {
-                    window.clearTimeout(pendingUnlockTimer);
-                    pendingUnlockTimer = null;
-                }
+                event.stopPropagation();
             }
         };
 
@@ -351,13 +331,6 @@ export function initProjectStagesAnimation({
             if (deltaY > 0) {
                 event.preventDefault();
                 event.stopPropagation();
-                unlockScroll();
-                removeInputListeners();
-                removeUnlockKeyListener();
-                if (pendingUnlockTimer) {
-                    window.clearTimeout(pendingUnlockTimer);
-                    pendingUnlockTimer = null;
-                }
                 return;
             }
             event.preventDefault();

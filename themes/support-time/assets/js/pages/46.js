@@ -417,16 +417,7 @@ if (howWeWorkSection) {
 
         const handleDelta = delta => {
             if (!isLocked) return;
-            if (delta <= 0) {
-                unlockScroll();
-                removeInputListeners();
-                removeUnlockKeyListener();
-                if (pendingUnlockTimer) {
-                    window.clearTimeout(pendingUnlockTimer);
-                    pendingUnlockTimer = null;
-                }
-                return;
-            }
+            if (delta <= 0) return;
             const now = performance.now();
             if (now < holdUntil) return;
             const speed = Math.max(0.1, scrollLengthMultiplier);
@@ -459,13 +450,6 @@ if (howWeWorkSection) {
             if (event.deltaY < 0) {
                 event.preventDefault();
                 event.stopPropagation();
-                unlockScroll();
-                removeInputListeners();
-                removeUnlockKeyListener();
-                if (pendingUnlockTimer) {
-                    window.clearTimeout(pendingUnlockTimer);
-                    pendingUnlockTimer = null;
-                }
                 return;
             }
             event.preventDefault();
@@ -475,13 +459,7 @@ if (howWeWorkSection) {
         const onUnlockKey = event => {
             if (event.key === "Escape" || event.key === "ArrowUp") {
                 event.preventDefault();
-                unlockScroll();
-                removeInputListeners();
-                removeUnlockKeyListener();
-                if (pendingUnlockTimer) {
-                    window.clearTimeout(pendingUnlockTimer);
-                    pendingUnlockTimer = null;
-                }
+                event.stopPropagation();
             }
         };
 
@@ -506,13 +484,6 @@ if (howWeWorkSection) {
             if (deltaY > 0) {
                 event.preventDefault();
                 event.stopPropagation();
-                unlockScroll();
-                removeInputListeners();
-                removeUnlockKeyListener();
-                if (pendingUnlockTimer) {
-                    window.clearTimeout(pendingUnlockTimer);
-                    pendingUnlockTimer = null;
-                }
                 return;
             }
             event.preventDefault();
