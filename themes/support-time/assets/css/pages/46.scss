@@ -13,11 +13,11 @@
 
 .page-46 {
     &.banner {
-        padding-top: 165px;
+        padding-top: 65px;
         background: $st-gradient-main;
         padding-bottom: 219px;
         @include max_1200 {
-            padding-top: 143px;
+            padding-top: 113px;
             padding-bottom: 205px;
         }
         @include max_992 {
@@ -46,14 +46,11 @@
         }
 
         .offer {
-            padding: 48px 0;
-            margin-bottom: 62px;
+            padding: 48px 0 20px;
+            margin-bottom: 0;
             @include max_1200 {
                 padding: 0;
-                margin-bottom: 114px;
-            }
-            @include max_992 {
-                margin-bottom: 82px;
+                margin-bottom: 20px;
             }
             @include max_576 {
                 margin-bottom: 60px;
@@ -63,17 +60,15 @@
                 font-size: 96px;
                 font-weight: 900;
                 text-align: center;
-                margin-bottom: 40px;
+                margin-bottom: 20px;
                 @include max_1400 {
                     font-size: 80px;
                 }
                 @include max_1200 {
                     font-size: 67px;
-                    margin-bottom: 32px;
                 }
                 @include max_992 {
                     font-size: 58px;
-                    margin-bottom: 20px;
                 }
                 @include max_768 {
                     font-size: 46px;
