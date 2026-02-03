@@ -752,7 +752,7 @@ $spacing-properties: (
             }
 
             .input-wrapper {
-                padding: 30px 0 0 9px;
+                padding: 30px 0 0 0;
                 position: relative;
                 margin-bottom: 58px;
 
@@ -773,7 +773,7 @@ $spacing-properties: (
                     position: absolute;
                     color: #fff;
                     top: 0;
-                    left: 0;
+                    left: -9px;
                     font-size: 20px;
                 }
 
@@ -927,7 +927,6 @@ $spacing-properties: (
                 }
 
                 &.select-services {
-                    margin-left: 9px;
                     margin-right: 50px;
                     @include max_1400 {
                         margin-right: 30px;
@@ -950,9 +949,6 @@ $spacing-properties: (
                     }
                     @include max_992 {
                         margin-right: 0;
-                    }
-                    @include max_768 {
-                        margin-left: 9px;
                     }
                 }
 
@@ -1751,7 +1747,6 @@ $spacing-properties: (
                 }
 
                 .custom-select {
-                    margin-left: 0 !important;
                     @include max_992 {
                         margin-bottom: 35px;
                     }
