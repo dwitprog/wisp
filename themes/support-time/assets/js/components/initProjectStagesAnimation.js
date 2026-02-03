@@ -20,7 +20,7 @@ export function initProjectStagesAnimation({
     textSwapMaxDelay = 7000,
     textSwapTransitionMs = 900,
     tailAfterLastStep = 200,
-    stepHoldMs = 300,
+    stepHoldMs = 700,
     touchDeltaMultiplier = 2.5,
 } = {}) {
     if (!section) return;
@@ -62,6 +62,7 @@ export function initProjectStagesAnimation({
     let lastStepAt = 0;
     let pendingUnlockTimer = null;
     let mobileMaxProgress = 0;
+    let pendingActiveIndex = -1;
 
     const measure = () => {
         const containerRect = lineContainer.getBoundingClientRect();
@@ -99,7 +100,7 @@ export function initProjectStagesAnimation({
 
     const setActiveStep = index => {
         items.forEach((item, itemIndex) => {
-            item.classList.toggle(activeClass, index >= 0 && itemIndex <= index);
+            item.classList.toggle(activeClass, index >= 0 && itemIndex === index);
             const step = item.querySelector(".step");
             if (step) {
                 step.classList.toggle(activeClass, itemIndex === index);
@@ -126,6 +127,7 @@ export function initProjectStagesAnimation({
         savedScrollY = 0;
         touchStartY = 0;
         lastStepAt = 0;
+        pendingActiveIndex = -1;
         if (pendingUnlockTimer) {
             window.clearTimeout(pendingUnlockTimer);
             pendingUnlockTimer = null;
@@ -217,11 +219,15 @@ export function initProjectStagesAnimation({
                     height: targetHeight,
                     duration: 0.6,
                     ease: "none",
+                    onComplete: () => {
+                        if (isCleaning) return;
+                        if (currentTargetIndex !== targetIndex) return;
+                        setActiveStep(pendingActiveIndex);
+                    },
                 });
                 lastStepAt = now;
 
-                const activeIndex = Math.min(items.length - 1, targetIndex - 1);
-                setActiveStep(activeIndex);
+                pendingActiveIndex = Math.min(items.length - 1, targetIndex - 1);
 
                 maxProgress = segmentCount > 0 ? targetIndex / segmentCount : 0;
             }
@@ -421,6 +427,7 @@ export function initProjectStagesAnimation({
                     measure();
                 },
                 onUpdate: self => {
+                    const now = performance.now();
                     const scrollY = window.scrollY;
                     const triggerStart = self.start;
                     if (scrollY > triggerStart) {
@@ -432,7 +439,9 @@ export function initProjectStagesAnimation({
                     }
                     const rawProgress = getMobileProgressFromScroll(scrollY, triggerStart, self.end);
                     if (rawProgress > 0) {
-                        mobileMaxProgress = Math.max(mobileMaxProgress, rawProgress);
+                        const nextProgress =
+                            now < holdUntil ? mobileMaxProgress : Math.max(mobileMaxProgress, rawProgress);
+                        mobileMaxProgress = nextProgress;
                         updateByProgress(mobileMaxProgress);
                     } else {
                         updateByProgress(mobileMaxProgress);

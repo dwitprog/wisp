@@ -150,7 +150,7 @@ if (howWeWorkSection) {
         const thresholdOffset = 0;
         const scrollLengthMultiplier = 1.3;
         const tailAfterLastStep = 150;
-        const stepHoldMs = 300;
+        const stepHoldMs = 500;
         const captureOffset = -100;
         const touchDeltaMultiplier = 2.5;
 
@@ -175,6 +175,7 @@ if (howWeWorkSection) {
         let lastStepAt = 0;
         let pendingUnlockTimer = null;
         let mobileMaxProgress = 0;
+        let pendingActiveIndex = -1;
         let totalLength = 0;
         let bottomCompleteTimeline = null;
 
@@ -187,7 +188,7 @@ if (howWeWorkSection) {
 
         const setActiveStep = index => {
             items.forEach((item, itemIndex) => {
-                item.classList.toggle("active", index >= 0 && itemIndex <= index);
+                item.classList.toggle("active", index >= 0 && itemIndex === index);
                 const step = item.querySelector(".step");
                 if (step) {
                     step.classList.toggle("active", itemIndex === index);
@@ -260,6 +261,7 @@ if (howWeWorkSection) {
             savedScrollY = 0;
             touchStartY = 0;
             lastStepAt = 0;
+            pendingActiveIndex = -1;
             if (pendingUnlockTimer) {
                 window.clearTimeout(pendingUnlockTimer);
                 pendingUnlockTimer = null;
@@ -341,6 +343,11 @@ if (howWeWorkSection) {
                     height: targetHeight,
                     duration: 0.6,
                     ease: "none",
+                    onComplete: () => {
+                        if (isCleaning) return;
+                        if (currentTargetIndex !== targetIndex) return;
+                        setActiveStep(pendingActiveIndex);
+                    },
                 });
                 if (circle) {
                     gsap.killTweensOf(circle);
@@ -352,8 +359,7 @@ if (howWeWorkSection) {
                 }
                 lastStepAt = now;
 
-                const activeIndex = Math.min(items.length - 1, targetIndex - 1);
-                setActiveStep(activeIndex);
+                pendingActiveIndex = Math.min(items.length - 1, targetIndex - 1);
 
                 maxProgress = segmentCount > 0 ? targetIndex / segmentCount : 0;
             }
@@ -586,6 +592,7 @@ if (howWeWorkSection) {
                         measure();
                     },
                     onUpdate: self => {
+                        const now = performance.now();
                         const scrollY = window.scrollY;
                         const triggerStart = self.start;
                         if (scrollY > triggerStart) {
@@ -604,7 +611,9 @@ if (howWeWorkSection) {
                             return;
                         }
                         if (rawProgress > 0) {
-                            mobileMaxProgress = Math.max(mobileMaxProgress, rawProgress);
+                            const nextProgress =
+                                now < holdUntil ? mobileMaxProgress : Math.max(mobileMaxProgress, rawProgress);
+                            mobileMaxProgress = nextProgress;
                             updateByProgress(mobileMaxProgress);
                         } else {
                             updateByProgress(mobileMaxProgress);
