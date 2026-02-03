@@ -444,6 +444,14 @@ st_include_custom_files('/inc/custom-type-posts.php');
 st_include_custom_files('/inc/smtp.php');
 
 /**
+ * Локальный конфиг (YetiForce и др.). Файл config-local.php не в git.
+ */
+$config_local = get_template_directory() . '/inc/config-local.php';
+if (file_exists($config_local)) {
+    require_once $config_local;
+}
+
+/**
  * AJAX обработчики
  */
 st_include_custom_files('/inc/form-handler.php');

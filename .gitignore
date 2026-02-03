@@ -20,6 +20,9 @@ themes/rst*/
 
 node_modules/
 
+# Локальный конфиг с учётными данными (не коммитить)
+themes/support-time/inc/config-local.php
+
 *.log
 *.sql
 *.sqlite
