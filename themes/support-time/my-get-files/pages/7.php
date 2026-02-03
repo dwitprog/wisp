@@ -244,7 +244,7 @@
     <div class="container">
         <div class="content">
             <div class="section-title">
-                <h2 class="color-white">have a questions</h2>
+                <h2 class="color-white">have a questions?</h2>
             </div>
             <div class="lines">
                 <div class="line line-left"></div>
