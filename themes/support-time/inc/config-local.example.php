@@ -18,3 +18,6 @@ if (!defined('ST_YETIFORCE_USER')) {
 if (!defined('ST_YETIFORCE_PASSWORD')) {
     define('ST_YETIFORCE_PASSWORD', 'webservice-password');
 }
+
+// Опционально: способ авторизации при логине. По умолчанию 'auto' (перебор 1–5).
+// define('ST_YETIFORCE_AUTH_METHOD', 'auto'); // '1'|'2'|'3'|'4'|'5'|'auto'
