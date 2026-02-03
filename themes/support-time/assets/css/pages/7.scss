@@ -545,12 +545,12 @@
                 right: 160px;
             }
             @include max_1200 {
-                top: -4%;
-                right: 200px;
+                top: -53px;
+                right: 220px;
             }
             @include max_992 {
                 right: 130px;
-                top: -3%;
+                top: -60px;
                 font-size: 54px;
             }
             @include max_768 {
@@ -559,6 +559,7 @@
             }
             @include max_576 {
                 font-size: 27px;
+                top: -63px;
                 right: 90px;
             }
         }
