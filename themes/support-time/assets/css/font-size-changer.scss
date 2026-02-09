@@ -119,12 +119,12 @@
     }
 
     .btn {
-        font-size: min(calc(16px * var(--font-size-multiplier, 1)), 18px) !important;
+        font-size: min(18px * var(--font-size-multiplier, 1), 20px) !important;
     }
 
     footer.footer#footer .bottom a,
     footer.footer#footer .bottom p {
-        font-size: min(calc(12px * var(--font-size-multiplier, 1)), 14px) !important;
+        font-size: min(16px * var(--font-size-multiplier, 1), 18px) !important;
     }
 
     p {
@@ -210,8 +210,8 @@
     .page-36.have-a-questions .subtitle,
     .page-38.have-a-questions .subtitle,
     .page-40.have-a-questions .subtitle {
-        margin-top: 30px;
-        font-size: 32px !important;
+        font-size: min(18px * var(--font-size-multiplier, 1), 20px) !important;
+        margin-top: 0;
     }
     .line-wrapper .numbers .number span:last-of-type {
         width: 72px !important;
@@ -237,7 +237,7 @@
         }
 
         .page-7.banner .offer {
-            margin-bottom: 120px !important;
+            margin-bottom: 190px !important;
         }
 
         .page-7.platforms .swiper-content .swiper-wrapper .swiper-slide .desc {
@@ -326,6 +326,9 @@
             max-width: 100% !important;
             background-image: linear-gradient(182deg, #130839, #282251) !important;
         }
+    }
+    .faq-accordion p {
+        font-size: min(24px * var(--font-size-multiplier, 1), 28px) !important;
     }
     .faq-accordion .item.open {
         background: linear-gradient(182deg, #130839, #282251) !important;
@@ -488,6 +491,16 @@
         text-transform: uppercase;
         text-align: left;
     }
+    // Для страницы post-29
+    body.page-id-29 & footer.footer#footer .footer-menu_list a {
+        background: #fff !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        text-align: left;
+        text-transform: uppercase;
+    }
     header#header.header.header-gradient .header-menu_list > .menu-item.current-menu-item,
     header#header.header.header-gradient .header-menu_list > .menu-item.current-page-parent,
     header#header.header.header-gradient .header-menu_list > .menu-item:hover {
@@ -607,10 +620,10 @@
             font-size: 20px !important;
         }
         .page-7.faq .section-title {
-            right: 13% !important;
+            right: 50% !important;
         }
         .page-7.platforms .section-title {
-            right: 11%;
+            right: 20%;
         }
         #header.header .header-menu_list > .menu-item.menu-item-has-children .sub-menu {
             width: 100%;
