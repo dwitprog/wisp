@@ -491,15 +491,18 @@
         text-transform: uppercase;
         text-align: left;
     }
-    // Для страницы post-29
-    body.page-id-29 & footer.footer#footer .footer-menu_list a {
-        background: #fff !important;
-        -webkit-background-clip: text !important;
-        background-clip: text !important;
-        -webkit-text-fill-color: transparent;
-        color: transparent;
-        text-align: left;
-        text-transform: uppercase;
+    // Для страницы/записи 29 — белый текст в футере (селектор на body, чтобы не зависеть от вложенности)
+    @at-root {
+        body.page-id-29.highglass footer.footer#footer .footer-menu_list a,
+        body.postid-29.highglass footer.footer#footer .footer-menu_list a {
+            background: #fff !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            text-align: left;
+            text-transform: uppercase;
+        }
     }
     header#header.header.header-gradient .header-menu_list > .menu-item.current-menu-item,
     header#header.header.header-gradient .header-menu_list > .menu-item.current-page-parent,
@@ -569,6 +572,21 @@
         font-size: min(calc(22px * var(--font-size-multiplier, 1)), 24px) !important;
     }
 
+    @media screen and (max-width: 1199.98px) {
+        footer.footer#footer .footer-menu_list a {
+            font-size: min(20px * var(--font-size-multiplier, 1), 24px) !important;
+        }
+        .faq-accordion .item.open .content {
+            margin-top: 14px;
+        }
+        .page-42.platforms .item-desc .title {
+            font-size: min(48px * var(--font-size-multiplier, 1), 48px) !important;
+        }
+        .page-44.faq .items .item .title {
+            font-size: min(32px * var(--font-size-multiplier, 1), 32px) !important;
+        }
+    }
+
     // Мобильная версия: ограничение размеров шрифтов при увеличенном режиме
     @media screen and (max-width: 575.98px) {
         .h1,
@@ -634,6 +652,15 @@
         }
         header#header.header .header-end .header-phone {
             font-size: 16px;
+        }
+        .page-44.faq .items {
+            margin-left: 50px;
+        }
+        .page-46.how-we-work .section-title {
+            font-size: min(28px * var(--font-size-multiplier, 1), 28px) !important;
+        }
+        .page-48.contacts .section-title {
+            font-size: min(36px * var(--font-size-multiplier, 1), 36px) !important;
         }
         section.page-32 .item > p.desc,
         section.page-34 .item > p.desc,
