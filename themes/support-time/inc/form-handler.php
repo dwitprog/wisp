@@ -28,6 +28,8 @@ function st_yetiforce_build_description_english(array $raw_fields, string $fallb
         'email' => 'Email',
         'message' => 'Message',
         'phone' => 'Phone',
+        'booking_date' => 'Preferred date',
+        'booking_slot' => 'Time slot',
         'servicesPrice' => 'Planning budget',
         'services' => 'Service of interest',
         'platformsOfInterest' => 'Platforms of interest',
@@ -240,6 +242,9 @@ function st_send_form(): void
         'name' => 'Name',
         'email' => 'Email',
         'message' => 'Message',
+        'phone' => 'Phone',
+        'booking_date' => 'Preferred date',
+        'booking_slot' => 'Time slot',
         'servicesPrice' => 'Planning budget',
         'services' => 'Service of interest',
         'platformsOfInterest' => 'Platforms of interest',
@@ -249,6 +254,7 @@ function st_send_form(): void
         'scope' => 'Scope',
         'execution-speed' => 'Execution Speed',
         'web-site' => 'Web Site',
+        'company' => 'Company',
     ];
 
     foreach ($raw_fields as $key => $value) {
@@ -279,6 +285,36 @@ function st_send_form(): void
     if (!$lines) {
         error_log('[st_send_form] Empty form data after sanitize');
         wp_send_json_error(['message' => 'Empty form data'], 400);
+    }
+
+    if (function_exists('update_field') && function_exists('st_booking_slot_labels')) {
+        $booking_date = is_array($raw_fields['booking_date'] ?? null) ? reset($raw_fields['booking_date']) : ($raw_fields['booking_date'] ?? '');
+        $booking_slot = is_array($raw_fields['booking_slot'] ?? null) ? reset($raw_fields['booking_slot']) : ($raw_fields['booking_slot'] ?? '');
+        $booking_date = $booking_date ? sanitize_text_field((string) $booking_date) : '';
+        $booking_slot = $booking_slot ? sanitize_text_field((string) $booking_slot) : '';
+        if ($booking_date !== '' && $booking_slot !== '') {
+            $date_1 = get_field('date_1', 'option');
+            $date_2 = get_field('date_2', 'option');
+            $date_3 = get_field('date_3', 'option');
+            $day = null;
+            if ((string) $date_1 === $booking_date) {
+                $day = 1;
+            } elseif ((string) $date_2 === $booking_date) {
+                $day = 2;
+            } elseif ((string) $date_3 === $booking_date) {
+                $day = 3;
+            }
+            $labels = st_booking_slot_labels();
+            $slot_index = array_search($booking_slot, $labels, true);
+            if ($day !== null && $slot_index !== false) {
+                $field_key = 'time_' . $day . '_' . ($slot_index + 1);
+                $name = isset($raw_fields['name']) ? (is_array($raw_fields['name']) ? reset($raw_fields['name']) : $raw_fields['name']) : '';
+                $email = isset($raw_fields['email']) ? (is_array($raw_fields['email']) ? reset($raw_fields['email']) : $raw_fields['email']) : '';
+                $msg = isset($raw_fields['message']) ? (is_array($raw_fields['message']) ? reset($raw_fields['message']) : $raw_fields['message']) : '';
+                $info = trim($name . ' | ' . $email . ($msg !== '' ? ' | ' . $msg : ''));
+                update_field($field_key, ['time' => true, 'info' => $info], 'option');
+            }
+        }
     }
 
     $to = '';

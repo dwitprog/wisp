@@ -8,6 +8,7 @@
 import LazyLoad from "vanilla-lazyload";
 import { changeFontSize } from "./components/changeFontSize";
 import { initFeedbackForm } from "./components/initFeedbackForm";
+import { initBookingSlots } from "./components/initBookingSlots";
 import { gsap } from "gsap";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -429,10 +430,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 closePopup();
             }
         });
+        initBookingSlots("#popupForm .have-a-questions");
         initFeedbackForm("#popupForm .have-a-questions", {
             validateFields: {
                 name: { required: true, selector: 'input[name="name"]' },
                 email: { required: true, email: true, selector: 'input[name="email"]' },
+                booking_date: {
+                    required: true,
+                    selector: '.select-booking-date input[name="booking_date[]"]',
+                    messages: { required: "Please select a date" },
+                },
+                booking_slot: {
+                    required: true,
+                    selector: '.select-booking-slot input[name="booking_slot[]"]',
+                    messages: { required: "Please select a time slot" },
+                },
                 price: {
                     required: true,
                     selector: ".select-services-price",

@@ -52,6 +52,16 @@ if (in_array('advanced-custom-fields-pro/acf.php', apply_filters('active_plugins
             'icon_url' => 'dashicons-chart-area',
             'redirect' => false
         ));
+        // Слоты записи (занятые даты/время для формы обратной связи)
+        acf_add_options_page(array(
+            'page_title' => 'Слоты записи (форма обратной связи)',
+            'menu_title' => 'Слоты записи',
+            'menu_slug' => 'st-booking-slots',
+            'capability' => 'edit_posts',
+            'position' => 52,
+            'icon_url' => 'dashicons-calendar-alt',
+            'redirect' => false
+        ));
     }
 
     /**
