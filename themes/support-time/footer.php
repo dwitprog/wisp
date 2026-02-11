@@ -68,41 +68,12 @@
                                 return $dt ? $dt->format('M j, Y') : $d;
                             };
                             $date_options = array(
-                                array('label' => 'Today – ' . $fmt($date_1), 'value' => $date_1),
-                                array('label' => 'Tomorrow – ' . $fmt($date_2), 'value' => $date_2),
-                                array('label' => 'Day after – ' . $fmt($date_3), 'value' => $date_3),
+                                array('label' => $fmt($date_1), 'value' => $date_1),
+                                array('label' => $fmt($date_2), 'value' => $date_2),
+                                array('label' => $fmt($date_3), 'value' => $date_3),
                             );
+                            $date_options_json = wp_json_encode($date_options);
                             ?>
-                            <div class="select-booking-date custom-select">
-                                <span class="required">*</span>
-                                <div class="custom-select_top">
-                                    <p class="custom-select_title">Date</p>
-                                    <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/img/repeat-elements/form/custom-checkbox-arrow-1.svg" class="arrow arrow_default active" alt="arrow">
-                                    <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/img/repeat-elements/form/custom-checkbox-arrow-1-active.svg" class="arrow arrow_active" alt="arrow">
-                                </div>
-                                <div class="custom-select_list">
-                                    <?php foreach ($date_options as $i => $opt) : ?>
-                                    <div class="custom-select_item">
-                                        <input type="checkbox" class="onlyOne" name="booking_date[]" value="<?php echo esc_attr($opt['value']); ?>" id="booking_date_popup_<?php echo $i; ?>">
-                                        <label for="booking_date_popup_<?php echo $i; ?>"><span></span><?php echo esc_html($opt['label']); ?></label>
-                                    </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                            <div class="select-booking-slot custom-select">
-                                <span class="required">*</span>
-                                <div class="custom-select_top">
-                                    <p class="custom-select_title">Time slot</p>
-                                    <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/img/repeat-elements/form/custom-checkbox-arrow-1.svg" class="arrow arrow_default active" alt="arrow">
-                                    <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/img/repeat-elements/form/custom-checkbox-arrow-1-active.svg" class="arrow arrow_active" alt="arrow">
-                                </div>
-                                <div class="custom-select_list" data-booking-slot-list>
-                                    <div class="custom-select_item">
-                                        <input type="checkbox" class="onlyOne" name="booking_slot[]" value="" id="booking_slot_placeholder" disabled>
-                                        <label for="booking_slot_placeholder"><span></span>Choose date first</label>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="select-services custom-select">
                                 <span class="required">*</span>
                                 <div class="custom-select_top">
@@ -222,7 +193,20 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="btn-and-social">
+                            <div class="select-booking-datetime custom-select" data-date-options="<?php echo esc_attr($date_options_json); ?>">
+                                <input type="hidden" name="booking_date[]" class="booking-date-hidden" value="">
+                                <input type="hidden" name="booking_slot[]" class="booking-slot-hidden" value="">
+                                <div class="custom-select_top">
+                                    <p class="custom-select_title">Date & Time</p>
+                                    <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/img/repeat-elements/form/custom-checkbox-arrow-1.svg" class="arrow arrow_default active" alt="arrow">
+                                    <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/img/repeat-elements/form/custom-checkbox-arrow-1-active.svg" class="arrow arrow_active" alt="arrow">
+                                </div>
+                                <div class="custom-select_list" data-booking-datetime-list></div>
+                            </div>
+                            
+                        </div>
+                        <div class="bottom-send">
+                        <div class="btn-and-social">
                                 <button class="btn-send" type="submit">
                                     <span class="gradient-text">SEND</span>
                                 </button>

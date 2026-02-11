@@ -908,7 +908,55 @@ $spacing-properties: (
                 @include max_1200 {
                     justify-content: space-between;
                 }
+
+                &:has(.form-selects-row) {
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 0;
+                }
+            }
+
+            .form-selects-row {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                gap: 10px;
+                @include max_1200 {
+                    justify-content: space-between;
+                }
+                .custom-select {
+                    flex: 1 1 calc(25% - 8px);
+                    min-width: 200px;
+                    max-width: none;
+                    margin-right: 0 !important;
+                    @include max_1200 {
+                        max-width: 306px;
+                    }
+                    @include max_992 {
+                        max-width: calc(50% - 14px);
+                    }
+                    @include max_768 {
+                        max-width: 100%;
+                    }
+                    &.select-services,
+                    &.select-services-price {
+                        margin-right: 0 !important;
+                    }
+                }
+            }
+
+            .bottom-wrapper:has(.form-selects-row) > .bottom-send {
+                display: flex;
+                justify-content: end;
+                width: 100%;
+                margin-top: 40px;
+            }
+            .bottom-wrapper:has(.form-selects-row) > .btn-and-social {
+                margin-top: 28px;
+                margin-left: auto;
+                align-self: flex-end;
                 @include max_992 {
+                    margin-top: 20px;
                 }
             }
 
@@ -1525,6 +1573,14 @@ $spacing-properties: (
             }
             @include max_576 {
                 width: 100%;
+            }
+
+            .subtitle {
+                margin-bottom: 80px;
+            }
+
+            .form .message {
+                margin-bottom: 50px;
             }
 
             .container {

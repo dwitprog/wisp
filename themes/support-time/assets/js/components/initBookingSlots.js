@@ -1,6 +1,6 @@
 /**
- * Слоты записи по дням (1=сегодня, 2=завтра, 3=послезавтра) и 10 слотов в день.
- * Данные из rgData: booking_dates[3], booking_slot_labels[10], booking_booked["1"|"2"|"3"] = [bool x10].
+ * Объединённый селект Date & Time: при открытии — выбор даты, после выбора даты — слоты.
+ * При повторном открытии снова даты (с отмеченным выбранным). Данные из rgData и data-date-options.
  */
 function getBookedStateForDate(dateStr) {
     if (typeof rgData === "undefined" || !Array.isArray(rgData.booking_dates)) return null;
@@ -33,21 +33,68 @@ export function initBookingSlots(containerSelector = "#popupForm .have-a-questio
     const container = document.querySelector(containerSelector);
     if (!container) return;
 
-    const dateSelect = container.querySelector(".select-booking-date.custom-select");
-    const slotSelect = container.querySelector(".select-booking-slot.custom-select");
-    const slotList = container.querySelector(".select-booking-slot [data-booking-slot-list]");
-    if (!dateSelect || !slotList || !slotSelect) return;
+    const block = container.querySelector(".select-booking-datetime.custom-select");
+    const listEl = block?.querySelector("[data-booking-datetime-list]");
+    const topEl = block?.querySelector(".custom-select_top");
+    const titleEl = block?.querySelector(".custom-select_title");
+    const dateHidden = block?.querySelector(".booking-date-hidden");
+    const slotHidden = block?.querySelector(".booking-slot-hidden");
+    if (!block || !listEl || !topEl || !titleEl || !dateHidden || !slotHidden) return;
 
-    const slotTop = slotSelect.querySelector(".custom-select_top");
-    const slotTitle = slotSelect.querySelector(".custom-select_title");
+    let dateOptions = [];
+    try {
+        const raw = block.getAttribute("data-date-options");
+        if (raw) dateOptions = JSON.parse(raw);
+    } catch (e) {
+        dateOptions = [];
+    }
+    if (!Array.isArray(dateOptions)) dateOptions = [];
 
-    function getSelectedDate() {
-        const cb = dateSelect.querySelector('input[name="booking_date[]"]:checked');
-        return cb ? cb.value : null;
+    let selectedDate = (dateHidden.value || "").trim();
+    let selectedSlot = (slotHidden.value || "").trim();
+    let step = "date";
+
+    function updateTitle() {
+        if (selectedDate && selectedSlot) titleEl.textContent = selectedDate + ", " + selectedSlot;
+        else if (selectedDate) titleEl.textContent = getDateLabel(selectedDate) + " — choose time";
+        else titleEl.textContent = "Date & Time";
     }
 
-    function renderSlotList(dateStr) {
-        const booked = getBookedStateForDate(dateStr);
+    function getDateLabel(value) {
+        const o = dateOptions.find(d => d.value === value);
+        return o ? o.label : value;
+    }
+
+    function renderDates() {
+        step = "date";
+        listEl.innerHTML = "";
+        dateOptions.forEach((opt, i) => {
+            const id = "booking_datetime_date_" + i;
+            const checked = selectedDate === opt.value ? " checked" : "";
+            const item = document.createElement("div");
+            item.className = "custom-select_item";
+            item.innerHTML = `
+                <input type="radio" name="booking_datetime_date" value="${opt.value}" id="${id}"${checked}>
+                <label for="${id}"><span></span>${opt.label}</label>`;
+            listEl.appendChild(item);
+        });
+        listEl.querySelectorAll('input[name="booking_datetime_date"]').forEach(radio => {
+            radio.addEventListener("change", onDatePick);
+        });
+    }
+
+    function onDatePick() {
+        const radio = listEl.querySelector('input[name="booking_datetime_date"]:checked');
+        if (!radio) return;
+        selectedDate = radio.value;
+        dateHidden.value = selectedDate;
+        dateHidden.dispatchEvent(new Event("change", { bubbles: true }));
+        renderSlots();
+    }
+
+    function renderSlots() {
+        step = "slot";
+        const booked = getBookedStateForDate(selectedDate);
         const labels = getSlotLabels();
         const free = [];
         if (booked && booked.length >= 10) {
@@ -58,68 +105,64 @@ export function initBookingSlots(containerSelector = "#popupForm .have-a-questio
             labels.forEach((label, i) => free.push({ label: label, index: i }));
         }
 
-        slotList.innerHTML = "";
+        listEl.innerHTML = "";
         if (free.length === 0) {
-            slotList.innerHTML = `
+            listEl.innerHTML = `
                 <div class="custom-select_item">
-                    <input type="checkbox" class="onlyOne" name="booking_slot[]" value="" id="booking_slot_none" disabled>
+                    <input type="radio" name="booking_datetime_slot" value="" id="booking_slot_none" disabled>
                     <label for="booking_slot_none"><span></span>No free slots</label>
                 </div>`;
-            if (slotTitle) slotTitle.textContent = "Time slot";
+            updateTitle();
             return;
         }
 
         free.forEach((item, i) => {
-            const id = "booking_slot_popup_" + i;
+            const id = "booking_datetime_slot_" + i;
+            const checked = selectedSlot === item.label ? " checked" : "";
             const el = document.createElement("div");
             el.className = "custom-select_item";
             el.innerHTML = `
-                <input type="checkbox" class="onlyOne" name="booking_slot[]" value="${item.label}" data-slot-index="${item.index}" id="${id}">
+                <input type="radio" name="booking_datetime_slot" value="${item.label}" id="${id}" data-slot-index="${item.index}"${checked}>
                 <label for="${id}"><span></span>${item.label}</label>`;
-            slotList.appendChild(el);
+            listEl.appendChild(el);
         });
-
-        slotTop.classList.remove("active");
-        slotList.classList.remove("active");
-        slotSelect.querySelectorAll('input[name="booking_slot[]"]').forEach(el => {
-            el.checked = false;
+        listEl.querySelectorAll('input[name="booking_datetime_slot"]').forEach(radio => {
+            radio.addEventListener("change", onSlotPick);
         });
-        if (slotTitle) slotTitle.textContent = "Time slot";
-
-        const checkboxes = slotList.querySelectorAll('input[name="booking_slot[]"]');
-        checkboxes.forEach(cb => {
-            cb.addEventListener("change", function () {
-                if (this.checked) {
-                    checkboxes.forEach(other => {
-                        if (other !== this) other.checked = false;
-                    });
-                }
-                slotTop.classList.toggle(
-                    "valide",
-                    slotList.querySelector('input[name="booking_slot[]"]:checked') &&
-                        !slotTop.classList.contains("active"),
-                );
-            });
-        });
+        updateTitle();
     }
 
-    function updateSlotSelect() {
-        const dateStr = getSelectedDate();
-        if (!dateStr) {
-            slotList.innerHTML = `
-                <div class="custom-select_item">
-                    <input type="checkbox" class="onlyOne" name="booking_slot[]" value="" id="booking_slot_placeholder" disabled>
-                    <label for="booking_slot_placeholder"><span></span>Choose date first</label>
-                </div>`;
-            if (slotTitle) slotTitle.textContent = "Time slot";
+    function onSlotPick() {
+        const radio = listEl.querySelector('input[name="booking_datetime_slot"]:checked');
+        if (!radio) return;
+        selectedSlot = radio.value;
+        slotHidden.value = selectedSlot;
+        slotHidden.dispatchEvent(new Event("change", { bubbles: true }));
+        updateTitle();
+        topEl.classList.add("valide");
+        topEl.classList.remove("active");
+        listEl.classList.remove("active");
+    }
+
+    topEl.addEventListener("click", () => {
+        const isOpen = topEl.classList.contains("active");
+        if (isOpen) {
+            topEl.classList.remove("active");
+            listEl.classList.remove("active");
             return;
         }
-        renderSlotList(dateStr);
-    }
-
-    dateSelect.querySelectorAll('input[name="booking_date[]"]').forEach(cb => {
-        cb.addEventListener("change", () => updateSlotSelect());
+        topEl.classList.add("active");
+        listEl.classList.add("active");
+        if (step === "date" || !selectedDate) renderDates();
+        else renderSlots();
     });
 
-    updateSlotSelect();
+    document.addEventListener("click", e => {
+        if (!block.contains(e.target)) {
+            topEl.classList.remove("active");
+            listEl.classList.remove("active");
+        }
+    });
+
+    updateTitle();
 }

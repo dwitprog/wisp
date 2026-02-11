@@ -131,10 +131,12 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
         const customSelectors = container.querySelectorAll(".custom-select");
 
         customSelectors.forEach(customSelector => {
+            if (customSelector.classList.contains("select-booking-datetime")) return;
+
             const customSelectorTop = customSelector.querySelector(".custom-select_top");
             const customSelectorList = customSelector.querySelector(".custom-select_list");
-            const checkboxes = customSelectorList.querySelectorAll('input[type="checkbox"]');
-            const onlyOneCheckboxes = customSelectorList.querySelectorAll(".onlyOne");
+            const checkboxes = customSelectorList ? customSelectorList.querySelectorAll('input[type="checkbox"]') : [];
+            const onlyOneCheckboxes = customSelectorList ? customSelectorList.querySelectorAll(".onlyOne") : [];
 
             // Обработчик клика по верхней части селектора для открытия/закрытия списка
             customSelectorTop.addEventListener("click", () => {
