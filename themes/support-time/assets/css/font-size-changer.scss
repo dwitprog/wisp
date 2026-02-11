@@ -289,16 +289,17 @@
             width: 100% !important;
         }
 
-        .have-a-questions .form .custom-select.select-services {
-            width: 46% !important;
-            margin-right: 4% !important;
-            margin-left: 0 !important;
-        }
-
-        .have-a-questions .form .custom-select.select-services-price {
-            margin-right: 0 !important;
-            width: 46% !important;
-            margin-left: 4% !important;
+        @media (min-width: 576px) {
+            .have-a-questions .form .custom-select.select-services {
+                margin-left: 0 !important;
+                margin-right: 0% !important;
+                width: 34% !important;
+            }
+            .have-a-questions .form .custom-select.select-services-price {
+                margin-left: 0% !important;
+                margin-right: 0 !important;
+                width: 30% !important;
+            }
         }
 
         .btn-and-social {

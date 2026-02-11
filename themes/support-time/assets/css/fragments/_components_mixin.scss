@@ -1575,10 +1575,6 @@ $spacing-properties: (
                 width: 100%;
             }
 
-            .subtitle {
-                margin-bottom: 80px;
-            }
-
             .form .message {
                 margin-bottom: 50px;
             }
@@ -1675,9 +1671,9 @@ $spacing-properties: (
             }
 
             .subtitle {
-                margin-bottom: 101px;
-                margin-left: 133px;
                 font-size: 14px;
+                margin-bottom: 80px;
+                margin-left: 133px;
                 @include max_1200 {
                     font-size: 13px;
                     margin-left: 51px;

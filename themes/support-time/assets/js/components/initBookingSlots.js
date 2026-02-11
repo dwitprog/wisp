@@ -165,8 +165,7 @@ export function initBookingSlots(containerSelector = "#popupForm .have-a-questio
         }
         topEl.classList.add("active");
         listEl.classList.add("active");
-        if (step === "date" || !selectedDate) renderDates();
-        else renderSlots();
+        renderDates();
     });
 
     document.addEventListener("click", e => {
