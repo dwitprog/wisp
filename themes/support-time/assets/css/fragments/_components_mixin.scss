@@ -1583,6 +1583,17 @@ $spacing-properties: (
                 margin-bottom: 50px;
             }
 
+            .bottom-send {
+                display: flex;
+                justify-content: flex-end;
+                width: 100%;
+                margin-top: 40px;
+            }
+
+            .custom-select_item-back {
+                cursor: pointer;
+            }
+
             .container {
                 max-width: 1090px;
                 @include max_1400 {

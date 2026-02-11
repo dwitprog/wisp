@@ -107,11 +107,23 @@ export function initBookingSlots(containerSelector = "#popupForm .have-a-questio
 
         listEl.innerHTML = "";
         if (free.length === 0) {
-            listEl.innerHTML = `
-                <div class="custom-select_item">
-                    <input type="radio" name="booking_datetime_slot" value="" id="booking_slot_none" disabled>
-                    <label for="booking_slot_none"><span></span>No free slots</label>
-                </div>`;
+            const backItem = document.createElement("div");
+            backItem.className = "custom-select_item custom-select_item-back";
+            backItem.setAttribute("role", "button");
+            backItem.tabIndex = 0;
+            backItem.innerHTML = `<span></span>No free slots — choose another date`;
+            backItem.addEventListener("click", () => {
+                step = "date";
+                renderDates();
+            });
+            backItem.addEventListener("keydown", e => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    step = "date";
+                    renderDates();
+                }
+            });
+            listEl.appendChild(backItem);
             updateTitle();
             return;
         }
