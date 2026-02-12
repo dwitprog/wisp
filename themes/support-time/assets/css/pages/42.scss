@@ -98,6 +98,7 @@ header#header.header {
                 }
 
                 img {
+                    max-width: 75%;
                     transition: $transition-default;
 
                     &.active {
@@ -213,6 +214,10 @@ header#header.header {
             max-width: 1223px;
             margin: 0 auto;
             width: 100%;
+
+            img {
+                max-width: 400px;
+            }
             @include max_1400 {
                 max-width: 1140px;
             }
