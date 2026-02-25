@@ -20,11 +20,11 @@
 
                                     </p>
                                     <div class="content">
-                                        <p class="desc">
-                                            <?php the_sub_field('faq_item_text'); ?>
-                                        </p>
-                                        <a href="<?php the_sub_field('faq_item_link'); ?>" class="link">Learn more about
-                                            this point</a>
+                                        <div class="faq_item_text">
+                                            <p class="desc"><?php the_sub_field('faq_item_text'); ?></p>
+                                        </div>
+                                        <div class="faq_item_text_detail" aria-hidden="true"><?php the_sub_field('faq_item_text_detail'); ?></div>
+                                        <button type="button" class="link faq-learn-more">Learn more about this point</button>
                                         <button class="btn btn-gradient openPopup" data-pop="popupForm">CONTACT us
                                         </button>
                                     </div>

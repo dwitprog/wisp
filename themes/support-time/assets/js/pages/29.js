@@ -54,6 +54,8 @@ if (servicesSection) {
         if (isHighglass) {
             swiperOptions.centeredSlides = true;
             swiperOptions.slidesPerView = 2;
+            swiperOptions.initialSlide = 1;
+            swiperOptions.loop = false;
         } else {
             swiperOptions.slidesPerView = 3.4;
         }

@@ -17,16 +17,39 @@
     }
 
     .page-7.faq {
-        background-image: linear-gradient(134.15deg, #130839, #4a2c5e) !important;
-
-        &:before {
-            background-image: linear-gradient(134.15deg, #130839, #4a2c5e) !important;
-            background: #130839 !important;
-        }
-
+        background-image: linear-gradient(182deg, #130839, #282251) !important;
         .section-title {
             right: 10% !important;
         }
+    }
+    .page-7.faq:before {
+        background-image: linear-gradient(182deg, #130839, #130839) !important;
+    }
+
+    .btn-and-social {
+        margin-top: 0px !important;
+    }
+
+    header#header.header.header-variant_3 {
+        background: linear-gradient(182deg, #130839, #282251) !important;
+    }
+    .popupForm .have-a-questions .content {
+        background: linear-gradient(182deg, #130839, #282251) !important;
+    }
+    @at-root body.highglass footer.footer.page-id-29#footer .footer-menu_list .menu-item a {
+        background: #fff !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        text-align: left;
+        text-transform: uppercase;
+    }
+    .line.line-bottom {
+        display: none !important;
+    }
+    .line.line-left {
+        display: none !important;
     }
 
     // Стили header
@@ -179,6 +202,18 @@
             width: 52px;
             height: 52px;
         }
+        .page-29.services .swiper-container .swiper-slide,
+        .page-29.services .swiper-container .swiper-slide .item {
+            height: auto !important;
+            max-height: 420px !important;
+        }
+        .page-29.services .swiper-container .swiper-wrapper {
+            align-items: stretch !important;
+            min-height: 380px !important;
+        }
+        .page-29.services .swiper-container {
+            min-height: 380px !important;
+        }
     }
 
     .page-29.services,
@@ -303,7 +338,7 @@
         }
 
         .btn-and-social {
-            margin-top: 100px !important;
+            margin-top: 0px !important;
         }
 
         .have-a-questions .form .btn-send {
@@ -491,19 +526,6 @@
         color: transparent;
         text-transform: uppercase;
         text-align: left;
-    }
-    // Для страницы/записи 29 — белый текст в футере (селектор на body, чтобы не зависеть от вложенности)
-    @at-root {
-        body.page-id-29.highglass footer.footer#footer .footer-menu_list a,
-        body.postid-29.highglass footer.footer#footer .footer-menu_list a {
-            background: #fff !important;
-            -webkit-background-clip: text !important;
-            background-clip: text !important;
-            -webkit-text-fill-color: transparent;
-            color: transparent;
-            text-align: left;
-            text-transform: uppercase;
-        }
     }
     header#header.header.header-gradient .header-menu_list > .menu-item.current-menu-item,
     header#header.header.header-gradient .header-menu_list > .menu-item.current-page-parent,

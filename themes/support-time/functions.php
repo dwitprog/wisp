@@ -1,4 +1,21 @@
 <?php
+// Не выводить ошибки и notice в браузер на фронте
+if ( ! is_admin() ) {
+    @ini_set( 'display_errors', '0' );
+    @ini_set( 'display_startup_errors', '0' );
+}
+// Подавить notice WordPress 6.7 про загрузку переводов до init (ACF и др.)
+add_filter(
+    'doing_it_wrong_trigger_error',
+    function ( $trigger, $function_name ) {
+        if ( '_load_textdomain_just_in_time' === $function_name ) {
+            return false;
+        }
+        return $trigger;
+    },
+    10,
+    2
+);
 
 /***************************************************************
  * Распределение заявок
@@ -332,10 +349,7 @@ add_action('admin_menu', 'st_edit_admin_menus');
 function ddd($code, string $debug_method = "print"): bool
 {
     if (is_admin()) {
-        if (!empty($code)) {
-            ini_set("error_reporting", E_ALL);
-            ini_set("display_errors", 1);
-            ini_set("display_startup_errors", 1);
+            if (!empty($code)) {
             echo "<pre>";
             switch ($debug_method) {
                 case "print":

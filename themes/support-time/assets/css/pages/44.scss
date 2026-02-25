@@ -184,6 +184,20 @@ header#header.header {
                     opacity: 0;
                     transition: opacity 0.1s ease 0.2s;
                 }
+
+                .faq_item_text_detail {
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: max-height 0.4s ease;
+
+                    &.faq-detail-hidden {
+                        max-height: 0;
+                    }
+
+                    &.faq-detail-expanded {
+                        max-height: 2000px;
+                    }
+                }
             }
         }
 

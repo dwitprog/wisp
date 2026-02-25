@@ -408,7 +408,13 @@
         </div>
     </div>
 </div>
-<footer class="footer" id="footer">
+<?php
+$footer_page_id = get_queried_object_id();
+if ( ! $footer_page_id && is_singular() ) {
+    $footer_page_id = get_the_ID();
+}
+?>
+<footer class="footer page-id-<?php echo esc_attr( (string) $footer_page_id ); ?>" id="footer">
     <div class="container">
         <div class="footer-content">
             <div class="logo">

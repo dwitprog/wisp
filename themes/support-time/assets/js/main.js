@@ -9,6 +9,7 @@ import LazyLoad from "vanilla-lazyload";
 import { changeFontSize } from "./components/changeFontSize";
 import { initFeedbackForm } from "./components/initFeedbackForm";
 import { initBookingSlots } from "./components/initBookingSlots";
+import { initFaqLearnMore } from "./components/initFaqLearnMore";
 import { gsap } from "gsap";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -431,6 +432,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
         initBookingSlots("#popupForm .have-a-questions");
+        initFaqLearnMore();
         initFeedbackForm("#popupForm .have-a-questions", {
             validateFields: {
                 name: { required: true, selector: 'input[name="name"]' },
