@@ -9,10 +9,8 @@ themes/rst*/
 
 !imports
 
-# Favicon
-!/uploads
-/uploads/*
-!/uploads/fbrfg/
+# Favicon / uploads (не коммитить, на сервере свои файлы)
+uploads/
 
 !.github
 !.gitignore
