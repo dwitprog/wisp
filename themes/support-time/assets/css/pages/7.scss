@@ -698,7 +698,7 @@
                     height: auto;
                     flex-direction: column;
                     justify-content: flex-end;
-                    min-height: 110px;
+                    min-height: 160px;
                     @include max_1200 {
                         justify-content: center;
                     }
@@ -851,12 +851,12 @@
             @include max_768 {
                 min-width: 768px;
                 height: 41px;
-                top: -41px;
+                top: -39px;
             }
             @include max_576 {
                 min-width: 840px;
                 height: 43px;
-                top: -43px;
+                top: -40px;
                 right: 50%;
                 transform: translateX(19%);
                 -webkit-mask-position: center top;
@@ -1136,6 +1136,12 @@
                     }
                 }
             }
+        }
+    }
+
+    &.project-stages {
+        .content {
+            margin-bottom: 0 !important;
         }
     }
 }

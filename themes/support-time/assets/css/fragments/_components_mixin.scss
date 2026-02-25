@@ -152,15 +152,12 @@ $spacing-properties: (
         padding-bottom: 130px;
         margin-top: -137px;
         z-index: 6;
-        //height: auto;
-        //min-height: 100vh;
         @include max_1400 {
             margin-top: -100px;
         }
         @include max_1200 {
             margin-top: -65px;
             padding-bottom: 81px;
-            //min-height: 1px;
         }
         @include max_768 {
             margin-top: -55px;
@@ -284,16 +281,12 @@ $spacing-properties: (
         }
 
         .items {
-            padding-top: 225px;
+            padding-top: 100px;
             margin-left: 120px;
 
             @include max_1200 {
-                padding-top: 150px;
                 margin-left: 42px;
                 padding-bottom: 77px;
-            }
-            @include max_768 {
-                padding-top: 180px;
             }
 
             .item {
@@ -362,12 +355,12 @@ $spacing-properties: (
 
                 &:not(:last-child) {
                     margin-bottom: 70px;
-                    @include max_1200 {
-                        margin-bottom: 120px;
-                    }
-                    @include max_576 {
-                        margin-bottom: 90px;
-                    }
+                    //@include max_1200 {
+                    //    margin-bottom: 120px;
+                    //}
+                    //@include max_576 {
+                    //    margin-bottom: 90px;
+                    //}
                 }
 
                 position: relative;
@@ -924,6 +917,7 @@ $spacing-properties: (
                 @include max_1200 {
                     justify-content: space-between;
                 }
+
                 .custom-select {
                     flex: 1 1 calc(25% - 8px);
                     min-width: 200px;
@@ -938,6 +932,7 @@ $spacing-properties: (
                     @include max_768 {
                         max-width: 100%;
                     }
+
                     &.select-services,
                     &.select-services-price {
                         margin-right: 0 !important;
@@ -951,6 +946,7 @@ $spacing-properties: (
                 width: 100%;
                 margin-top: 40px;
             }
+
             .bottom-wrapper:has(.form-selects-row) > .btn-and-social {
                 margin-top: 28px;
                 margin-left: auto;
