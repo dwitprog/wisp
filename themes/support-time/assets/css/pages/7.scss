@@ -693,12 +693,12 @@
                 }
 
                 .swiper-slide {
-                    text-align: center;
                     display: flex;
-                    height: auto;
                     flex-direction: column;
+                    height: auto;
                     justify-content: flex-end;
-                    min-height: 160px;
+                    min-height: 172px;
+                    text-align: center;
                     @include max_1200 {
                         justify-content: center;
                     }
@@ -796,6 +796,9 @@
     }
 
     &.faq {
+        .faq-learn-more {
+            display: none !important;
+        }
         position: relative;
         background: linear-gradient(
             270deg,

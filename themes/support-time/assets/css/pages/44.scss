@@ -18,6 +18,10 @@ header#header.header {
     &.faq {
         position: relative;
 
+        .faq-learn-more.is-expanded {
+            margin-top: 20px;
+        }
+
         .container {
             max-width: 1315px;
             @include max_1400 {

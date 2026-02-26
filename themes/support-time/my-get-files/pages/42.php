@@ -67,7 +67,11 @@
                                     <p class="desc">
                                         <?php the_sub_field('platforms_text'); ?>
                                     </p>
-                                    <a href="<?php the_sub_field('platforms_link'); ?>" class="link">
+                                    <?php
+                                    $platform_link = trim((string) get_sub_field('platforms_link'));
+                                    $show_link = $platform_link !== '' && $platform_link !== '#';
+                                    if ($show_link) : ?>
+                                    <a href="<?php echo esc_url($platform_link); ?>" class="link">
                                         Learn what we can do with it
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
@@ -85,6 +89,7 @@
                                         </svg>
 
                                     </a>
+                                    <?php endif; ?>
                                     <button class="btn btn-gradient openPopup" data-pop="popupForm">start using</button>
                                 </div>
                                 <?php if (get_sub_field('platforms_logo_desc')) : ?>

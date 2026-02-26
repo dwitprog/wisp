@@ -79,8 +79,8 @@
             }
 
             .desc {
-                max-width: 843px;
                 margin: 0 auto;
+                max-width: 943px;
                 text-align: center;
                 @include max_992 {
                     text-align: left;
@@ -293,12 +293,12 @@
                 }
 
                 .desc {
-                    max-width: 207px;
-                    text-align: center;
                     color: #fff;
+                    max-width: 240px;
+                    text-align: center;
+                    font-size: 14px;
                     @include max_992 {
                         max-width: 114px;
-                        font-size: 14px;
                     }
                     @include max_576 {
                         width: 100%;

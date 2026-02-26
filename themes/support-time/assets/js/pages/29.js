@@ -59,7 +59,23 @@ if (servicesSection) {
         } else {
             swiperOptions.slidesPerView = 3.4;
         }
-        swiperInstance = new Swiper(".swiper-container", swiperOptions);
+        const container = servicesSection.querySelector(".swiper-container");
+        if (container) {
+            container.style.opacity = "0";
+            container.style.transition = "opacity 0.4s ease";
+        }
+        swiperInstance = new Swiper(".swiper-container", {
+            ...swiperOptions,
+            on: {
+                ...swiperOptions.on,
+                init(swiper) {
+                    if (swiperOptions.on?.init) swiperOptions.on.init(swiper);
+                    requestAnimationFrame(() => {
+                        if (container) container.style.opacity = "1";
+                    });
+                },
+            },
+        });
     }
 
     // Инициализация при загрузке страницы

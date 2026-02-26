@@ -12,7 +12,7 @@ export function initProjectStagesAnimation({
     textImageSelector = ".image .text img",
     activeClass = "active",
     thresholdOffset = 6,
-    scrollLengthMultiplier = 1.3,
+    scrollLengthMultiplier = 2.2,
     headerSelector = "#header.header, header#header",
     lockTopExtra = 0,
     captureOffset = -100,
@@ -20,7 +20,7 @@ export function initProjectStagesAnimation({
     textSwapMaxDelay = 7000,
     textSwapTransitionMs = 900,
     tailAfterLastStep = 200,
-    stepHoldMs = 700,
+    stepHoldMs = 900,
     touchDeltaMultiplier = 2.5,
 } = {}) {
     if (!section) return;

@@ -4,6 +4,16 @@ import { Navigation, Pagination, Thumbs } from "swiper/modules";
 
 const platformsSection = document.querySelector(".platforms");
 if (platformsSection) {
+    const thumbsEl = platformsSection.querySelector(".platforms-swiper-thumbs");
+    const mainEl = platformsSection.querySelector(".platforms-swiper-main");
+    if (thumbsEl) {
+        thumbsEl.style.opacity = "0";
+        thumbsEl.style.transition = "opacity 0.4s ease";
+    }
+    if (mainEl) {
+        mainEl.style.opacity = "0";
+        mainEl.style.transition = "opacity 0.4s ease";
+    }
     // Миниатюры
     const thumbsSwiper = new Swiper(".platforms-swiper-thumbs", {
         slidesPerView: 1,
@@ -28,6 +38,13 @@ if (platformsSection) {
                 spaceBetween: 60,
             },
         },
+        on: {
+            init() {
+                requestAnimationFrame(() => {
+                    if (thumbsEl) thumbsEl.style.opacity = "1";
+                });
+            },
+        },
     });
 
     // Основной
@@ -46,6 +63,13 @@ if (platformsSection) {
         pagination: {
             el: ".swiper-pagination",
             clickable: true,
+        },
+        on: {
+            init() {
+                requestAnimationFrame(() => {
+                    if (mainEl) mainEl.style.opacity = "1";
+                });
+            },
         },
     });
 

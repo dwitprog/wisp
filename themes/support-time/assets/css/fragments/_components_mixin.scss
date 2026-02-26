@@ -164,7 +164,7 @@ $spacing-properties: (
         }
         @include max_576 {
             margin-top: -40px;
-            padding-bottom: 100px;
+            padding-bottom: 40px;
         }
 
         &:before {
@@ -1377,6 +1377,10 @@ $spacing-properties: (
                 padding: 16px;
             }
 
+            .title {
+                margin-bottom: 10px;
+            }
+
             &:not(:last-child) {
                 margin-bottom: 16px;
             }
@@ -1660,6 +1664,10 @@ $spacing-properties: (
                         right: 74px;
                         height: 72%;
                     }
+                    @media screen and (max-width: 1199.98px) {
+                        height: 70%;
+                        right: 94px;
+                    }
                     @include max_992 {
                         right: 23px;
                     }
@@ -1930,6 +1938,7 @@ $spacing-properties: (
                 }
 
                 .social-list {
+                    display: flex;
                     margin-bottom: 15px;
                 }
 
