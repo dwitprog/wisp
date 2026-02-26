@@ -1237,7 +1237,7 @@ $spacing-properties: (
                 justify-content: space-between;
             }
 
-            .form .input-wrapper_date .custom-date-input {
+            .input-wrapper_date .custom-date-input {
                 &:focus {
                     border-color: #fff !important;
                     box-shadow: none !important;
