@@ -259,3 +259,16 @@ header#header.header {
         }
     }
 }
+
+@media screen and (max-width: 575.98px) {
+    .page-48.contacts .container {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+    .page-48.contacts .menu-and-social {
+        padding: 0 5px;
+    }
+    .page-48.contacts footer .bottom {
+        padding: 0 5px;
+    }
+}

@@ -24,6 +24,8 @@ export function initFaqLearnMore(containerSelector = "body") {
             btn.textContent = labelMore;
         }
 
+        const collapseDuration = 450;
+
         btn.addEventListener("click", e => {
             e.preventDefault();
 
@@ -32,8 +34,10 @@ export function initFaqLearnMore(containerSelector = "body") {
                 detailBlock.classList.remove("faq-detail-expanded");
                 detailBlock.classList.add("faq-detail-hidden");
                 detailBlock.setAttribute("aria-hidden", "true");
-                btn.textContent = labelMore;
-                btn.classList.remove("is-expanded");
+                window.setTimeout(() => {
+                    btn.textContent = labelMore;
+                    btn.classList.remove("is-expanded");
+                }, collapseDuration);
             } else {
                 detailBlock.classList.remove("faq-detail-hidden");
                 detailBlock.classList.add("faq-detail-expanded");

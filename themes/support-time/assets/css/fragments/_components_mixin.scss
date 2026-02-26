@@ -1237,6 +1237,21 @@ $spacing-properties: (
                 justify-content: space-between;
             }
 
+            .form .input-wrapper_date .custom-date-input {
+                &:focus {
+                    border-color: #fff !important;
+                    box-shadow: none !important;
+                    color: #fff !important;
+                    outline: none;
+                }
+                &:focus ~ .date-placeholder {
+                    color: #fff !important;
+                }
+                &::placeholder {
+                    color: #fff !important;
+                }
+            }
+
             .error-message {
                 color: #ff5b5b;
                 font-size: 14px;
