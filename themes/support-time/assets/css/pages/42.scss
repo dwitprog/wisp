@@ -220,7 +220,8 @@ header#header.header {
             width: 100%;
 
             img {
-                max-width: 400px;
+                max-width: 300px;
+                width: 100%;
             }
             @include max_1400 {
                 max-width: 1140px;

@@ -1993,6 +1993,16 @@ $spacing-properties: (
                 top: -60px;
             }
         }
+
+        @media (max-width: 768px) {
+            .have-a-questions .form .custom-select_list.active {
+                max-height: 190px;
+                overflow: auto;
+            }
+            .have-a-questions .form .custom-select_list:before {
+                background: transparent !important;
+            }
+        }
     }
 }
 

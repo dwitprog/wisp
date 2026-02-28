@@ -14,12 +14,23 @@ header#header.header {
     @include header-gradient;
 }
 
+.faq-learn-more {
+    font-family: Aeroport, "sans-serif";
+    font-size: 16px;
+    color: #190f40;
+    font-weight: 800 !important;
+}
+
 .page-44 {
     &.faq {
         position: relative;
 
         .faq-learn-more.is-expanded {
             margin-top: 20px;
+        }
+
+        .items .item .btn {
+            padding: 10px;
         }
 
         .container {
