@@ -601,7 +601,7 @@ if ( ! $footer_page_id && is_singular() ) {
             </p>
             <div class="links">
                 <p>
-                    <a href="#">Privacy Policy</a> |
+                    <a href="/privacy-policy/">Privacy Policy</a> |
                     <a href="#">Cookie</a>
                 </p>
             </div>
