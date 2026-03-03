@@ -223,6 +223,9 @@ header#header.header {
                 max-width: 300px;
                 width: 100%;
             }
+            .item-desc:nth-child(2) img {
+                max-width: 400px;
+            }
             @include max_1400 {
                 max-width: 1140px;
             }
