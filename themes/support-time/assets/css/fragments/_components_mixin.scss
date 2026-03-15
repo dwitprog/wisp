@@ -1841,6 +1841,9 @@ $spacing-properties: (
                     &.select-services {
                         margin-right: 50px;
                         max-width: 300px;
+                        @include max_768 {
+                            max-width: 100%;
+                        }
                     }
 
                     &.select-services-price {

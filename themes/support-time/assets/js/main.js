@@ -253,9 +253,32 @@ document.addEventListener("DOMContentLoaded", () => {
         const body = document.body;
         const serviceMenu = headerMenuSite.querySelector(".menu-service");
         const subMenu = headerMenuSite.querySelector(".sub-menu");
+        const desktopSubMenuCloseDelay = 1000;
+        let desktopSubMenuCloseTimeoutId = null;
 
         // Функция для проверки ширины экрана
         const isMobileView = () => window.innerWidth < 1200;
+
+        const clearDesktopSubMenuCloseTimeout = () => {
+            if (!desktopSubMenuCloseTimeoutId) return;
+            clearTimeout(desktopSubMenuCloseTimeoutId);
+            desktopSubMenuCloseTimeoutId = null;
+        };
+
+        const openDesktopSubMenu = () => {
+            if (isMobileView() || !serviceMenu || !subMenu) return;
+            clearDesktopSubMenuCloseTimeout();
+            serviceMenu.classList.add("hover-open");
+        };
+
+        const closeDesktopSubMenuWithDelay = () => {
+            if (isMobileView() || !serviceMenu || !subMenu) return;
+            clearDesktopSubMenuCloseTimeout();
+            desktopSubMenuCloseTimeoutId = setTimeout(() => {
+                serviceMenu.classList.remove("hover-open");
+                desktopSubMenuCloseTimeoutId = null;
+            }, desktopSubMenuCloseDelay);
+        };
 
         // Функция для открытия/закрытия меню
         const toggleMobileMenu = () => {
@@ -305,8 +328,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     headerEnd.classList.remove("open-menu");
                     toggleScrollLock(false);
                 }
+
+                if (isMobileView()) {
+                    clearDesktopSubMenuCloseTimeout();
+                    serviceMenu?.classList.remove("hover-open");
+                }
             }, 250);
         });
+        serviceMenu?.addEventListener("mouseenter", openDesktopSubMenu);
+        serviceMenu?.addEventListener("mouseleave", closeDesktopSubMenuWithDelay);
+        subMenu?.addEventListener("mouseenter", openDesktopSubMenu);
+        subMenu?.addEventListener("mouseleave", closeDesktopSubMenuWithDelay);
+
         serviceMenu.querySelector("a").addEventListener("click", e => {
             if (!isMobileView()) return;
             e.preventDefault();

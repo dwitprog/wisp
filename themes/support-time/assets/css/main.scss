@@ -364,6 +364,14 @@ header#header.header {
                         }
                     }
 
+                    &.hover-open {
+                        @include min_definite_width(1200) {
+                            .sub-menu {
+                                display: block;
+                            }
+                        }
+                    }
+
                     .sub-menu {
                         display: none;
                         position: absolute;
@@ -437,14 +445,8 @@ header#header.header {
                         }
 
                         a {
-                            font-weight: 700;
-                            background: linear-gradient(
-                                180deg,
-                                rgba(19, 8, 57, 1) 0%,
-                                rgba(40, 34, 81, 1) 36%,
-                                rgba(121, 57, 113, 1) 76%,
-                                rgba(204, 120, 151, 1) 100%
-                            );
+                            font-weight: 500;
+                            background: linear-gradient(180deg, #130839, #282251 36%, #793971 76%, #cc7897);
                             -webkit-background-clip: text;
                             background-clip: text;
                             -webkit-text-fill-color: transparent;
