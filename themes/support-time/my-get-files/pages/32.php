@@ -409,7 +409,7 @@
                 <div class="line line-bottom"></div>
             </div>
             <p class="subtitle color-white">
-                we guarantee complete confidentiality of your data
+                We guarantee complete confidentiality of your data
             </p>
             <form class="form">
                 <div class="input-wrapper input-wrapper_name">

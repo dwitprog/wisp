@@ -135,8 +135,13 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
 
             const customSelectorTop = customSelector.querySelector(".custom-select_top");
             const customSelectorList = customSelector.querySelector(".custom-select_list");
+            const customSelectorTitle = customSelector.querySelector(".custom-select_title");
             const checkboxes = customSelectorList ? customSelectorList.querySelectorAll('input[type="checkbox"]') : [];
             const onlyOneCheckboxes = customSelectorList ? customSelectorList.querySelectorAll(".onlyOne") : [];
+
+            if (customSelectorTitle && !customSelectorTitle.dataset.defaultTitle) {
+                customSelectorTitle.dataset.defaultTitle = customSelectorTitle.textContent.trim();
+            }
 
             // Обработчик клика по верхней части селектора для открытия/закрытия списка
             customSelectorTop.addEventListener("click", () => {
@@ -145,7 +150,7 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
             });
 
             // Инициализация логики exclusive чекбоксов (только один может быть выбран)
-            initExclusiveCheckboxes(checkboxes, onlyOneCheckboxes);
+            initExclusiveCheckboxes(checkboxes, onlyOneCheckboxes, customSelector);
 
             // Закрытие селектора при клике вне его области
             document.addEventListener("click", e => {
@@ -167,6 +172,7 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
             }
 
             updateCustomSelectValideState(customSelector);
+            syncCustomSelectTitle(customSelector);
         });
 
         /**
@@ -198,6 +204,8 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
             } else {
                 customSelectTop.classList.remove("valide");
             }
+
+            syncCustomSelectTitle(customSelectElement);
         }
 
         /**
@@ -207,7 +215,7 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
          * @param {NodeList} checkboxes - Все чекбоксы в селекторе.
          * @param {NodeList} onlyOneCheckboxes - Чекбоксы с классом "onlyOne".
          */
-        function initExclusiveCheckboxes(checkboxes, onlyOneCheckboxes) {
+        function initExclusiveCheckboxes(checkboxes, onlyOneCheckboxes, customSelectElement) {
             checkboxes.forEach(checkbox => {
                 checkbox.addEventListener("change", function () {
                     // Если выбран exclusive чекбокс, снимаем выбор со всех остальных
@@ -218,8 +226,84 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
                     else if (!this.classList.contains("onlyOne") && this.checked) {
                         uncheckOnlyOneCheckboxes(onlyOneCheckboxes);
                     }
+
+                    autoSelectFullService(customSelectElement, checkboxes);
+                    syncCustomSelectTitle(customSelectElement);
                 });
             });
+        }
+
+        /**
+         * Для селектора услуг автоматически переключает выбор на Full Service,
+         * если отмечены все 4 отдельные услуги.
+         *
+         * @param {HTMLElement} customSelectElement - DOM элемент кастомного селектора.
+         * @param {NodeList} allCheckboxes - Все чекбоксы селектора.
+         */
+        function autoSelectFullService(customSelectElement, allCheckboxes) {
+            if (!customSelectElement?.classList.contains("select-services")) return;
+
+            const normalizeValue = value =>
+                String(value || "")
+                    .trim()
+                    .toLowerCase()
+                    .replace(/\s+/g, " ");
+            const serviceOptions = new Set([
+                "consulting services",
+                "strategy services",
+                "audit services",
+                "performance marketing services",
+            ]);
+
+            const checkboxesArray = Array.from(allCheckboxes || []);
+            const fullServiceCheckbox = checkboxesArray.find(
+                checkbox => checkbox.classList.contains("onlyOne") && normalizeValue(checkbox.value) === "full service",
+            );
+            if (!fullServiceCheckbox) return;
+
+            const selectedRegularServices = checkboxesArray
+                .filter(checkbox => !checkbox.classList.contains("onlyOne") && checkbox.checked)
+                .map(checkbox => normalizeValue(checkbox.value));
+
+            const hasAllFourServices =
+                selectedRegularServices.length === serviceOptions.size &&
+                selectedRegularServices.every(serviceValue => serviceOptions.has(serviceValue));
+
+            if (!hasAllFourServices) return;
+
+            uncheckAllExcept(fullServiceCheckbox, allCheckboxes);
+            fullServiceCheckbox.checked = true;
+        }
+
+        /**
+         * Подставляет выбранные значения в заголовок кастомного селектора.
+         *
+         * @param {HTMLElement} customSelectElement - DOM элемент кастомного селектора.
+         */
+        function syncCustomSelectTitle(customSelectElement) {
+            const titleElement = customSelectElement.querySelector(".custom-select_title");
+            if (!titleElement) return;
+
+            const allCheckboxes = customSelectElement.querySelectorAll('input[type="checkbox"]');
+            if (!allCheckboxes.length) return;
+
+            if (!titleElement.dataset.defaultTitle) {
+                titleElement.dataset.defaultTitle = titleElement.textContent.trim();
+            }
+
+            const checkedCheckboxes = Array.from(allCheckboxes).filter(checkbox => checkbox.checked);
+            if (!checkedCheckboxes.length) {
+                titleElement.textContent = titleElement.dataset.defaultTitle;
+                return;
+            }
+
+            const selectedLabels = checkedCheckboxes
+                .map(checkbox => customSelectElement.querySelector(`label[for="${checkbox.id}"]`))
+                .filter(Boolean)
+                .map(label => label.textContent.replace(/\s+/g, " ").trim())
+                .filter(Boolean);
+
+            titleElement.textContent = selectedLabels.join(", ");
         }
 
         /**
@@ -268,6 +352,24 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
             } else {
                 customSelectTop.classList.remove("valide");
             }
+
+            const customSelectTitle = customSelectElement.querySelector(".custom-select_title");
+            const hasCheckboxes = customSelectElement.querySelectorAll('input[type="checkbox"]').length > 0;
+            if (!customSelectTitle || !hasCheckboxes) return;
+
+            if (!customSelectTitle.dataset.defaultTitle) {
+                customSelectTitle.dataset.defaultTitle = customSelectTitle.textContent.trim();
+            }
+
+            const checkedLabels = Array.from(customSelectElement.querySelectorAll('input[type="checkbox"]:checked'))
+                .map(checkbox => customSelectElement.querySelector(`label[for="${checkbox.id}"]`))
+                .filter(Boolean)
+                .map(label => label.textContent.replace(/\s+/g, " ").trim())
+                .filter(Boolean);
+
+            customSelectTitle.textContent = checkedLabels.length
+                ? checkedLabels.join(", ")
+                : customSelectTitle.dataset.defaultTitle;
         });
     }
 

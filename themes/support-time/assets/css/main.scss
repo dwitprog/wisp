@@ -368,9 +368,9 @@ header#header.header {
                         display: none;
                         position: absolute;
                         background: #fff;
-                        top: 100%;
+                        top: 120%;
                         left: 0;
-                        width: 110%;
+                        width: 100%;
                         box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
                         border-radius: 8px;
                         @include max_1200 {

@@ -24,14 +24,14 @@
              </span>
                 <div class="content">
                     <div class="section-title">
-                        <h2 class="color-white">have a questions?</h2>
+                        <h2 class="color-white">have a question?</h2>
                     </div>
                     <div class="lines">
                         <div class="line line-left"></div>
                         <div class="line line-bottom"></div>
                     </div>
                     <p class="subtitle color-white">
-                        we guarantee complete confidentiality of your data
+                        We guarantee complete confidentiality of your data
                     </p>
                     <form class="form" autocomplete="off">
                         <div class="input-wrapper input-wrapper_name">
@@ -132,12 +132,12 @@
                                         </label>
                                     </div>
                                     <div class="custom-select_item">
-                                        <input type="checkbox" class="onlyOne" name="services[]" value="Full service"
+                                        <input type="checkbox" class="onlyOne" name="services[]" value="Full Service"
                                                id="services_popup_6">
                                         <label for="services_popup_6">
                                         <span>
                                         </span>
-                                            Full service
+                                            Full Service
                                         </label>
                                     </div>
                                 </div>

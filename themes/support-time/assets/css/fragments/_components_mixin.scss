@@ -365,9 +365,9 @@ $spacing-properties: (
 
                 position: relative;
 
-                max-width: 496px;
+                max-width: 550px;
 
-                transition: $transition-default;
+                transition: all 0.5s ease;
                 @include max_768 {
                     max-width: 300px;
                 }
@@ -395,7 +395,7 @@ $spacing-properties: (
 
                 .desc {
                     opacity: 0.5;
-                    max-width: 407px;
+                    max-width: 550px;
                 }
             }
         }
@@ -765,8 +765,8 @@ $spacing-properties: (
                 .required {
                     position: absolute;
                     color: #fff;
-                    top: 0;
-                    left: -9px;
+                    top: 10px;
+                    left: 0;
                     font-size: 20px;
                 }
 
@@ -1790,7 +1790,8 @@ $spacing-properties: (
                     }
 
                     .required {
-                        left: -9px;
+                        left: 0;
+                        top: 10px;
                     }
                 }
 
@@ -1834,6 +1835,11 @@ $spacing-properties: (
                     }
                     @include max_576 {
                         margin-bottom: 20px;
+                    }
+
+                    &.select-services {
+                        margin-right: 50px;
+                        max-width: 300px;
                     }
 
                     &.select-services-price {
