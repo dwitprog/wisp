@@ -514,9 +514,9 @@
 
                 position: relative;
 
-                max-width: 496px;
+                max-width: 550px;
 
-                transition: $transition-default;
+                transition: all 0.5s ease;
                 @include max_768 {
                     max-width: 300px;
                 }
@@ -544,7 +544,7 @@
 
                 .desc {
                     opacity: 0.5;
-                    max-width: 407px;
+                    max-width: 550px;
                 }
             }
         }
