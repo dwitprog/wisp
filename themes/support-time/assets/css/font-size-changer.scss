@@ -347,7 +347,7 @@
             max-width: 333px !important;
             padding: 7px 106px !important;
         }
-        .have-a-questions .select-duration {
+        .have-a-questions .form .custom-select.select-services {
             margin-right: 0 !important;
         }
         article:not(#post-7) .btn-and-social {
@@ -470,19 +470,10 @@
             max-width: 375px;
             margin-right: 0 !important;
         }
-        .have-a-questions .select-current-status {
-            margin-right: 0 !important;
-        }
-        .have-a-questions .select-interest {
+        .have-a-questions .form .custom-select.select-services-price {
             margin-right: 0 !important;
             width: 330px !important;
         }
-    }
-    .page-38.have-a-questions .input-wrapper_web-site p {
-        bottom: -24px;
-        color: #fff;
-        position: absolute;
-        font-size: min(12px * var(--font-size-multiplier, 1), 14px) !important;
     }
     @media (min-width: 576px) {
         .have-a-questions .form .bottom-wrapper {
@@ -545,14 +536,6 @@
             max-width: 100%;
         }
     }
-    .page-32.have-a-questions .input-wrapper_budget p,
-    .page-34.have-a-questions .input-wrapper_budget p,
-    .page-36.have-a-questions .input-wrapper_budget p,
-    .page-38.have-a-questions .input-wrapper_budget p,
-    .page-40.have-a-questions .input-wrapper_budget p {
-        bottom: -44px;
-    }
-
     @media (min-width: 576px) {
         #post-7 .have-a-questions .content {
             max-width: 1178px !important;

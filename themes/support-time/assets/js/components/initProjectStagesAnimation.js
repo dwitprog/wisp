@@ -12,16 +12,12 @@ export function initProjectStagesAnimation({
     textImageSelector = ".image .text img",
     activeClass = "active",
     thresholdOffset = 6,
-    scrollLengthMultiplier = 8,
-    headerSelector = "#header.header, header#header",
-    lockTopExtra = 0,
     captureOffset = -100,
     textSwapMinDelay = 4000,
     textSwapMaxDelay = 7000,
     textSwapTransitionMs = 900,
     tailAfterLastStep = 200,
-    stepHoldMs = 1700,
-    touchDeltaMultiplier = 2.5,
+    onActiveStepChange = null,
 } = {}) {
     if (!section) return;
 
@@ -36,33 +32,14 @@ export function initProjectStagesAnimation({
         return;
     }
 
-    const headerEl = document.querySelector(headerSelector);
-    const getHeaderHeight = () => (headerEl ? headerEl.offsetHeight : 0);
-    const isTouchDevice = () => "ontouchstart" in window || navigator.maxTouchPoints > 0;
-
     let lineHeight = 0;
-    let maxTravel = 0;
-    let itemThresholds = [];
     let stopPoints = [];
     let contentPaddingTop = 0;
-    let scrollTriggerInstance = null;
-    let pulseTween = null;
-    let stopPositions = [];
-    let currentSegmentIndex = -1;
-    let currentTargetIndex = 0;
-    let holdUntil = 0;
-    let holdScroll = null;
-    let maxProgress = 0;
-    let hasCompleted = false;
-    let isCleaning = false;
-    let isLocked = false;
-    let hasEnteredOnce = false;
-    let savedScrollY = 0;
-    let touchStartY = 0;
-    let lastStepAt = 0;
-    let pendingUnlockTimer = null;
-    let mobileMaxProgress = 0;
-    let pendingActiveIndex = -1;
+    let entranceTrigger = null;
+    let hasPlayedOnce = false;
+    let sequenceTargets = [];
+    let finalActiveIndex = -1;
+    let itemThresholds = [];
 
     const measure = () => {
         const containerRect = lineContainer.getBoundingClientRect();
@@ -84,18 +61,29 @@ export function initProjectStagesAnimation({
         const lastStep = stepData[stepData.length - 1];
         const lastStop = stopPoints[stopPoints.length - 1] ?? 0;
         lineHeight = Math.max(0, lastStop + (lastStep?.height ?? 0) / 2 + Math.max(0, tailAfterLastStep));
-        const lineMaxTravel = Math.max(0, lineHeight);
         lineContainer.style.height = `${lineHeight}px`;
-        maxTravel = lineMaxTravel;
-        stopPositions = [0, ...stopPoints.map(point => Math.min(lineMaxTravel, Math.max(0, point))), lineMaxTravel];
-    };
+        sequenceTargets = stopPoints
+            .map(point => Math.max(0, Math.min(lineHeight, point)))
+            .filter((value, index, arr) => index === 0 || value > arr[index - 1]);
 
-    const getStopPosition = index => {
-        if (!stopPositions.length) {
-            return 0;
+        if (!sequenceTargets.length) {
+            sequenceTargets = [lineHeight];
+        } else {
+            const lastSeq = sequenceTargets[sequenceTargets.length - 1];
+            if (lineHeight > lastSeq + 0.5) {
+                sequenceTargets.push(lineHeight);
+            }
         }
-        const rawStop = stopPositions[index] ?? stopPositions[0] ?? 0;
-        return Math.min(maxTravel, Math.max(0, rawStop));
+
+        finalActiveIndex = -1;
+        const finalTarget = sequenceTargets[sequenceTargets.length - 1];
+        for (let i = 0; i < stopPoints.length; i += 1) {
+            if (finalTarget >= stopPoints[i]) {
+                finalActiveIndex = i;
+            } else {
+                break;
+            }
+        }
     };
 
     const setActiveStep = index => {
@@ -106,358 +94,106 @@ export function initProjectStagesAnimation({
                 step.classList.toggle(activeClass, itemIndex === index);
             }
         });
+        if (typeof onActiveStepChange === "function") {
+            onActiveStepChange(index);
+        }
     };
 
     const setInitialState = () => {
         measure();
         lineContainer.style.visibility = "hidden";
         lineContainer.style.height = "0";
-        line.style.transition = "none";
         gsap.set(line, { height: 0 });
         setActiveStep(-1);
-        currentSegmentIndex = -1;
-        currentTargetIndex = 0;
-        holdUntil = 0;
-        holdScroll = null;
-        maxProgress = 0;
-        hasCompleted = false;
-        isCleaning = false;
-        isLocked = false;
-        hasEnteredOnce = false;
-        savedScrollY = 0;
-        touchStartY = 0;
-        lastStepAt = 0;
-        pendingActiveIndex = -1;
-        if (pendingUnlockTimer) {
-            window.clearTimeout(pendingUnlockTimer);
-            pendingUnlockTimer = null;
-        }
-        if (!isTouchDevice()) {
-            mobileMaxProgress = 0;
-        }
     };
 
-    const setFinalState = () => {
-        measure();
-        gsap.set(line, { height: lineHeight });
-        setActiveStep(stopPoints.length - 1);
-    };
-
-    const createScrollTrigger = () => {
-        if (scrollTriggerInstance) {
-            scrollTriggerInstance.kill();
+    const playSequence = () => {
+        if (hasPlayedOnce) {
+            return;
         }
-        const totalLength = Math.max(maxTravel, 1) * Math.max(0.1, scrollLengthMultiplier);
-        if (pulseTween) {
-            pulseTween.kill();
-            pulseTween = null;
-        }
+        hasPlayedOnce = true;
+        section.classList.add("is-near");
+        lineContainer.style.height = `${lineHeight}px`;
+        lineContainer.style.visibility = "visible";
 
-        const lockScroll = () => {
-            if (isLocked) return;
-            isLocked = true;
-            const currentScroll = window.scrollY;
-            const triggerStart = scrollTriggerInstance?.start ?? currentScroll;
-            savedScrollY = Math.min(currentScroll, triggerStart);
-            if (!isTouchDevice()) {
-                const docEl = document.documentElement;
-                docEl.style.overflow = "hidden";
-                docEl.style.height = "100%";
-                document.body.style.position = "fixed";
-                document.body.style.top = `-${savedScrollY}px`;
-                document.body.style.left = "0";
-                document.body.style.right = "0";
-                document.body.style.overflow = "hidden";
-                document.body.style.width = "100%";
-                document.body.style.webkitOverflowScrolling = "auto";
-            }
-        };
+        const sequenceTimeline = gsap.timeline({
+            defaults: { ease: "power2.inOut" },
+        });
 
-        const unlockScroll = () => {
-            if (!isLocked) return;
-            isLocked = false;
-            if (!isTouchDevice()) {
-                const docEl = document.documentElement;
-                docEl.style.overflow = "";
-                docEl.style.height = "";
-                document.body.style.position = "";
-                document.body.style.top = "";
-                document.body.style.left = "";
-                document.body.style.right = "";
-                document.body.style.overflow = "";
-                document.body.style.width = "";
-                document.body.style.webkitOverflowScrolling = "";
-            }
-            window.scrollTo(0, savedScrollY);
-        };
-
-        const updateByProgress = progress => {
-            if (!stopPositions.length) {
-                return;
-            }
-            const clampedProgress = Math.max(0, Math.min(1, progress));
-            if (clampedProgress < 1) {
-                hasCompleted = false;
-            }
-            const segmentCount = Math.max(1, stopPositions.length - 1);
-            const scaled = clampedProgress * segmentCount;
-            const segmentIndex = Math.min(segmentCount - 1, Math.floor(scaled));
-            const targetIndex = clampedProgress === 0 ? 0 : Math.min(stopPositions.length - 1, segmentIndex + 1);
-
-            const now = performance.now();
-            if (now < holdUntil) {
-                return;
-            }
-
-            if (segmentIndex !== currentSegmentIndex || targetIndex !== currentTargetIndex) {
-                currentSegmentIndex = segmentIndex;
-                currentTargetIndex = targetIndex;
-                holdUntil = now + Math.max(0, stepHoldMs);
-                const targetHeight = getStopPosition(targetIndex);
-                gsap.killTweensOf(line);
-                gsap.to(line, {
-                    height: targetHeight,
-                    duration: 0.6,
-                    ease: "none",
-                    onComplete: () => {
-                        if (isCleaning) return;
-                        if (currentTargetIndex !== targetIndex) return;
-                        setActiveStep(pendingActiveIndex);
-                    },
-                });
-                lastStepAt = now;
-
-                pendingActiveIndex = Math.min(items.length - 1, targetIndex - 1);
-
-                maxProgress = segmentCount > 0 ? targetIndex / segmentCount : 0;
-            }
-
-            if (clampedProgress >= 1) {
-                hasCompleted = true;
-                setFinalState();
-                if (!isTouchDevice()) {
-                    unlockScroll();
-                    removeInputListeners();
-                    if (pendingUnlockTimer) {
-                        window.clearTimeout(pendingUnlockTimer);
-                        pendingUnlockTimer = null;
-                    }
-                    if (scrollTriggerInstance) {
-                        scrollTriggerInstance.kill();
-                        scrollTriggerInstance = null;
-                    }
+        sequenceTargets.forEach((targetHeight, index) => {
+            let activeIndex = -1;
+            for (let i = 0; i < stopPoints.length; i += 1) {
+                if (targetHeight >= stopPoints[i]) {
+                    activeIndex = i;
+                } else {
+                    break;
                 }
             }
-        };
 
-        const handleDelta = delta => {
-            if (!isLocked) {
-                return;
-            }
-            if (delta <= 0) {
-                return;
-            }
-            const now = performance.now();
-            if (now < holdUntil) {
-                return;
-            }
-            const speed = Math.max(0.1, scrollLengthMultiplier);
-            const deltaProgress = delta / (totalLength * speed);
-            maxProgress = Math.max(0, Math.min(1, maxProgress + deltaProgress));
-            if (maxProgress < 1) {
-                hasCompleted = false;
-            }
-            updateByProgress(maxProgress);
-
-            if (delta > 0) {
-                if (pendingUnlockTimer) {
-                    window.clearTimeout(pendingUnlockTimer);
-                }
-                const inputTime = now;
-                pendingUnlockTimer = window.setTimeout(
-                    () => {
-                        if (isLocked && !hasCompleted && lastStepAt < inputTime) {
-                            unlockScroll();
-                            removeInputListeners();
-                        }
-                    },
-                    Math.max(600, stepHoldMs + 500),
-                );
-            }
-        };
-
-        const onWheel = event => {
-            if (!isLocked) {
-                return;
-            }
-            if (event.deltaY < 0) {
-                event.preventDefault();
-                event.stopPropagation();
-                return;
-            }
-            event.preventDefault();
-            handleDelta(event.deltaY);
-        };
-
-        const onUnlockKey = event => {
-            if (event.key === "Escape" || event.key === "ArrowUp") {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        };
-
-        const addUnlockKeyListener = () => {
-            window.addEventListener("keydown", onUnlockKey, { capture: true });
-        };
-
-        const removeUnlockKeyListener = () => {
-            window.removeEventListener("keydown", onUnlockKey, { capture: true });
-        };
-
-        const onTouchStart = event => {
-            if (!isLocked || hasCompleted) {
-                return;
-            }
-            touchStartY = event.touches[0].clientY;
-        };
-
-        const onTouchMove = event => {
-            if (!isLocked) {
-                return;
-            }
-            const currentY = event.touches[0].clientY;
-            const deltaY = touchStartY - currentY;
-            touchStartY = currentY;
-            if (deltaY > 0) {
-                event.preventDefault();
-                event.stopPropagation();
-                return;
-            }
-            event.preventDefault();
-            event.stopPropagation();
-            const baseDelta = Math.abs(deltaY) * Math.max(0.5, Number(touchDeltaMultiplier));
-            const touchDivisor = isTouchDevice() ? 5 : 1;
-            const scaledDelta = baseDelta / touchDivisor;
-            handleDelta(scaledDelta);
-        };
-
-        const addInputListeners = () => {
-            document.documentElement.addEventListener("wheel", onWheel, { passive: false, capture: true });
-            addUnlockKeyListener();
-            document.body.addEventListener("touchstart", onTouchStart, { passive: false, capture: true });
-            document.body.addEventListener("touchmove", onTouchMove, { passive: false, capture: true });
-        };
-
-        const removeInputListeners = () => {
-            document.documentElement.removeEventListener("wheel", onWheel, { capture: true });
-            removeUnlockKeyListener();
-            document.body.removeEventListener("touchstart", onTouchStart, { capture: true });
-            document.body.removeEventListener("touchmove", onTouchMove, { capture: true });
-        };
-
-        const mobileCaptureOffset = isTouchDevice() ? Number(captureOffset) - 60 : Number(captureOffset);
-
-        if (isTouchDevice()) {
-            const getMobileProgressFromScroll = (scrollY, triggerStart, triggerEnd) => {
-                if (itemThresholds.length === 0) return 0;
-                if (scrollY <= triggerStart) return 0;
-                const lastThreshold = itemThresholds[itemThresholds.length - 1];
-                const endY = lastThreshold + Math.max(200, tailAfterLastStep);
-                if (scrollY >= endY) return 1;
-                const segmentCount = itemThresholds.length;
-                const startY = triggerStart;
-                for (let i = 0; i < segmentCount; i++) {
-                    const segStart = i === 0 ? startY : itemThresholds[i - 1];
-                    const segEnd = itemThresholds[i];
-                    if (scrollY < segEnd) {
-                        const segLen = segEnd - segStart;
-                        const segProgress = segLen > 0 ? (scrollY - segStart) / segLen : 0;
-                        return Math.min(1, (i + segProgress) / segmentCount);
-                    }
-                }
-                return Math.min(
-                    1,
-                    (segmentCount -
-                        1 +
-                        (scrollY - itemThresholds[segmentCount - 1]) / (endY - itemThresholds[segmentCount - 1])) /
-                        segmentCount,
-                );
-            };
-
-            const mobileEndLength = () => {
-                if (itemThresholds.length === 0) return totalLength;
-                const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-                const lastThreshold = itemThresholds[itemThresholds.length - 1];
-                const triggerStartY = sectionTop + contentPaddingTop + mobileCaptureOffset;
-                return Math.max(totalLength, lastThreshold - triggerStartY + Math.max(200, tailAfterLastStep));
-            };
-
-            scrollTriggerInstance = ScrollTrigger.create({
-                trigger: section,
-                start: () => `top+=${contentPaddingTop + mobileCaptureOffset} top`,
-                end: () => `+=${mobileEndLength()}`,
-                onRefresh: () => {
-                    measure();
-                },
-                onUpdate: self => {
-                    const now = performance.now();
-                    const scrollY = window.scrollY;
-                    const triggerStart = self.start;
-                    if (scrollY > triggerStart) {
-                        measure();
-                        if (lineContainer.style.visibility !== "visible") {
-                            lineContainer.style.height = `${lineHeight}px`;
-                            lineContainer.style.visibility = "visible";
-                        }
-                    }
-                    const rawProgress = getMobileProgressFromScroll(scrollY, triggerStart, self.end);
-                    if (rawProgress > 0) {
-                        const nextProgress =
-                            now < holdUntil ? mobileMaxProgress : Math.max(mobileMaxProgress, rawProgress);
-                        mobileMaxProgress = nextProgress;
-                        updateByProgress(mobileMaxProgress);
-                    } else {
-                        updateByProgress(mobileMaxProgress);
-                    }
+            sequenceTimeline.to(line, {
+                height: targetHeight,
+                duration: 0.7,
+                onUpdate: () => {
+                    setActiveStep(activeIndex);
                 },
             });
-        } else {
-            scrollTriggerInstance = ScrollTrigger.create({
-                trigger: section,
-                start: () => `top+=${contentPaddingTop + mobileCaptureOffset} top`,
-                end: () => `+=${totalLength}`,
-                onRefresh: () => {
+
+            if (index < sequenceTargets.length - 1) {
+                sequenceTimeline.to({}, { duration: 0.18 });
+            }
+        });
+
+        sequenceTimeline.call(() => {
+            setActiveStep(finalActiveIndex);
+        });
+    };
+
+    const createEntranceTrigger = () => {
+        if (entranceTrigger) {
+            entranceTrigger.kill();
+        }
+
+        entranceTrigger = ScrollTrigger.create({
+            trigger: section,
+            start: () => `top+=${contentPaddingTop + Number(captureOffset)} 80%`,
+            once: true,
+            onRefresh: () => {
+                if (!hasPlayedOnce) {
                     setInitialState();
-                },
-                onEnter: () => {
-                    if (hasEnteredOnce || hasCompleted || isCleaning) {
-                        return;
-                    }
-                    hasEnteredOnce = true;
+                } else {
                     measure();
                     lineContainer.style.height = `${lineHeight}px`;
                     lineContainer.style.visibility = "visible";
-                    lockScroll();
-                    addInputListeners();
-                },
-            });
-        }
+                    gsap.set(line, { height: sequenceTargets[sequenceTargets.length - 1] || lineHeight });
+                    setActiveStep(finalActiveIndex);
+                }
+            },
+            onEnter: () => {
+                playSequence();
+            },
+        });
     };
 
     setInitialState();
-    createScrollTrigger();
-    if (scrollTriggerInstance) {
+    createEntranceTrigger();
+    if (entranceTrigger) {
         requestAnimationFrame(() => {
-            scrollTriggerInstance.refresh();
+            entranceTrigger.refresh();
         });
         window.addEventListener("load", () => {
             measure();
-            scrollTriggerInstance?.refresh();
+            entranceTrigger?.refresh();
         });
         window.addEventListener("orientationchange", () => {
             setTimeout(() => {
                 measure();
-                scrollTriggerInstance?.refresh();
+                if (!hasPlayedOnce) {
+                    entranceTrigger?.refresh();
+                    return;
+                }
+                lineContainer.style.height = `${lineHeight}px`;
+                gsap.set(line, { height: sequenceTargets[sequenceTargets.length - 1] || lineHeight });
+                setActiveStep(finalActiveIndex);
             }, 300);
         });
     }
@@ -493,8 +229,13 @@ export function initProjectStagesAnimation({
 
     window.addEventListener("resize", () => {
         measure();
-        if (scrollTriggerInstance) {
-            scrollTriggerInstance.refresh();
+        if (!hasPlayedOnce) {
+            entranceTrigger?.refresh();
+            return;
         }
+        lineContainer.style.height = `${lineHeight}px`;
+        lineContainer.style.visibility = "visible";
+        gsap.set(line, { height: sequenceTargets[sequenceTargets.length - 1] || lineHeight });
+        setActiveStep(finalActiveIndex);
     });
 }

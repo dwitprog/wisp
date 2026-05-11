@@ -23,6 +23,16 @@ header#header.header {
             margin-top: 107px;
         }
 
+        @media (min-width: 1440px) {
+            max-width: 1680px;
+            margin: 159px auto 0;
+        }
+
+        @media (min-width: 1400px) and (max-width: 1820px) {
+            padding-left: 80px;
+            padding-right: 80px;
+        }
+
         .platforms-swiper-thumbs {
             opacity: 0;
             transition: opacity 0.4s ease;
@@ -33,11 +43,26 @@ header#header.header {
             @include max_992 {
                 padding: 10px 10px;
             }
+            @media (min-width: 1440px) {
+                padding: 10px 0;
+            }
+            @media (min-width: 1400px) and (max-width: 1820px) {
+                padding: 10px 80px;
+            }
+
+            /* Swiper по умолчанию overflow: hidden — обрезает градиентную обводку (-3px) у крайних .item */
+            @media (min-width: 1200px) {
+                overflow: visible;
+            }
 
             .swiper-wrapper {
                 margin-bottom: 60px;
                 @include max_992 {
                     margin-bottom: 32px;
+                }
+
+                @media (min-width: 1440px) {
+                    padding: 0 2px;
                 }
             }
 
@@ -107,6 +132,10 @@ header#header.header {
                         display: none;
                     }
                 }
+
+                @media (min-width: 1440px) {
+                    min-height: 219px;
+                }
             }
 
             .navigation {
@@ -116,6 +145,10 @@ header#header.header {
                 gap: 30px;
                 margin-bottom: 40px;
                 @include max_1200 {
+                    display: flex;
+                }
+
+                @media (min-width: 1440px) {
                     display: flex;
                 }
 
@@ -241,6 +274,29 @@ header#header.header {
             @include max_576 {
                 max-width: 100%;
                 padding: 0 15px;
+            }
+
+            @media (min-width: 1440px) {
+                max-width: 1680px;
+
+                img {
+                    display: none;
+                }
+
+                .item-desc {
+                    .desc-wrapper {
+                        max-width: 100%;
+                    }
+
+                    .title {
+                        font-size: 100px;
+                        line-height: 105%;
+                    }
+
+                    .desc {
+                        max-width: 978px;
+                    }
+                }
             }
         }
 

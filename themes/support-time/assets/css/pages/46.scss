@@ -416,6 +416,12 @@
             }
         }
 
+        .content {
+            position: relative;
+            z-index: 1;
+            padding-top: 105px;
+        }
+
         .stages {
             margin-left: 100px;
             position: relative;
@@ -430,7 +436,7 @@
         }
 
         .items {
-            padding-top: 105px;
+            padding-top: 0;
             margin-left: 120px;
 
             @include max_1200 {
@@ -572,13 +578,15 @@
                 }
 
                 &:before {
-                    transform: rotate(135deg) translateX(5px);
-                    left: 0;
+                    left: -2px;
+                    transform-origin: bottom center;
+                    transform: rotate(45deg);
                 }
 
                 &:after {
-                    transform: rotate(225deg) translateX(-5px);
-                    right: 0;
+                    right: -2px;
+                    transform-origin: bottom center;
+                    transform: rotate(-45deg);
                 }
             }
 
@@ -622,6 +630,16 @@
                             height: 16px;
                         }
                     }
+                }
+            }
+        }
+
+        &.is-near {
+            .line-container .line {
+                &:before,
+                &:after {
+                    animation: stage-arrow-pulse 1.2s ease-in-out 3;
+                    transform-origin: bottom center;
                 }
             }
         }
@@ -690,6 +708,62 @@
                     display: none;
                 }
             }
+        }
+    }
+
+    @media (min-width: 1440px) {
+        &.banner {
+            .container {
+                max-width: 1680px;
+            }
+
+            .offer {
+                padding: 48px 0 80px;
+
+                .title {
+                    margin-top: 40px;
+                    font-weight: 500;
+                    font-size: 100px;
+                }
+
+                .desc {
+                    max-width: 1140px;
+                    font-size: 20px;
+                    line-height: 26px;
+                }
+            }
+
+            .items {
+                margin-left: 0;
+
+                .item {
+                    max-width: 270px;
+
+                    .title {
+                        font-size: 40px;
+                    }
+
+                    .desc {
+                        font-size: 16px;
+                        line-height: 20px;
+                        max-width: 270px;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (min-width: 1400px) and (max-width: 1820px) {
+        &.banner .container {
+            padding-left: 80px;
+            padding-right: 80px;
+        }
+    }
+
+    @media (min-width: 1800px) {
+        &.banner .items {
+            padding: 0 80px;
+            gap: 140px;
         }
     }
 }

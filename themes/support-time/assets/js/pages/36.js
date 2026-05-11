@@ -32,8 +32,22 @@ if (haveAQuestionsForm) {
         validateFields: {
             name: { required: true, selector: 'input[name="name"]' },
             email: { required: true, email: true, selector: 'input[name="email"]' },
-            scope: { required: true, selector: 'input[name="scope"]' },
-            "execution-speed": { required: true, selector: 'input[name="execution-speed"]' },
+            services: {
+                required: true,
+                selector: ".select-services",
+                customSelect: true,
+                messages: {
+                    required: "Please select scope of work",
+                },
+            },
+            price: {
+                required: true,
+                selector: ".select-services-price",
+                customSelect: true,
+                messages: {
+                    required: "Please select execution timeline",
+                },
+            },
         },
         showSuccessMessage: false,
         callbacks: {

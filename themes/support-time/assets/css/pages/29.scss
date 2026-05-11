@@ -249,6 +249,65 @@
                 }
             }
         }
+
+        @media (min-width: 1440px) {
+            .container {
+                max-width: 1680px;
+                padding-bottom: 100px;
+
+                .content {
+                    .item {
+                        max-width: 942px;
+                        padding: 40px;
+
+                        .title {
+                            font-size: 24px;
+                        }
+
+                        .desc {
+                            font-size: 20px;
+                            max-width: 648px;
+                        }
+
+                        .btn {
+                            font-size: 20px;
+                            padding: 10px 20px;
+                        }
+                    }
+                }
+            }
+
+            .swiper-container {
+                .item {
+                    padding: 40px;
+
+                    .title {
+                        font-size: 24px;
+                        line-height: 26px;
+                    }
+
+                    .desc {
+                        color: #fff;
+                        font-size: 20px;
+                        line-height: 26px;
+                        min-height: 240px;
+                        margin-bottom: 32px;
+                        text-align: center;
+                    }
+
+                    .btn {
+                        font-size: 20px;
+                        padding: 10px 20px;
+                    }
+                }
+            }
+        }
+
+        @media (min-width: 1400px) and (max-width: 1820px) {
+            .container {
+                padding: 0 80px;
+            }
+        }
     }
 }
 

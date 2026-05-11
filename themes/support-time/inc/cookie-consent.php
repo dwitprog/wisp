@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Cookie consent banner: HTML, styles, and script.
- * Text: We use cookies to enhance your browsing experience...
- * Consent stored in localStorage (key: st_cookie_consent).
+ * Cookie Policy: контент, виртуальная страница при отсутствии записи в БД,
+ * автосоздание страницы при активации темы / заходе в админку,
+ * баннер согласия (стили в main.scss — .st-cookie-consent; вывод в wp_body_open для корректного position:fixed).
  */
 
 if (!defined('ABSPATH')) {
@@ -11,94 +11,178 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Output cookie banner HTML before </body>.
+ * Разметка основного блока Cookie Policy (общая для шаблона и «виртуальной» страницы).
+ *
+ * @param string $title Заголовок H1.
+ * @param string $article_attributes Атрибуты тега article (безопасно собирать через esc_attr там, где нужно).
+ */
+function st_render_cookie_policy_main(string $title, string $article_attributes = 'class="post"'): void
+{
+    ?>
+<main id="main" class="site-main page-h1">
+    <div class="container">
+        <h1><?php echo esc_html($title); ?></h1>
+        <article <?php
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- строка атрибутов формируется вызывающим кодом (литерал или esc_attr).
+        echo $article_attributes;
+        ?>>
+            <p>
+                This page describes how this website uses cookies and similar technologies. By continuing to browse
+                the site, you agree to the use of cookies in line with this policy (unless you have disabled them in
+                your browser).
+            </p>
+
+            <h2>What are cookies?</h2>
+            <p>
+                Cookies are small text files that are placed on your computer or mobile device when you visit a
+                website. They are widely used to make websites work more efficiently, remember your preferences, and
+                understand how visitors use the site.
+            </p>
+
+            <h2>How we use cookies</h2>
+            <p>We may use cookies for purposes such as:</p>
+            <ul>
+                <li>remembering your preferences and settings;</li>
+                <li>measuring traffic and how the site is used (analytics);</li>
+                <li>improving performance and security;</li>
+                <li>supporting features of forms and interactive content where applicable.</li>
+            </ul>
+
+            <h2>Your choices</h2>
+            <p>
+                Most web browsers allow you to control cookies through their settings. You can refuse or delete
+                cookies; however, some parts of the site may not work as intended if you disable essential cookies.
+            </p>
+
+            <h2>Updates</h2>
+            <p>
+                We may update this Cookie Policy from time to time. The “Last updated” date may be shown on this page
+                when changes are made. We encourage you to review this page periodically.
+            </p>
+
+            <p>
+                For questions about this policy, please use the contact details provided on our
+                <a href="/contacts/">Contacts</a> page.
+            </p>
+        </article>
+    </div>
+</main>
+    <?php
+}
+
+/**
+ * Создаёт страницу cookie-policy при возможности (права publish_pages).
+ */
+function st_ensure_cookie_policy_page_callback(): void
+{
+    if (wp_installing() || wp_doing_ajax()) {
+        return;
+    }
+
+    if (!current_user_can('publish_pages')) {
+        return;
+    }
+
+    $slug = 'cookie-policy';
+    $existing = get_posts(
+        array(
+            'post_type' => 'page',
+            'name' => $slug,
+            'post_status' => array('publish', 'draft', 'pending', 'private'),
+            'posts_per_page' => 1,
+            'fields' => 'ids',
+            'no_found_rows' => true,
+        )
+    );
+
+    if (!empty($existing)) {
+        return;
+    }
+
+    $id = wp_insert_post(
+        array(
+            'post_title' => 'Cookie Policy',
+            'post_name' => $slug,
+            'post_status' => 'publish',
+            'post_type' => 'page',
+            'post_content' => '',
+        ),
+        true
+    );
+
+    if (!is_wp_error($id) && $id) {
+        flush_rewrite_rules(false);
+    }
+}
+
+add_action('after_switch_theme', 'st_ensure_cookie_policy_page_callback');
+add_action('admin_init', 'st_ensure_cookie_policy_page_callback');
+
+/**
+ * Если записи страницы нет, отдаём тот же контент с кодом 200 (без 404).
+ */
+function st_cookie_policy_maybe_virtual(): void
+{
+    if (is_admin()) {
+        return;
+    }
+
+    $path = isset($_SERVER['REQUEST_URI']) ? (string) wp_parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) : '';
+    $path = trim($path, '/');
+    if ($path !== 'cookie-policy') {
+        return;
+    }
+
+    $existing = get_posts(
+        array(
+            'post_type' => 'page',
+            'name' => 'cookie-policy',
+            'post_status' => 'publish',
+            'posts_per_page' => 1,
+            'fields' => 'ids',
+            'no_found_rows' => true,
+        )
+    );
+
+    if (!empty($existing)) {
+        return;
+    }
+
+    status_header(200);
+    nocache_headers();
+    get_header();
+    st_render_cookie_policy_main('Cookie Policy', 'class="post"');
+    get_footer();
+    exit;
+}
+
+add_action('template_redirect', 'st_cookie_policy_maybe_virtual', 0);
+
+/**
+ * HTML баннера согласия.
  */
 function st_cookie_consent_render(): void
 {
     if (is_admin()) {
         return;
     }
-    $consent = isset($_COOKIE['st_cookie_consent']) ? $_COOKIE['st_cookie_consent'] : null;
-    if ($consent === null && function_exists('wp_add_inline_script')) {
-        // Also check localStorage via inline script
-    }
     ?>
-    <div id="st-cookie-consent" class="st-cookie-consent" role="dialog" aria-label="Cookie consent" style="display: none;">
-        <div class="st-cookie-consent__inner">
-            <p class="st-cookie-consent__text">
-                We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.
-            </p>
-            <button type="button" class="st-cookie-consent__btn" id="st-cookie-consent-accept">Accept All</button>
-        </div>
+<div id="st-cookie-consent" class="st-cookie-consent" role="dialog" aria-labelledby="st-cookie-consent-label" aria-live="polite" hidden>
+    <p id="st-cookie-consent-label" class="st-cookie-consent__text">This site uses cookies.</p>
+    <div class="st-cookie-consent__actions">
+        <a href="/cookie-policy/" class="st-cookie-consent__btn st-cookie-consent__btn--secondary">Read more</a>
+        <button type="button" class="st-cookie-consent__btn st-cookie-consent__btn--primary" data-st-cookie-accept>
+            Accept
+        </button>
     </div>
+</div>
     <?php
 }
 
-add_action('wp_footer', 'st_cookie_consent_render', 5);
+add_action('wp_body_open', 'st_cookie_consent_render', 5);
 
 /**
- * Inline CSS for cookie banner.
- */
-function st_cookie_consent_styles(): void
-{
-    if (is_admin()) {
-        return;
-    }
-    $css = '
-    .st-cookie-consent {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 99999;
-        padding: 16px 24px;
-        background: linear-gradient(182deg, #130839, #282251);
-        color: #fff;
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
-        font-family: inherit;
-    }
-    .st-cookie-consent__inner {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-        flex-wrap: wrap;
-    }
-    .st-cookie-consent__text {
-        margin: 0;
-        flex: 1;
-        min-width: 280px;
-        font-size: 14px;
-        line-height: 1.5;
-    }
-    .st-cookie-consent__btn {
-        flex-shrink: 0;
-        padding: 12px 24px;
-        background: #fff;
-        color: #130839;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        font-size: 14px;
-    }
-    .st-cookie-consent__btn:hover {
-        opacity: 0.9;
-    }
-    @media (max-width: 575px) {
-        .st-cookie-consent__inner { flex-direction: column; text-align: center; }
-        .st-cookie-consent__text { min-width: 100%; }
-    }
-    ';
-    wp_add_inline_style('styles', $css);
-}
-
-add_action('wp_enqueue_scripts', 'st_cookie_consent_styles', 15);
-
-/**
- * Inline script: show banner if no consent, set cookie on Accept.
+ * Скрипт баннера (после main).
  */
 function st_cookie_consent_script(): void
 {
@@ -106,32 +190,58 @@ function st_cookie_consent_script(): void
         return;
     }
     $script = <<<'JS'
-(function() {
+(function () {
     var key = 'st_cookie_consent';
+    var yearSec = 365 * 24 * 60 * 60;
+    var yearMs = yearSec * 1000;
     var banner = document.getElementById('st-cookie-consent');
-    var btn = document.getElementById('st-cookie-consent-accept');
-    if (!banner || !btn) return;
-    function getConsent() {
+    if (!banner) return;
+    var acceptBtn = banner.querySelector('[data-st-cookie-accept]');
+    function lsValid(raw) {
+        if (!raw) return false;
+        if (raw === 'accepted') return true;
         try {
-            return localStorage.getItem(key) || (document.cookie.match(/st_cookie_consent=([^;]+)/) && RegExp.$1) || null;
-        } catch (e) { return null; }
-    }
-    function setConsent() {
-        try {
-            localStorage.setItem(key, '1');
-            document.cookie = 'st_cookie_consent=1; path=/; max-age=31536000; SameSite=Lax';
+            var o = JSON.parse(raw);
+            if (o && typeof o.t === 'number' && Date.now() - o.t < yearMs) return true;
         } catch (e) {}
-        banner.style.display = 'none';
+        return false;
     }
-    if (getConsent() === '1') {
-        banner.style.display = 'none';
+    function hasConsent() {
+        try {
+            if (lsValid(localStorage.getItem(key))) return true;
+        } catch (e) {}
+        return /(?:^|; )st_cookie_consent=accepted(?:;|$)/.test(document.cookie);
+    }
+    function pruneStaleLs() {
+        try {
+            var raw = localStorage.getItem(key);
+            if (!raw || raw === 'accepted') return;
+            var o = JSON.parse(raw);
+            if (o && typeof o.t === 'number' && Date.now() - o.t >= yearMs) {
+                localStorage.removeItem(key);
+            }
+        } catch (e) {}
+    }
+    function saveConsent() {
+        var payload = JSON.stringify({ t: Date.now() });
+        try {
+            localStorage.setItem(key, payload);
+        } catch (e) {}
+        try {
+            document.cookie = key + '=accepted; path=/; max-age=' + yearSec + '; SameSite=Lax';
+        } catch (e) {}
+        banner.remove();
+    }
+    pruneStaleLs();
+    if (hasConsent()) {
+        banner.remove();
         return;
     }
-    banner.style.display = 'block';
-    btn.addEventListener('click', setConsent);
+    banner.hidden = false;
+    if (acceptBtn) acceptBtn.addEventListener('click', saveConsent);
 })();
 JS;
     wp_add_inline_script('main', $script, 'after');
 }
 
-add_action('wp_enqueue_scripts', 'st_cookie_consent_script', 20);
+add_action('wp_enqueue_scripts', 'st_cookie_consent_script', 25);

@@ -12,13 +12,20 @@ if (haveAQuestionsForm) {
         validateFields: {
             name: { required: true, selector: 'input[name="name"]' },
             email: { required: true, email: true, selector: 'input[name="email"]' },
-            "web-site": { required: true, selector: 'input[name="web-site"]' },
-            interest: {
+            services: {
                 required: true,
-                selector: ".select-interest",
+                selector: ".select-services",
                 customSelect: true,
                 messages: {
-                    required: "Please select at least one service",
+                    required: "Please select at least one platform",
+                },
+            },
+            price: {
+                required: true,
+                selector: ".select-services-price",
+                customSelect: true,
+                messages: {
+                    required: "Please select planning budget",
                 },
             },
         },

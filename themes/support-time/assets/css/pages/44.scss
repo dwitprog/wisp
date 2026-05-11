@@ -298,3 +298,28 @@ header#header.header {
         }
     }
 }
+
+@media (min-width: 1440px) {
+    .page-44.faq .items .item .link {
+        font-size: 20px;
+        line-height: 26px;
+    }
+
+    .page-44.faq .items .item .title {
+        font-size: 32px;
+    }
+
+    .page-44.faq .items .item.active .title {
+        font-size: 50px;
+        opacity: 1;
+    }
+
+    .page-44.faq .items .item.active .desc {
+        font-size: 20px;
+        line-height: 26px;
+    }
+
+    .page-44.faq .items .item.active .btn {
+        font-size: 20px;
+    }
+}

@@ -11,6 +11,11 @@
 </head>
 
 <body>
+<?php
+if (function_exists('wp_body_open')) {
+    wp_body_open();
+}
+?>
 <header class="header " id="header">
     <div class="header-container">
         <a href="/" class="header-logo">

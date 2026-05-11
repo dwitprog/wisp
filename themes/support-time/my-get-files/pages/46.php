@@ -111,13 +111,14 @@
 </section>
 <section class="page-46 how-we-work" data-header-theme="white">
     <h2 class="section-title"><?php the_field('how_we_work_section_title'); ?></h2>
-    <div class="stages">
-        <div class="line-container">
-            <div class="line">
+    <div class="content">
+        <div class="stages">
+            <div class="line-container">
+                <div class="line">
 
+                </div>
             </div>
-        </div>
-        <div class="items">
+            <div class="items">
             <?php if (have_rows('how_we_work_list')) : ?>
 
                 <?php while (have_rows('how_we_work_list')) : the_row(); ?>
@@ -139,6 +140,7 @@
                 <?php endwhile; ?>
             <?php endif; ?>
 
+            </div>
         </div>
     </div>
     <div class="service-knob">

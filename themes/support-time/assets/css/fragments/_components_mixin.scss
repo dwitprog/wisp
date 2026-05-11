@@ -152,6 +152,16 @@ $spacing-properties: (
         padding-bottom: 130px;
         margin-top: -137px;
         z-index: 6;
+
+        @media (min-width: 1440px) {
+            max-width: 1620px;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
         @include max_1400 {
             margin-top: -100px;
         }
@@ -386,7 +396,7 @@ $spacing-properties: (
                     text-transform: uppercase;
                     font-size: 40px;
                     margin-bottom: 40px;
-                    opacity: 0.5;
+                    opacity: 1;
                     @include max_1200 {
                         font-size: 24px;
                         margin-bottom: 24px;
@@ -394,7 +404,7 @@ $spacing-properties: (
                 }
 
                 .desc {
-                    opacity: 0.5;
+                    opacity: 1;
                     max-width: 550px;
                 }
             }
@@ -462,7 +472,7 @@ $spacing-properties: (
                 background: rgba(19, 8, 57, 1);
                 position: relative;
                 display: block;
-                transition: all 0.5s linear;
+                transition: height 0.8s ease-out;
 
                 &:before,
                 &:after {
@@ -476,13 +486,15 @@ $spacing-properties: (
                 }
 
                 &:before {
-                    transform: rotate(135deg) translateX(5px);
-                    left: 0;
+                    left: -2px;
+                    transform-origin: bottom center;
+                    transform: rotate(45deg);
                 }
 
                 &:after {
-                    transform: rotate(225deg) translateX(-5px);
-                    right: 0;
+                    right: -2px;
+                    transform-origin: bottom center;
+                    transform: rotate(-45deg);
                 }
             }
 
@@ -529,6 +541,28 @@ $spacing-properties: (
                 }
             }
         }
+
+        &.is-near {
+            .line-container .line {
+                &:before,
+                &:after {
+                    animation: stage-arrow-pulse 1.2s ease-in-out 3;
+                    transform-origin: center bottom;
+                }
+            }
+        }
+    }
+}
+
+@keyframes stage-arrow-pulse {
+    0% {
+        opacity: 0.45;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.45;
     }
 }
 
@@ -536,6 +570,9 @@ $spacing-properties: (
     .have-a-questions {
         padding-top: 70px;
         margin-bottom: 323px;
+        @media (min-width: 1440px) {
+            margin-bottom: 140px;
+        }
         @include max_1200 {
             margin-bottom: 170px;
         }
@@ -972,6 +1009,9 @@ $spacing-properties: (
 
                 &.select-services {
                     margin-right: 50px;
+                    @media (min-width: 1440px) {
+                        margin-right: 0;
+                    }
                     @include max_1400 {
                         margin-right: 30px;
                     }
@@ -985,6 +1025,9 @@ $spacing-properties: (
 
                 &.select-services-price {
                     margin-right: 97px;
+                    @media (min-width: 1440px) {
+                        margin-right: 0;
+                    }
                     @include max_1400 {
                         margin-right: 30px;
                     }
@@ -1357,6 +1400,9 @@ $spacing-properties: (
 @mixin faq-accordion {
     .faq-accordion {
         margin-bottom: 36px;
+        @media (min-width: 1440px) {
+            margin-bottom: 80px;
+        }
         @include max_768 {
             margin-bottom: 0;
         }

@@ -134,7 +134,7 @@
     <div class="container">
         <div class="content">
             <div class="section-title">
-                <h2 class="color-white">CONTACT US</h2>
+                <h2 class="color-white">have a question?</h2>
             </div>
             <div class="lines">
                 <div class="line line-left"></div>
@@ -155,12 +155,7 @@
                 <textarea name="message" class="message" placeholder="MESSAGE"></textarea>
 
                 <div class="bottom-wrapper">
-                    <div class="input-wrapper input-wrapper_web-site">
-                        <span class="required">*</span>
-                        <input name="web-site" type="text" placeholder="Your website URL">
-                        <p>if you do not have a website, specify N/A</p>
-                    </div>
-                    <div class="select-interest custom-select">
+                    <div class="select-services custom-select">
                         <span class="required">*</span>
                         <div class="custom-select_top">
                             <p class="custom-select_title">Platforms of interest</p>
@@ -174,8 +169,8 @@
                         <div class="custom-select_list">
                             <div class="custom-select_item">
                                 <input type="checkbox" name="platformsOfInterest[]"
-                                       value="Bing ads" id="platformsOfInterest_1">
-                                <label for="platformsOfInterest_1">
+                                       value="Bing ads" id="p38_platforms_1">
+                                <label for="p38_platforms_1">
                                     <span>
                                     </span>
                                     Bing ads
@@ -183,8 +178,8 @@
                             </div>
                             <div class="custom-select_item">
                                 <input type="checkbox" name="platformsOfInterest[]" value="google ads"
-                                       id="platformsOfInterest_2">
-                                <label for="platformsOfInterest_2">
+                                       id="p38_platforms_2">
+                                <label for="p38_platforms_2">
                                     <span>
                                     </span>
                                     google ads
@@ -192,8 +187,8 @@
                             </div>
                             <div class="custom-select_item">
                                 <input type="checkbox" name="platformsOfInterest[]" value="LinkedIn ads"
-                                       id="platformsOfInterest_3">
-                                <label for="platformsOfInterest_3">
+                                       id="p38_platforms_3">
+                                <label for="p38_platforms_3">
                                     <span>
                                     </span>
                                     LinkedIn ads
@@ -201,11 +196,61 @@
                             </div>
                             <div class="custom-select_item">
                                 <input type="checkbox" name="platformsOfInterest[]" value="reddit ads"
-                                       id="platformsOfInterest_4">
-                                <label for="platformsOfInterest_4">
+                                       id="p38_platforms_4">
+                                <label for="p38_platforms_4">
                                     <span>
                                     </span>
                                     reddit ads
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="select-services-price custom-select">
+                        <span class="required">*</span>
+                        <div class="custom-select_top">
+                            <p class="custom-select_title">Planning budget</p>
+                            <img
+                                src="/wp-content/themes/support-time/assets/img/repeat-elements/form/custom-checkbox-arrow-1.svg"
+                                class="arrow arrow_default active" alt="arrow">
+                            <img
+                                src="/wp-content/themes/support-time/assets/img/repeat-elements/form/custom-checkbox-arrow-1-active.svg"
+                                class="arrow arrow_active" alt="arrow">
+                        </div>
+                        <div class="custom-select_list">
+                            <div class="custom-select_item">
+                                <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="not defined"
+                                       id="p38_services_price_1">
+                                <label for="p38_services_price_1">
+                                    <span>
+                                    </span>
+                                    not defined
+                                </label>
+                            </div>
+                            <div class="custom-select_item">
+                                <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="100 000 $"
+                                       id="p38_services_price_2">
+                                <label for="p38_services_price_2">
+                                    <span>
+                                    </span>
+                                    100 000 $
+                                </label>
+                            </div>
+                            <div class="custom-select_item">
+                                <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="150 000 $"
+                                       id="p38_services_price_3">
+                                <label for="p38_services_price_3">
+                                    <span>
+                                    </span>
+                                    150 000 $
+                                </label>
+                            </div>
+                            <div class="custom-select_item">
+                                <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="200 000 $"
+                                       id="p38_services_price_4">
+                                <label for="p38_services_price_4">
+                                    <span>
+                                    </span>
+                                    200 000 $
                                 </label>
                             </div>
                         </div>
@@ -254,17 +299,18 @@
 
                             </a>
                             <a href="#">
-                                <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                          d="M18.1012 9.33526C18.1012 14.4909 14.0491 18.6705 9.0506 18.6705C4.05209 18.6705 0 14.4909 0 9.33526C0 4.17954 4.05209 0 9.0506 0C14.0491 0 18.1012 4.17954 18.1012 9.33526ZM9.37489 6.8917C8.49463 7.26937 6.73525 8.05101 4.09682 9.23668C3.66837 9.41246 3.44394 9.58442 3.42351 9.75245C3.38898 10.0366 3.73391 10.1485 4.2036 10.3008C4.2675 10.3215 4.33369 10.343 4.40155 10.3657C4.86366 10.5206 5.48528 10.7019 5.80843 10.7091C6.10156 10.7157 6.42873 10.591 6.78993 10.3352C9.25515 8.61878 10.5277 7.75125 10.6075 7.73249C10.6639 7.71933 10.742 7.70271 10.7949 7.75125C10.8479 7.79979 10.8426 7.89165 10.837 7.9163C10.8029 8.0666 9.44892 9.36494 8.74822 10.0368C8.52983 10.2463 8.37488 10.3948 8.34321 10.4288C8.27225 10.5048 8.19994 10.5767 8.13043 10.6457C7.70116 11.0726 7.37914 11.3927 8.14826 11.9155C8.51789 12.1667 8.81357 12.3744 9.10862 12.5817C9.43082 12.8081 9.75221 13.0338 10.1681 13.315C10.274 13.3866 10.3752 13.461 10.4737 13.5334C10.8487 13.8092 11.1855 14.0569 11.6018 14.0174C11.8436 13.9945 12.0934 13.7599 12.2203 13.0603C12.5202 11.407 13.1095 7.82481 13.2457 6.34873C13.2577 6.21941 13.2427 6.0539 13.2306 5.98124C13.2185 5.90858 13.1933 5.80506 13.1017 5.72842C12.9933 5.63767 12.826 5.61853 12.751 5.61983C12.4106 5.62608 11.8883 5.81339 9.37489 6.8917Z"
-                                          fill="white" />
-                                </svg>
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M26.0696 3.99558C25.7487 4.01939 25.4337 4.09469 25.1366 4.21858H25.1326C24.8476 4.33158 23.4926 4.90158 21.4326 5.76558L14.0506 8.87458C8.75363 11.1046 3.54663 13.3006 3.54663 13.3006L3.60863 13.2766C3.60863 13.2766 3.24963 13.3946 2.87463 13.6516C2.64243 13.7983 2.44295 13.9913 2.28863 14.2186C2.10463 14.4886 1.95663 14.9016 2.01163 15.3286C2.10163 16.0506 2.56963 16.4836 2.90563 16.7226C3.24563 16.9646 3.56963 17.0776 3.56963 17.0776H3.57763L8.46063 18.7226C8.67963 19.4256 9.94863 23.5976 10.2536 24.5586C10.4336 25.1326 10.6086 25.4916 10.8276 25.7656C10.9323 25.9056 11.0586 26.0226 11.2066 26.1166C11.2835 26.1628 11.3662 26.1984 11.4526 26.2226L11.4026 26.2106C11.4176 26.2146 11.4296 26.2266 11.4406 26.2306C11.4806 26.2416 11.5076 26.2456 11.5586 26.2536C12.3316 26.4876 12.9526 26.0076 12.9526 26.0076L12.9876 25.9796L15.8706 23.3546L20.7026 27.0616L20.8126 27.1086C21.8196 27.5506 22.8396 27.3046 23.3786 26.8706C23.9216 26.4336 24.1326 25.8746 24.1326 25.8746L24.1676 25.7846L27.9016 6.65558C28.0076 6.18358 28.0346 5.74158 27.9176 5.31258C27.7976 4.8781 27.5189 4.50448 27.1366 4.26558C26.8161 4.07058 26.4443 3.97651 26.0696 3.99558ZM25.9686 6.04558C25.9646 6.10858 25.9766 6.10158 25.9486 6.22258V6.23358L22.2496 25.1636C22.2336 25.1906 22.2066 25.2496 22.1326 25.3086C22.0546 25.3706 21.9926 25.4096 21.6676 25.2806L15.7576 20.7496L12.1876 24.0036L12.9376 19.2136L22.5936 10.2136C22.9916 9.84358 22.8586 9.76558 22.8586 9.76558C22.8866 9.31158 22.2576 9.63258 22.2576 9.63258L10.0816 17.1756L10.0776 17.1556L4.24163 15.1906V15.1866L4.22663 15.1836L4.25663 15.1716L4.28863 15.1556L4.31963 15.1446C4.31963 15.1446 9.53063 12.9486 14.8276 10.7186C17.4796 9.60158 20.1516 8.47658 22.2066 7.60858C23.4254 7.09559 24.6454 6.58558 25.8666 6.07858C25.9486 6.04658 25.9096 6.04558 25.9686 6.04558Z" fill="white"/>
+</svg>
 
                             </a>
                         </div>
                     </div>
                 </div>
+                <label class="consent form-consent-desktop-only">
+                    <input type="checkbox" name="consent" value="1">
+                    <span>By clicking the Send button you give your consent to processing of digital data</span>
+                </label>
             </form>
         </div>
         <div class="after-send">

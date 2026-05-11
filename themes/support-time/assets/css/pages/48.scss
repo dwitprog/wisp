@@ -257,6 +257,52 @@ header#header.header {
                 }
             }
         }
+
+        @media (min-width: 1440px) {
+            .container {
+                max-width: 1680px;
+            }
+
+            .section-title {
+                font-size: 140px;
+                text-align: left;
+            }
+
+            .mail-and-tel {
+                .mail-wrap span,
+                .tel-wrap span {
+                    font-size: 48px;
+                }
+
+                a,
+                button {
+                    font-size: 48px;
+                }
+            }
+
+            .socials {
+                .title {
+                    font-size: 32px;
+                }
+
+                .social-item {
+                    font-size: 20px;
+                }
+            }
+        }
+
+        @media (min-width: 1800px) {
+            .section-title {
+                font-size: 170px;
+            }
+        }
+
+        @media (min-width: 1400px) and (max-width: 1820px) {
+            .container {
+                padding-left: 80px;
+                padding-right: 80px;
+            }
+        }
     }
 }
 

@@ -29,13 +29,20 @@ if (haveAQuestionsForm) {
         validateFields: {
             name: { required: true, selector: 'input[name="name"]' },
             email: { required: true, email: true, selector: 'input[name="email"]' },
-            budget: { required: true, numeric: true, selector: 'input[name="budget"]' },
-            currentStatus: {
+            services: {
                 required: true,
-                selector: ".select-current-status",
+                selector: ".select-services",
                 customSelect: true,
                 messages: {
-                    required: "Please select at least one service",
+                    required: "Please select current status",
+                },
+            },
+            price: {
+                required: true,
+                selector: ".select-services-price",
+                customSelect: true,
+                messages: {
+                    required: "Please select planning budget",
                 },
             },
         },

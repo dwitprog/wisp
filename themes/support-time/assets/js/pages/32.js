@@ -32,13 +32,20 @@ if (haveAQuestionsForm) {
         validateFields: {
             name: { required: true, selector: 'input[name="name"]' },
             email: { required: true, email: true, selector: 'input[name="email"]' },
-            budget: { required: true, numeric: true, selector: 'input[name="budget"]' },
-            duration: {
+            services: {
                 required: true,
-                selector: ".select-duration",
+                selector: ".select-services",
                 customSelect: true,
                 messages: {
-                    required: "Please select at least one service",
+                    required: "Please select duration",
+                },
+            },
+            price: {
+                required: true,
+                selector: ".select-services-price",
+                customSelect: true,
+                messages: {
+                    required: "Please select planning budget",
                 },
             },
         },
