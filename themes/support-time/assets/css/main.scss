@@ -1513,13 +1513,61 @@ footer.footer#footer {
         margin-top: 8px;
         flex-direction: column;
     }
+
+    @media (max-width: 1600px) {
+        .content {
+            padding: 45px;
+        }
+
+        .section-title h2 {
+            font-size: 30px;
+        }
+
+        .form .input-wrapper {
+            margin-bottom: 30px;
+        }
+
+        .form .message {
+            margin-bottom: 45px;
+            min-height: 135px;
+        }
+
+        .form .bottom-wrapper {
+            margin-bottom: 26px;
+        }
+
+        .form .btn-and-social {
+            margin-bottom: 22px;
+        }
+
+        .form .custom-select_title {
+            font-size: 14px;
+        }
+
+        .form .custom-select_top {
+            padding: 20px;
+        }
+
+        .form .consent.form-consent-desktop-only {
+            font-size: 12px;
+        }
+
+        .form .btn-and-social .social-list a {
+            min-height: 68px;
+            width: 68px;
+        }
+
+        .form .btn-and-social .btn-send {
+            min-height: 68px;
+        }
+    }
 }
 
 .page-46 .have-a-questions .form .custom-select_title {
     font-size: 16px;
 }
 
-.have-a-questions .form .custom-select {
+.page-46 .have-a-questions .form .custom-select {
     width: 33%;
 }
 

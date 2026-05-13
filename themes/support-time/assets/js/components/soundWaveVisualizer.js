@@ -44,7 +44,7 @@ export function soundWaveVisualizer(options = {}, debug = false) {
         pauseSvg: null,
         startSvg: null,
         wrapper: null,
-        audioItems: [],
+        section: null,
     };
 
     /**
@@ -63,7 +63,7 @@ export function soundWaveVisualizer(options = {}, debug = false) {
         elements.pauseSvg = elements.playBtn.querySelector(".pause");
         elements.startSvg = elements.playBtn.querySelector(".start");
         elements.wrapper = elements.svg.closest(".sound-wrapper");
-        elements.audioItems = Array.from(document.querySelectorAll("[data-audio-item]"));
+        elements.section = elements.svg.closest("section");
 
         // Получаем все линии
         state.lines = Array.from(elements.svg.querySelectorAll("line"));
@@ -214,13 +214,12 @@ export function soundWaveVisualizer(options = {}, debug = false) {
             const current = state.currentValues[index];
 
             if (state.isAnimating) {
-                const randomTarget =
-                    config.animation.minMultiplier +
-                    Math.random() * (config.animation.maxMultiplier - config.animation.minMultiplier);
                 const intensity = getLineIntensity(index, peakLineIndex);
-                const target = randomTarget * (0.72 + intensity * 0.56);
+                const localMin = 0.97 + intensity * 0.42;
+                const localMax = 1.04 + intensity * 1.35;
+                const target = localMin + (localMax - localMin) * Math.random();
 
-                current.targetMultiplier += (target - current.targetMultiplier) * 0.12;
+                current.targetMultiplier += (target - current.targetMultiplier) * 0.16;
                 current.multiplier += (current.targetMultiplier - current.multiplier) * config.animation.speed;
             }
 
@@ -239,21 +238,27 @@ export function soundWaveVisualizer(options = {}, debug = false) {
         const totalLines = state.lines.length;
         if (!totalLines) return 0;
 
-        const items = elements.audioItems || [];
+        const scope = elements.section || document;
+        const items = Array.from(scope.querySelectorAll("[data-audio-item]"));
         if (!items.length) return Math.floor((totalLines - 1) / 2);
 
-        const activeIndex = items.findIndex(item => item.classList.contains("active"));
-        if (activeIndex < 0) return Math.floor((totalLines - 1) / 2);
+        const activeItem = items.find(item => item.classList.contains("active"));
+        if (!activeItem || !elements.svg) return Math.floor((totalLines - 1) / 2);
 
-        const normalized = items.length === 1 ? 0.5 : activeIndex / (items.length - 1);
+        const svgRect = elements.svg.getBoundingClientRect();
+        const itemRect = activeItem.getBoundingClientRect();
+        const activeCenterX = itemRect.left + itemRect.width / 2;
+        const normalizedByRect = svgRect.width > 0 ? (activeCenterX - svgRect.left) / svgRect.width : 0.5;
+        const normalized = Math.max(0, Math.min(1, normalizedByRect));
+
         return Math.round(normalized * (totalLines - 1));
     }
 
     function getLineIntensity(lineIndex, peakLineIndex) {
-        const maxDistance = Math.max(1, Math.floor(state.lines.length * 0.24));
+        const maxDistance = Math.max(1, Math.floor(state.lines.length * 0.15));
         const distance = Math.abs(lineIndex - peakLineIndex);
         const normalizedDistance = Math.min(1, distance / maxDistance);
-        return Math.pow(1 - normalizedDistance, 2.25);
+        return Math.pow(1 - normalizedDistance, 3.2);
     }
 
     /**

@@ -445,7 +445,62 @@
 
         @media (min-width: 1400px) and (max-width: 1820px) {
             .content.how-we-work__layout {
-                padding: 0 80px;
+                padding: 105px 80px;
+            }
+        }
+
+        @media (max-width: 1600px) {
+            .st-inline-contact.have-a-questions {
+                flex: 0 0 670px;
+                max-width: 670px;
+
+                .content {
+                    padding: 45px;
+                }
+
+                .section-title h2 {
+                    font-size: 30px;
+                }
+
+                .form {
+                    .input-wrapper {
+                        margin-bottom: 30px;
+                    }
+
+                    .message {
+                        margin-bottom: 45px;
+                        min-height: 135px;
+                    }
+
+                    .bottom-wrapper {
+                        margin-bottom: 26px;
+                    }
+
+                    .btn-and-social {
+                        margin-bottom: 22px;
+                    }
+
+                    .custom-select_top {
+                        padding: 20px;
+                    }
+
+                    .consent.form-consent-desktop-only {
+                        font-size: 12px;
+                    }
+
+                    .btn-and-social .social-list a {
+                        min-height: 68px;
+                        width: 68px;
+                    }
+
+                    .btn-and-social .btn-send {
+                        min-height: 68px;
+                    }
+                }
+            }
+
+            .have-a-questions .form .custom-select_title {
+                font-size: 14px;
             }
         }
 
