@@ -35,6 +35,7 @@ export function soundWaveVisualizer(options = {}, debug = false) {
         lines: [],
         originalCoords: [],
         currentValues: [],
+        baseLineHeight: 0,
     };
 
     // DOM элементы
@@ -76,6 +77,9 @@ export function soundWaveVisualizer(options = {}, debug = false) {
             const height = Math.abs(y2 - y1);
             return { y1, y2, centerY, height };
         });
+
+        const totalHeight = state.originalCoords.reduce((sum, item) => sum + item.height, 0);
+        state.baseLineHeight = state.originalCoords.length ? totalHeight / state.originalCoords.length : 0;
 
         // Инициализируем текущие значения
         state.currentValues = state.lines.map(() => ({
@@ -215,16 +219,24 @@ export function soundWaveVisualizer(options = {}, debug = false) {
 
             if (state.isAnimating) {
                 const intensity = getLineIntensity(index, peakLineIndex);
-                const localMin = 0.97 + intensity * 0.42;
-                const localMax = 1.04 + intensity * 1.35;
-                const target = localMin + (localMax - localMin) * Math.random();
+                const now = performance.now();
+                const globalPulse = (Math.sin(now * 0.0048) + 1) * 0.5; // общее движение всей волны
+                const parityBoost = index % 2 === 0 ? 0.12 : -0.08; // "через одну" больше/меньше
+                const travelWave = (Math.sin(now * 0.008 + index * 0.62) + 1) * 0.5; // бегущее распределение
 
-                current.targetMultiplier += (target - current.targetMultiplier) * 0.16;
+                const localMin = 0.86 + intensity * 0.62 + globalPulse * 0.08 + parityBoost * (1 - intensity);
+                const localMax = 0.98 + intensity * 3.66 + globalPulse * 0.24 + travelWave * 0.19;
+                const phaseJitter = (Math.sin(now * 0.012 + index * 0.5) + 1) * 0.5;
+                const randomBlend = Math.random() * 0.5 + phaseJitter * 0.5;
+                const target = localMin + (localMax - localMin) * randomBlend;
+
+                current.targetMultiplier += (target - current.targetMultiplier) * 0.32;
                 current.multiplier += (current.targetMultiplier - current.multiplier) * config.animation.speed;
             }
 
             // Рассчитываем новую высоту и координаты
-            const newHeight = original.height * current.multiplier;
+            const neutralHeight = original.height * 0.22 + state.baseLineHeight * 0.78;
+            const newHeight = neutralHeight * current.multiplier;
             const newY1 = original.centerY - newHeight / 2;
             const newY2 = original.centerY + newHeight / 2;
 
@@ -255,10 +267,10 @@ export function soundWaveVisualizer(options = {}, debug = false) {
     }
 
     function getLineIntensity(lineIndex, peakLineIndex) {
-        const maxDistance = Math.max(1, Math.floor(state.lines.length * 0.15));
+        const maxDistance = Math.max(2, Math.floor(state.lines.length * 0.11));
         const distance = Math.abs(lineIndex - peakLineIndex);
         const normalizedDistance = Math.min(1, distance / maxDistance);
-        return Math.pow(1 - normalizedDistance, 3.2);
+        return Math.pow(1 - normalizedDistance, 4.4);
     }
 
     /**

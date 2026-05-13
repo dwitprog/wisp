@@ -142,6 +142,19 @@
 
             </div>
         </div>
+        <div class="service-knob">
+            <picture class="image">
+                <source media="(max-width:767.98px)"
+                        srcset="/wp-content/themes/support-time/assets/img/pages/7/service-knob-768.png">
+                <source media="(max-width:991.98px)"
+                        srcset="/wp-content/themes/support-time/assets/img/pages/7/service-knob-992.png">
+                <source media="(max-width:1199.98px)"
+                        srcset="/wp-content/themes/support-time/assets/img/pages/7/service-knob-1200.png">
+                <img src="/wp-content/themes/support-time/assets/img/pages/7/service-knob.png" class="knob step_2"
+                     alt="Knob">
+            </picture>
+            <img src="/wp-content/themes/support-time/assets/img/pages/7/line.png" class="line" alt="Lines">
+        </div>
         <div class="have-a-questions st-inline-contact">
             <div class="content">
                 <div class="section-title">

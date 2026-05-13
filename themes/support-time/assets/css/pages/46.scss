@@ -730,9 +730,11 @@
             @include max_1200 {
                 padding: 0;
                 right: -202px;
+                top: 20%;
             }
             @include max_992 {
                 right: -149px;
+                top: 18%;
             }
             @include max_576 {
                 display: none;
@@ -821,6 +823,7 @@
                 margin: 0 0 22px;
                 padding: 0;
                 border-radius: 18px;
+                background: transparent;
 
                 h2 {
                     color: #fff;
@@ -929,6 +932,79 @@
                         text-decoration: underline;
                     }
                 }
+
+                @include max_576 {
+                    .input-wrapper_name,
+                    .input-wrapper_email,
+                    .input-wrapper,
+                    .message,
+                    .custom-select,
+                    .bottom-wrapper,
+                    .btn-send,
+                    .consent.form-consent-desktop-only {
+                        width: 100%;
+                        max-width: 100%;
+                    }
+
+                    .input-wrapper_name,
+                    .input-wrapper_email {
+                        margin-left: 0;
+                        margin-right: 0;
+                    }
+
+                    .bottom-wrapper {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 16px;
+                        margin-bottom: 10px;
+                    }
+
+                    .btn-and-social {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: stretch;
+                        gap: 12px;
+                        width: 100%;
+                        margin: 0 0 20px;
+                    }
+
+                    .btn-and-social .btn-send {
+                        order: 1;
+                    }
+
+                    .btn-and-social .social-list {
+                        order: 3;
+                        width: 100%;
+                        display: grid;
+                        grid-template-columns: repeat(3, minmax(0, 1fr));
+                        gap: 10px;
+                    }
+
+                    .btn-and-social .social-list a {
+                        width: 100%;
+                        min-height: 56px;
+                    }
+
+                    .custom-select {
+                        margin-bottom: 19px;
+                    }
+
+                    .custom-select_top {
+                        width: 100%;
+                        max-width: 100%;
+                    }
+
+                    .message {
+                        margin-bottom: 36px;
+                        min-height: 135px;
+                        height: 135px;
+                    }
+
+                    .consent.form-consent-desktop-only {
+                        font-size: 14px;
+                        margin-top: 0;
+                    }
+                }
             }
         }
 
@@ -984,6 +1060,56 @@
         &.banner .container {
             padding-left: 80px;
             padding-right: 80px;
+        }
+    }
+
+    @media screen and (max-width: 1399.98px) {
+        &.how-we-work {
+            .content.how-we-work__layout {
+                max-width: 1130px;
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .have-a-questions .form .input-wrapper input {
+                width: 100%;
+            }
+
+            .st-inline-contact.have-a-questions .form .bottom-wrapper {
+                width: 100%;
+            }
+
+            .st-inline-contact.have-a-questions {
+                flex: 0 0 100%;
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    }
+
+    @media screen and (max-width: 991.98px) {
+        &.how-we-work {
+            .content.how-we-work__layout {
+                padding: 60px 40px;
+            }
+        }
+    }
+
+    @media screen and (max-width: 576px) {
+        &.how-we-work {
+            padding-bottom: 0;
+
+            .st-inline-contact.have-a-questions .content {
+                padding: 40px;
+            }
+        }
+    }
+
+    @media screen and (min-width: 991px) {
+        &.how-we-work {
+            .service-knob {
+                display: none;
+            }
         }
     }
 

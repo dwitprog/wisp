@@ -1561,6 +1561,56 @@ footer.footer#footer {
             min-height: 68px;
         }
     }
+
+    @include max_576 {
+        .form .input-wrapper_name,
+        .form .input-wrapper_email,
+        .form .input-wrapper,
+        .form .message,
+        .form .custom-select,
+        .form .bottom-wrapper,
+        .form .btn-send,
+        .form .consent.form-consent-desktop-only {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .form .input-wrapper_name,
+        .form .input-wrapper_email {
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .form .bottom-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form .btn-and-social {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 12px;
+        }
+
+        .form .btn-and-social .btn-send {
+            order: 1;
+        }
+
+        .form .btn-and-social .social-list {
+            order: 3;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .form .btn-and-social .social-list a {
+            width: 100%;
+            min-height: 56px;
+        }
+    }
 }
 
 .page-46 .have-a-questions .form .custom-select_title {
