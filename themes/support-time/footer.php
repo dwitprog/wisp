@@ -33,7 +33,11 @@
                     <p class="subtitle color-white">
                         We guarantee complete confidentiality of your data
                     </p>
-                    <form class="form" autocomplete="off">
+                    <form class="form" autocomplete="off" data-autocomplete-guarded="true">
+                        <div class="autocomplete-guard" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+                            <input type="text" name="fake-username" autocomplete="new-password" tabindex="-1" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" data-autocomplete-locked="true" readonly data-field="fake-username">
+                            <input type="password" name="fake-password" autocomplete="new-password" tabindex="-1" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" data-autocomplete-locked="true" readonly data-field="fake-password">
+                        </div>
                         <div class="input-wrapper input-wrapper_name">
                             <span class="required">*</span>
                             <input name="name" type="text" autocomplete="off" readonly
@@ -77,7 +81,7 @@
                             <div class="select-services custom-select">
                                 <span class="required">*</span>
                                 <div class="custom-select_top">
-                                    <p class="custom-select_title">Service of interest</p>
+                                    <p class="custom-select_title" data-default-title="Service of interest">Service of interest</p>
                                     <img
                                         src="/wp-content/themes/support-time/assets/img/repeat-elements/form/custom-checkbox-arrow-1.svg"
                                         class="arrow arrow_default active" alt="arrow">
@@ -145,7 +149,7 @@
                             <div class="select-services-price custom-select">
                                 <span class="required">*</span>
                                 <div class="custom-select_top">
-                                    <p class="custom-select_title">Planning budget</p>
+                                    <p class="custom-select_title" data-default-title="Planning budget">Planning budget</p>
                                     <img
                                         src="/wp-content/themes/support-time/assets/img/repeat-elements/form/custom-checkbox-arrow-1.svg"
                                         class="arrow arrow_default active" alt="arrow">
@@ -197,7 +201,7 @@
                                 <input type="hidden" name="booking_date[]" class="booking-date-hidden" value="">
                                 <input type="hidden" name="booking_slot[]" class="booking-slot-hidden" value="">
                                 <div class="custom-select_top">
-                                    <p class="custom-select_title">Date & Time</p>
+                                    <p class="custom-select_title" data-default-title="MEETING DATE">MEETING DATE</p>
                                     <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/img/repeat-elements/form/custom-checkbox-arrow-1.svg" class="arrow arrow_default active" alt="arrow">
                                     <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/img/repeat-elements/form/custom-checkbox-arrow-1-active.svg" class="arrow arrow_active" alt="arrow">
                                 </div>
@@ -211,7 +215,7 @@
                                     <span class="gradient-text">SEND</span>
                                 </button>
                                 <div class="social-list">
-                                    <a href="#">
+                                    <a href="https://wa.me/+19715347250" target="_blank" rel="noopener noreferrer">
                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -249,7 +253,7 @@
                                         </svg>
 
                                     </a>
-                                    <a href="#">
+                                    <a href="https://t.me/ComplexWisps" target="_blank" rel="noopener noreferrer">
                                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M26.0696 3.99558C25.7487 4.01939 25.4337 4.09469 25.1366 4.21858H25.1326C24.8476 4.33158 23.4926 4.90158 21.4326 5.76558L14.0506 8.87458C8.75363 11.1046 3.54663 13.3006 3.54663 13.3006L3.60863 13.2766C3.60863 13.2766 3.24963 13.3946 2.87463 13.6516C2.64243 13.7983 2.44295 13.9913 2.28863 14.2186C2.10463 14.4886 1.95663 14.9016 2.01163 15.3286C2.10163 16.0506 2.56963 16.4836 2.90563 16.7226C3.24563 16.9646 3.56963 17.0776 3.56963 17.0776H3.57763L8.46063 18.7226C8.67963 19.4256 9.94863 23.5976 10.2536 24.5586C10.4336 25.1326 10.6086 25.4916 10.8276 25.7656C10.9323 25.9056 11.0586 26.0226 11.2066 26.1166C11.2835 26.1628 11.3662 26.1984 11.4526 26.2226L11.4026 26.2106C11.4176 26.2146 11.4296 26.2266 11.4406 26.2306C11.4806 26.2416 11.5076 26.2456 11.5586 26.2536C12.3316 26.4876 12.9526 26.0076 12.9526 26.0076L12.9876 25.9796L15.8706 23.3546L20.7026 27.0616L20.8126 27.1086C21.8196 27.5506 22.8396 27.3046 23.3786 26.8706C23.9216 26.4336 24.1326 25.8746 24.1326 25.8746L24.1676 25.7846L27.9016 6.65558C28.0076 6.18358 28.0346 5.74158 27.9176 5.31258C27.7976 4.8781 27.5189 4.50448 27.1366 4.26558C26.8161 4.07058 26.4443 3.97651 26.0696 3.99558ZM25.9686 6.04558C25.9646 6.10858 25.9766 6.10158 25.9486 6.22258V6.23358L22.2496 25.1636C22.2336 25.1906 22.2066 25.2496 22.1326 25.3086C22.0546 25.3706 21.9926 25.4096 21.6676 25.2806L15.7576 20.7496L12.1876 24.0036L12.9376 19.2136L22.5936 10.2136C22.9916 9.84358 22.8586 9.76558 22.8586 9.76558C22.8866 9.31158 22.2576 9.63258 22.2576 9.63258L10.0816 17.1756L10.0776 17.1556L4.24163 15.1906V15.1866L4.22663 15.1836L4.25663 15.1716L4.28863 15.1556L4.31963 15.1446C4.31963 15.1446 9.53063 12.9486 14.8276 10.7186C17.4796 9.60158 20.1516 8.47658 22.2066 7.60858C23.4254 7.09559 24.6454 6.58558 25.8666 6.07858C25.9486 6.04658 25.9096 6.04558 25.9686 6.04558Z" fill="white"/>
 </svg>
@@ -258,6 +262,10 @@
                                 </div>
                             </div>
                         </div>
+                        <label class="consent form-consent-desktop-only">
+                            <input type="checkbox" name="consent" value="1" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other">
+                            <span>By clicking the Send button you give your consent to processing of digital data</span>
+                        </label>
                     </form>
                 </div>
                 <div class="after-send">
@@ -478,7 +486,7 @@ if ( ! $footer_page_id && is_singular() ) {
                 ));
                 ?>
                 <div class="socials">
-                    <a href="#" class="whatsapp">
+                    <a href="https://wa.me/+19715347250" class="whatsapp" target="_blank" rel="noopener noreferrer">
                         <svg width="19" height="21" viewBox="0 0 19 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M6.45996 5C6.6233 5 6.77768 4.99965 6.92188 5.00977C7.08517 5.00977 7.27732 5.02018 7.4502 5.43652C7.66193 5.9341 8.11277 7.16299 8.1709 7.27539C8.22838 7.39684 8.26708 7.54941 8.19043 7.71191C8.10373 7.87437 8.06504 7.98607 7.9502 8.12891C7.83492 8.27097 7.70048 8.45318 7.59473 8.56445C7.4697 8.68646 7.35431 8.81909 7.48828 9.07324C7.63248 9.31668 8.10382 10.139 8.80566 10.7998C9.70904 11.6528 10.4681 11.9176 10.708 12.0391C10.9389 12.161 11.0826 12.14 11.2178 11.9775C11.3614 11.8149 11.8129 11.2572 11.9668 11.0029C12.1206 10.7594 12.2747 10.7998 12.4961 10.8809C12.7174 10.9627 13.8699 11.5719 14.1104 11.6934C14.3406 11.8254 14.504 11.8871 14.5615 11.9883C14.6189 12.0903 14.6196 12.5975 14.4277 13.1758C14.2261 13.7651 13.2641 14.3137 12.832 14.3643C12.3996 14.4155 11.9954 14.5779 9.99707 13.7451C7.59435 12.739 6.07584 10.1391 5.96094 9.97656C5.84475 9.81302 5 8.62522 5 7.39648C5.0001 6.16793 5.60483 5.56804 5.82617 5.31445C6.04692 5.06044 6.30679 5.00001 6.45996 5Z"
@@ -521,7 +529,7 @@ if ( ! $footer_page_id && is_singular() ) {
                         </svg>
 
                     </a>
-                    <a href="#" class="telegram">
+                    <a href="https://t.me/ComplexWisps" class="telegram" target="_blank" rel="noopener noreferrer">
                         <svg width="21" height="23" viewBox="0 0 21 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" clip-rule="evenodd"
                                   d="M20.8402 11.0132C20.8402 17.0956 16.1749 22.0264 10.4201 22.0264C4.66523 22.0264 0 17.0956 0 11.0132C0 4.93078 4.66523 0 10.4201 0C16.1749 0 20.8402 4.93078 20.8402 11.0132ZM10.7934 8.13044C9.77998 8.57599 7.75439 9.49813 4.71672 10.8969C4.22345 11.1043 3.96505 11.3072 3.94153 11.5054C3.90178 11.8406 4.2989 11.9726 4.83966 12.1523C4.91323 12.1768 4.98944 12.2021 5.06757 12.2289C5.5996 12.4117 6.31528 12.6255 6.68733 12.634C7.02481 12.6417 7.40149 12.4947 7.81734 12.1928C10.6556 10.168 12.1206 9.14449 12.2125 9.12236C12.2775 9.10683 12.3674 9.08722 12.4283 9.14449C12.4893 9.20176 12.4833 9.31013 12.4768 9.33921C12.4375 9.51652 10.8787 11.0482 10.0719 11.8409C9.82051 12.088 9.64212 12.2632 9.60565 12.3033C9.52396 12.393 9.4407 12.4778 9.36067 12.5592C8.86645 13.0629 8.4957 13.4405 9.3812 14.0573C9.80676 14.3536 10.1472 14.5987 10.4869 14.8432C10.8578 15.1102 11.2278 15.3765 11.7067 15.7083C11.8286 15.7927 11.9451 15.8805 12.0585 15.966C12.4902 16.2913 12.8781 16.5836 13.3573 16.5369C13.6357 16.5099 13.9233 16.2331 14.0694 15.4078C14.4146 13.4574 15.0932 9.23128 15.25 7.48988C15.2638 7.33731 15.2465 7.14205 15.2326 7.05633C15.2186 6.97062 15.1897 6.84848 15.0842 6.75807C14.9594 6.651 14.7667 6.62843 14.6804 6.62996C14.2885 6.63733 13.6872 6.85831 10.7934 8.13044Z"

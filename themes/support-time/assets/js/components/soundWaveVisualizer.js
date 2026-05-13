@@ -44,6 +44,7 @@ export function soundWaveVisualizer(options = {}, debug = false) {
         pauseSvg: null,
         startSvg: null,
         wrapper: null,
+        audioItems: [],
     };
 
     /**
@@ -62,6 +63,7 @@ export function soundWaveVisualizer(options = {}, debug = false) {
         elements.pauseSvg = elements.playBtn.querySelector(".pause");
         elements.startSvg = elements.playBtn.querySelector(".start");
         elements.wrapper = elements.svg.closest(".sound-wrapper");
+        elements.audioItems = Array.from(document.querySelectorAll("[data-audio-item]"));
 
         // Получаем все линии
         state.lines = Array.from(elements.svg.querySelectorAll("line"));
@@ -205,20 +207,21 @@ export function soundWaveVisualizer(options = {}, debug = false) {
      * Обновление волны
      */
     function updateWave() {
+        const peakLineIndex = getPeakLineIndex();
+
         state.lines.forEach((line, index) => {
             const original = state.originalCoords[index];
             const current = state.currentValues[index];
 
             if (state.isAnimating) {
-                // Плавное приближение к целевому множителю
-                const diff = current.targetMultiplier - current.multiplier;
-                if (Math.abs(diff) > 0.01) {
-                    current.multiplier += diff * config.animation.speed;
-                } else {
-                    // Генерируем новый целевой множитель
-                    const range = config.animation.maxMultiplier - config.animation.minMultiplier;
-                    current.targetMultiplier = config.animation.minMultiplier + Math.random() * range;
-                }
+                const randomTarget =
+                    config.animation.minMultiplier +
+                    Math.random() * (config.animation.maxMultiplier - config.animation.minMultiplier);
+                const intensity = getLineIntensity(index, peakLineIndex);
+                const target = randomTarget * (0.72 + intensity * 0.56);
+
+                current.targetMultiplier += (target - current.targetMultiplier) * 0.12;
+                current.multiplier += (current.targetMultiplier - current.multiplier) * config.animation.speed;
             }
 
             // Рассчитываем новую высоту и координаты
@@ -230,6 +233,27 @@ export function soundWaveVisualizer(options = {}, debug = false) {
             line.setAttribute("y1", newY1);
             line.setAttribute("y2", newY2);
         });
+    }
+
+    function getPeakLineIndex() {
+        const totalLines = state.lines.length;
+        if (!totalLines) return 0;
+
+        const items = elements.audioItems || [];
+        if (!items.length) return Math.floor((totalLines - 1) / 2);
+
+        const activeIndex = items.findIndex(item => item.classList.contains("active"));
+        if (activeIndex < 0) return Math.floor((totalLines - 1) / 2);
+
+        const normalized = items.length === 1 ? 0.5 : activeIndex / (items.length - 1);
+        return Math.round(normalized * (totalLines - 1));
+    }
+
+    function getLineIntensity(lineIndex, peakLineIndex) {
+        const maxDistance = Math.max(1, Math.floor(state.lines.length * 0.24));
+        const distance = Math.abs(lineIndex - peakLineIndex);
+        const normalizedDistance = Math.min(1, distance / maxDistance);
+        return Math.pow(1 - normalizedDistance, 2.25);
     }
 
     /**

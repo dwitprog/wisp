@@ -148,7 +148,11 @@
                     <h2>Contact us</h2>
                 </div>
 
-                <form class="form" autocomplete="off">
+                <form class="form" autocomplete="off" data-autocomplete-guarded="true">
+                    <div class="autocomplete-guard" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+                        <input type="text" name="fake-username" autocomplete="new-password" tabindex="-1" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" data-autocomplete-locked="true" readonly data-field="fake-username">
+                        <input type="password" name="fake-password" autocomplete="new-password" tabindex="-1" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other" data-autocomplete-locked="true" readonly data-field="fake-password">
+                    </div>
                     <div class="input-wrapper input-wrapper_name">
                         <span class="required">*</span>
                         <input name="name" type="text" autocomplete="off" readonly
@@ -193,7 +197,7 @@
                         <div class="select-services custom-select">
                             <span class="required">*</span>
                             <div class="custom-select_top">
-                                <p class="custom-select_title">Service of interest</p>
+                                <p class="custom-select_title" data-default-title="Service of interest">Service of interest</p>
                                 <img
                                     src="/wp-content/themes/support-time/assets/img/repeat-elements/form/custom-checkbox-arrow-1.svg"
                                     class="arrow arrow_default active" alt="arrow">
@@ -262,7 +266,7 @@
                         <div class="select-services-price custom-select">
                             <span class="required">*</span>
                             <div class="custom-select_top">
-                                <p class="custom-select_title">Budget</p>
+                                <p class="custom-select_title" data-default-title="Planning budget">Planning budget</p>
                                 <img
                                     src="/wp-content/themes/support-time/assets/img/repeat-elements/form/custom-checkbox-arrow-1.svg"
                                     class="arrow arrow_default active" alt="arrow">
@@ -315,7 +319,7 @@
                             <input type="hidden" name="booking_date[]" class="booking-date-hidden" value="">
                             <input type="hidden" name="booking_slot[]" class="booking-slot-hidden" value="">
                             <div class="custom-select_top">
-                                <p class="custom-select_title">Meeting date</p>
+                                <p class="custom-select_title" data-default-title="MEETING DATE">MEETING DATE</p>
                                 <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/img/repeat-elements/form/custom-checkbox-arrow-1.svg" class="arrow arrow_default active" alt="arrow">
                                 <img src="<?php echo esc_url(get_stylesheet_directory_uri()); ?>/assets/img/repeat-elements/form/custom-checkbox-arrow-1-active.svg" class="arrow arrow_active" alt="arrow">
                             </div>
@@ -329,31 +333,54 @@
                                 <span class="gradient-text">SEND</span>
                             </button>
                             <div class="social-list">
-                                <a href="#">
+                                <a href="https://wa.me/+19715347250" target="_blank" rel="noopener noreferrer">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M1.65625 18.2169L2.82504 13.9684C2.10688 12.722 1.72975 11.3085 1.73159 9.87002C1.72328 5.33727 5.4043 1.65625 9.92831 1.65625C12.124 1.65625 14.1856 2.50752 15.738 4.06036C16.5031 4.82154 17.1096 5.727 17.5223 6.72427C17.935 7.72153 18.1456 8.79076 18.1421 9.87002C18.1421 14.3941 14.4611 18.0751 9.93659 18.0751C8.5594 18.0751 7.21546 17.7326 6.0134 17.0736L1.65625 18.2169ZM6.20567 15.5961L6.45616 15.7462C7.50754 16.3684 8.70663 16.697 9.92831 16.6978C13.6846 16.6978 16.7482 13.6348 16.7482 9.87788C16.7482 8.05841 16.0389 6.33923 14.7531 5.05401C14.1209 4.41818 13.369 3.91377 12.541 3.56984C11.7129 3.22591 10.8249 3.04927 9.92831 3.05009C6.1636 3.05058 3.10097 6.11369 3.10097 9.87051C3.10097 11.1558 3.46006 12.4166 4.14451 13.5017L4.30302 13.7605L3.61026 16.281L6.20567 15.5961Z"
                                             fill="white" />
                                         <path fill-rule="evenodd" clip-rule="evenodd"
-                                              d="M7.82753 6.40625C7.66233 6.40625 7.49714 6.45887 7.38451 6.57149C7.27189 6.68412 7.20672 6.84931 7.20672 7.01451V12.277C7.20672 12.4422 7.27189 12.6074 7.38451 12.72C7.49714 12.8327 7.66233 12.8853 7.82753 12.8853H8.28893C8.45413 12.8853 8.61933 12.82 8.73195 12.7074C8.84457 12.5948 8.90974 12.4296 8.90974 12.2644V10.9609H10.3107C10.476 10.9609 10.6412 10.8957 10.7538 10.7831C10.8664 10.6704 10.9316 10.5052 10.9316 10.34V9.87862C10.9316 9.71342 10.8664 9.54822 10.7538 9.4356C10.6412 9.32298 10.476 9.25781 10.3107 9.25781H8.90974V7.01451C8.90974 6.84931 8.84457 6.68412 8.73195 6.57149C8.61933 6.45887 8.45413 6.40625 8.28893 6.40625H7.82753Z"
+                                              d="M7.88209 6.43137C7.7319 6.0889 7.56506 6.08058 7.42319 6.08058C7.29794 6.07227 7.16389 6.07227 7.02202 6.07227C6.88894 6.07227 6.6634 6.12217 6.47162 6.33107C6.27935 6.53948 5.75391 7.03215 5.75391 8.04194C5.75391 9.05224 6.48826 10.0287 6.58855 10.1623C6.68835 10.2959 8.00733 12.4324 10.0944 13.2592C11.8302 13.9436 12.181 13.81 12.5567 13.768C12.932 13.7264 13.7671 13.2758 13.9423 12.7915C14.1091 12.3159 14.1091 11.8986 14.0592 11.8149C14.0093 11.7318 13.8669 11.6813 13.6669 11.5728C13.458 11.4729 12.4565 10.972 12.2647 10.905C12.0724 10.8384 11.9388 10.8051 11.8053 11.0052C11.6717 11.2142 11.2793 11.6731 11.1546 11.8066C11.0372 11.9402 10.9124 11.9568 10.7119 11.8565C10.5035 11.7567 9.84392 11.5395 9.05919 10.8384C8.4496 10.2954 8.0406 9.6197 7.91536 9.41964C7.79892 9.21073 7.89872 9.10209 8.00733 9.00182C8.09931 8.91032 8.21624 8.76011 8.31653 8.6432C8.41631 8.52578 8.4496 8.43428 8.52495 8.30072C8.59152 8.16718 8.55823 8.04193 8.5083 7.94213C8.45796 7.85015 8.06604 6.84037 7.88209 6.43137Z"
+                                              fill="white" />
+                                        <path opacity="0.3"
+                                              d="M1.65625 18.2169L2.82504 13.9684C2.10688 12.722 1.72975 11.3085 1.73159 9.87002C1.72328 5.33727 5.4043 1.65625 9.92831 1.65625C12.124 1.65625 14.1856 2.50752 15.738 4.06036C16.5031 4.82154 17.1096 5.727 17.5223 6.72427C17.935 7.72153 18.1456 8.79076 18.1421 9.87002C18.1421 14.3941 14.4611 18.0751 9.93659 18.0751C8.5594 18.0751 7.21546 17.7326 6.0134 17.0736L1.65625 18.2169ZM6.20567 15.5961L6.45616 15.7462C7.50754 16.3684 8.70663 16.697 9.92831 16.6978C13.6846 16.6978 16.7482 13.6348 16.7482 9.87788C16.7482 8.05841 16.0389 6.33923 14.7531 5.05401C14.1209 4.41818 13.369 3.91377 12.541 3.56984C11.7129 3.22591 10.8249 3.04927 9.92831 3.05009C6.1636 3.05058 3.10097 6.11369 3.10097 9.87051C3.10097 11.1558 3.46006 12.4166 4.14451 13.5017L4.30302 13.7605L3.61026 16.281L6.20567 15.5961Z"
+                                              fill="white" />
+                                        <path opacity="0.3" fill-rule="evenodd" clip-rule="evenodd"
+                                              d="M7.88209 6.43137C7.7319 6.0889 7.56506 6.08058 7.42319 6.08058C7.29794 6.07227 7.16389 6.07227 7.02202 6.07227C6.88894 6.07227 6.6634 6.12217 6.47162 6.33107C6.27935 6.53948 5.75391 7.03215 5.75391 8.04194C5.75391 9.05224 6.48826 10.0287 6.58855 10.1623C6.68835 10.2959 8.00733 12.4324 10.0944 13.2592C11.8302 13.9436 12.181 13.81 12.5567 13.768C12.932 13.7264 13.7671 13.2758 13.9423 12.7915C14.1091 12.3159 14.1091 11.8986 14.0592 11.8149C14.0093 11.7318 13.8669 11.6813 13.6669 11.5728C13.458 11.4729 12.4565 10.972 12.2647 10.905C12.0724 10.8384 11.9388 10.8051 11.8053 11.0052C11.6717 11.2142 11.2793 11.6731 11.1546 11.8066C11.0372 11.9402 10.9124 11.9568 10.7119 11.8565C10.5035 11.7567 9.84392 11.5395 9.05919 10.8384C8.4496 10.2954 8.0406 9.6197 7.91536 9.41964C7.79892 9.21073 7.89872 9.10209 8.00733 9.00182C8.09931 8.91032 8.21624 8.76011 8.31653 8.6432C8.41631 8.52578 8.4496 8.43428 8.52495 8.30072C8.59152 8.16718 8.55823 8.04193 8.5083 7.94213C8.45796 7.85015 8.06604 6.84037 7.88209 6.43137Z"
                                               fill="white" />
                                     </svg>
                                 </a>
                                 <a href="#">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path
-                                            d="M12 2.25C6.61522 2.25 2.25 6.61522 2.25 12C2.25 17.3848 6.61522 21.75 12 21.75C17.3848 21.75 21.75 17.3848 21.75 12C21.75 6.61522 17.3848 2.25 12 2.25ZM16.2307 8.34575L14.7825 15.1732C14.6745 15.6465 14.3835 15.761 13.9785 15.5317L11.775 13.9087L10.7122 14.931C10.5945 15.0487 10.4955 15.1477 10.2667 15.1477L10.4257 12.8925L14.5357 9.171C14.7142 9.012 14.4967 8.922 14.268 9.081L9.1875 12.2775L7.0005 11.5957C6.528 11.4465 6.5175 11.1232 7.0995 10.8945L15.6397 7.60275C16.035 7.4535 16.38 7.69275 16.2307 8.34575Z"
-                                            fill="white" />
+                                            d="M4.16016 8.66558L10.6073 13.5009C11.7165 14.3327 13.2415 14.3327 14.3508 13.5009L20.7979 8.66553"
+                                            stroke="white" stroke-width="2.07971" stroke-linecap="round"
+                                            stroke-linejoin="round"></path>
+                                        <path
+                                            d="M19.7588 6.58594H5.20081C4.05221 6.58594 3.12109 7.51706 3.12109 8.66565V19.0642C3.12109 20.2128 4.05221 21.1439 5.20081 21.1439H19.7588C20.9074 21.1439 21.8385 20.2128 21.8385 19.0642V8.66565C21.8385 7.51706 20.9074 6.58594 19.7588 6.58594Z"
+                                            stroke="white" stroke-width="2.07971" stroke-linecap="round"></path>
+                                        <path opacity="0.3"
+                                              d="M19.7588 6.58594H5.20081C4.05221 6.58594 3.12109 7.51706 3.12109 8.66565V19.0642C3.12109 20.2128 4.05221 21.1439 5.20081 21.1439H19.7588C20.9074 21.1439 21.8385 20.2128 21.8385 19.0642V8.66565C21.8385 7.51706 20.9074 6.58594 19.7588 6.58594Z"
+                                              stroke="white" stroke-width="2.07971" stroke-linecap="round"></path>
+                                        <path opacity="0.3"
+                                              d="M4.16016 8.66558L10.6073 13.5009C11.7165 14.3327 13.2415 14.3327 14.3508 13.5009L20.7979 8.66553"
+                                              stroke="white" stroke-width="2.07971" stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
                                     </svg>
+                                </a>
+                                <a href="https://t.me/ComplexWisps" target="_blank" rel="noopener noreferrer">
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M26.0696 3.99558C25.7487 4.01939 25.4337 4.09469 25.1366 4.21858H25.1326C24.8476 4.33158 23.4926 4.90158 21.4326 5.76558L14.0506 8.87458C8.75363 11.1046 3.54663 13.3006 3.54663 13.3006L3.60863 13.2766C3.60863 13.2766 3.24963 13.3946 2.87463 13.6516C2.64243 13.7983 2.44295 13.9913 2.28863 14.2186C2.10463 14.4886 1.95663 14.9016 2.01163 15.3286C2.10163 16.0506 2.56963 16.4836 2.90563 16.7226C3.24563 16.9646 3.56963 17.0776 3.56963 17.0776H3.57763L8.46063 18.7226C8.67963 19.4256 9.94863 23.5976 10.2536 24.5586C10.4336 25.1326 10.6086 25.4916 10.8276 25.7656C10.9323 25.9056 11.0586 26.0226 11.2066 26.1166C11.2835 26.1628 11.3662 26.1984 11.4526 26.2226L11.4026 26.2106C11.4176 26.2146 11.4296 26.2266 11.4406 26.2306C11.4806 26.2416 11.5076 26.2456 11.5586 26.2536C12.3316 26.4876 12.9526 26.0076 12.9526 26.0076L12.9876 25.9796L15.8706 23.3546L20.7026 27.0616L20.8126 27.1086C21.8196 27.5506 22.8396 27.3046 23.3786 26.8706C23.9216 26.4336 24.1326 25.8746 24.1326 25.8746L24.1676 25.7846L27.9016 6.65558C28.0076 6.18358 28.0346 5.74158 27.9176 5.31258C27.7976 4.8781 27.5189 4.50448 27.1366 4.26558C26.8161 4.07058 26.4443 3.97651 26.0696 3.99558ZM25.9686 6.04558C25.9646 6.10858 25.9766 6.10158 25.9486 6.22258V6.23358L22.2496 25.1636C22.2336 25.1906 22.2066 25.2496 22.1326 25.3086C22.0546 25.3706 21.9926 25.4096 21.6676 25.2806L15.7576 20.7496L12.1876 24.0036L12.9376 19.2136L22.5936 10.2136C22.9916 9.84358 22.8586 9.76558 22.8586 9.76558C22.8866 9.31158 22.2576 9.63258 22.2576 9.63258L10.0816 17.1756L10.0776 17.1556L4.24163 15.1906V15.1866L4.22663 15.1836L4.25663 15.1716L4.28863 15.1556L4.31963 15.1446C4.31963 15.1446 9.53063 12.9486 14.8276 10.7186C17.4796 9.60158 20.1516 8.47658 22.2066 7.60858C23.4254 7.09559 24.6454 6.58558 25.8666 6.07858C25.9486 6.04658 25.9096 6.04558 25.9686 6.04558Z" fill="white"></path>
+</svg>
+
                                 </a>
                             </div>
                         </div>
 
                         <label class="consent form-consent-desktop-only">
-                            <input type="checkbox" name="consent" value="1">
-                            I agree with the <a href="/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+                            <input type="checkbox" name="consent" value="1" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other">
+                            <span>By clicking the Send button you give your consent to processing of digital data</span>
                         </label>
                     </div>
                 </form>
@@ -366,7 +393,7 @@
                             We will contact you to discuss further cooperation.
                         </p>
                         <div class="social-list">
-                            <a href="#">
+                            <a href="https://wa.me/+19715347250" target="_blank" rel="noopener noreferrer">
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -422,18 +449,5 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="service-knob">
-        <picture class="image">
-            <source media="(max-width:767.98px)"
-                    srcset="/wp-content/themes/support-time/assets/img/pages/7/service-knob-768.png">
-            <source media="(max-width:991.98px)"
-                    srcset="/wp-content/themes/support-time/assets/img/pages/7/service-knob-992.png">
-            <source media="(max-width:1199.98px)"
-                    srcset="/wp-content/themes/support-time/assets/img/pages/7/service-knob-1200.png">
-            <img src="/wp-content/themes/support-time/assets/img/pages/7/service-knob.png" class="knob step_2"
-                 alt="Knob">
-        </picture>
-        <img src="/wp-content/themes/support-time/assets/img/pages/7/line.png" class="line" alt="Lines">
     </div>
 </section>

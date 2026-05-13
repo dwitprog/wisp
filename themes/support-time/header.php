@@ -107,7 +107,7 @@ if (function_exists('wp_body_open')) {
         ));
         ?>
         <div class="header-end ">
-            <a href="#" class="header-phone">+1 000 000 00 00</a>
+            <a href="tel:+19715347250" class="header-phone">+19715347250</a>
             <div class="changing-font-size">
                 <button class="changing-font-size__btn">
                     <span class="white">

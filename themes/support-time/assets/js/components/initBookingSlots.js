@@ -1,5 +1,5 @@
 /**
- * Объединённый селект Date & Time: при открытии — выбор даты, после выбора даты — слоты.
+ * Объединённый селект MEETING DATE: при открытии — выбор даты, после выбора даты — слоты.
  * При повторном открытии снова даты (с отмеченным выбранным). Данные из rgData и data-date-options.
  */
 function getBookedStateForDate(dateStr) {
@@ -57,7 +57,7 @@ export function initBookingSlots(containerSelector = "#popupForm .have-a-questio
     function updateTitle() {
         if (selectedDate && selectedSlot) titleEl.textContent = selectedDate + ", " + selectedSlot;
         else if (selectedDate) titleEl.textContent = getDateLabel(selectedDate) + " — choose time";
-        else titleEl.textContent = "Date & Time";
+        else titleEl.textContent = "MEETING DATE";
     }
 
     function getDateLabel(value) {

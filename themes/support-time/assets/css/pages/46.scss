@@ -429,6 +429,9 @@
             align-items: flex-start;
             justify-content: space-between;
             gap: 56px;
+            max-width: 1680px;
+            margin: 0 auto;
+            width: 100%;
 
             @include max_1200 {
                 gap: 32px;
@@ -440,17 +443,17 @@
             }
         }
 
+        @media (min-width: 1400px) and (max-width: 1820px) {
+            .content.how-we-work__layout {
+                padding: 0 80px;
+            }
+        }
+
         .stages {
-            margin-left: 100px;
+            margin-left: 0;
             position: relative;
             z-index: 2;
             display: flex;
-            @include max_1200 {
-                margin-left: 52px;
-            }
-            @include max_576 {
-                margin-left: 30px;
-            }
         }
 
         .items {
@@ -731,8 +734,9 @@
         .st-inline-contact.have-a-questions {
             padding-top: 0;
             margin-bottom: 0;
-            flex: 0 0 min(520px, 42%);
-            max-width: 520px;
+            flex: 0 0 828px;
+            max-width: 828px;
+            width: 100%;
 
             @include max_1200 {
                 flex-basis: 420px;
@@ -746,8 +750,8 @@
             }
 
             .content {
-                padding: 32px 28px 28px;
-                border-radius: 24px;
+                border-radius: 32px;
+                padding: 60px;
 
                 @include max_576 {
                     padding: 20px;
@@ -760,13 +764,14 @@
                 width: 100%;
                 max-width: none;
                 margin: 0 0 22px;
-                padding: 18px 22px;
+                padding: 0;
                 border-radius: 18px;
 
                 h2 {
                     color: #fff;
-                    font-size: 34px;
+                    font-size: 40px;
                     line-height: 1.05;
+                    font-weight: 400;
 
                     @include max_576 {
                         font-size: 26px;
@@ -776,30 +781,93 @@
 
             .form {
                 .input-wrapper {
-                    margin-bottom: 28px;
+                    margin-bottom: 60px;
+                }
+
+                .input-wrapper_name {
+                    margin-right: 20px;
+                    width: calc(50% - 20px);
+                    overflow: hidden;
+                }
+
+                .input-wrapper_email {
+                    margin-left: 20px;
+                    width: calc(50% - 20px);
+                    overflow: hidden;
                 }
 
                 .message {
-                    min-height: 140px;
-                    margin-bottom: 24px;
+                    margin-bottom: 60px;
+                    min-height: 180px;
                 }
 
                 .bottom-wrapper {
-                    margin-bottom: 18px;
+                    margin-bottom: 36px;
+                    flex-wrap: nowrap;
                 }
 
                 .bottom-send {
+                    display: flex;
+                    justify-content: flex-end;
                     margin-top: 8px;
+                    width: 100%;
+                    flex-direction: column;
+                }
+
+                .btn-and-social {
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+                    justify-content: center;
+                    flex-wrap: nowrap;
+                    margin-bottom: 32px;
+
+                    .social-list {
+                        order: 1;
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+
+                        a {
+                            width: 92px;
+                            min-height: 92px;
+                            border: 2px solid #fff;
+                            border-radius: 18px;
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                    }
+
+                    .btn-send {
+                        order: 2;
+                        border-radius: 18px;
+                        font-size: 20px;
+                        line-height: 1;
+                        min-height: 92px;
+                        width: 100%;
+                        margin-bottom: 0;
+                    }
                 }
 
                 .consent.form-consent-desktop-only {
                     display: flex;
-                    align-items: center;
+                    align-items: flex-start;
                     gap: 10px;
                     color: #fff;
-                    font-size: 14px;
+                    font-size: 16px;
                     line-height: 1.35;
                     opacity: 0.9;
+                    width: 100%;
+                    margin-left: auto;
+                    margin-top: 12px;
+
+                    input {
+                        margin-top: 2px;
+                        width: 18px;
+                        min-width: 18px;
+                        height: 18px;
+                    }
 
                     a {
                         color: #fff;
@@ -807,6 +875,11 @@
                     }
                 }
             }
+        }
+
+        .line.line-bottom,
+        .line.line-left {
+            display: none;
         }
     }
 
