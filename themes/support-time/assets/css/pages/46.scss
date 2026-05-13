@@ -11,6 +11,8 @@
 
 /* Стили страницы */
 
+@include have-a-questions;
+
 .page-46 {
     &.banner {
         padding-top: 65px;
@@ -422,6 +424,22 @@
             padding-top: 105px;
         }
 
+        .content.how-we-work__layout {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 56px;
+
+            @include max_1200 {
+                gap: 32px;
+            }
+
+            @include max_992 {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+
         .stages {
             margin-left: 100px;
             position: relative;
@@ -706,6 +724,87 @@
                 right: 0;
                 @include max_1200 {
                     display: none;
+                }
+            }
+        }
+
+        .st-inline-contact.have-a-questions {
+            padding-top: 0;
+            margin-bottom: 0;
+            flex: 0 0 min(520px, 42%);
+            max-width: 520px;
+
+            @include max_1200 {
+                flex-basis: 420px;
+                max-width: 420px;
+            }
+
+            @include max_992 {
+                flex-basis: auto;
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .content {
+                padding: 32px 28px 28px;
+                border-radius: 24px;
+
+                @include max_576 {
+                    padding: 20px;
+                }
+            }
+
+            .section-title {
+                position: static;
+                transform: none;
+                width: 100%;
+                max-width: none;
+                margin: 0 0 22px;
+                padding: 18px 22px;
+                border-radius: 18px;
+
+                h2 {
+                    color: #fff;
+                    font-size: 34px;
+                    line-height: 1.05;
+
+                    @include max_576 {
+                        font-size: 26px;
+                    }
+                }
+            }
+
+            .form {
+                .input-wrapper {
+                    margin-bottom: 28px;
+                }
+
+                .message {
+                    min-height: 140px;
+                    margin-bottom: 24px;
+                }
+
+                .bottom-wrapper {
+                    margin-bottom: 18px;
+                }
+
+                .bottom-send {
+                    margin-top: 8px;
+                }
+
+                .consent.form-consent-desktop-only {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    color: #fff;
+                    font-size: 14px;
+                    line-height: 1.35;
+                    opacity: 0.9;
+
+                    a {
+                        color: #fff;
+                        text-decoration: underline;
+                    }
                 }
             }
         }

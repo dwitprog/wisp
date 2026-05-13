@@ -1,6 +1,8 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { initProjectStagesAnimation } from "../components/initProjectStagesAnimation";
+import { initFeedbackForm } from "../components/initFeedbackForm";
+import { initBookingSlots } from "../components/initBookingSlots";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -161,4 +163,122 @@ if (howWeWorkSection) {
             syncKnob(activeIndex);
         },
     });
+
+    const contactFormContainer = howWeWorkSection.querySelector(".st-inline-contact.have-a-questions");
+    if (contactFormContainer) {
+        const formContent = contactFormContainer.querySelector(".content");
+        const afterSendContent = contactFormContainer.querySelector(".after-send");
+        const btnSubmit = contactFormContainer.querySelector(".btn-send");
+
+        initBookingSlots(".page-46.how-we-work .st-inline-contact.have-a-questions");
+
+        initFeedbackForm(".page-46.how-we-work .st-inline-contact.have-a-questions", {
+            validateFields: {
+                name: { required: true, selector: 'input[name="name"]' },
+                email: { required: true, email: true, selector: 'input[name="email"]' },
+                message: { required: true, selector: 'textarea[name="message"]' },
+                services: {
+                    required: true,
+                    selector: ".select-services",
+                    customSelect: true,
+                    messages: { required: "Please select service of interest" },
+                },
+                budget: {
+                    required: true,
+                    selector: ".select-services-price",
+                    customSelect: true,
+                    messages: { required: "Please select budget" },
+                },
+                meeting: {
+                    required: true,
+                    selector: 'input[name="booking_slot[]"]',
+                    messages: { required: "Please choose meeting date & time" },
+                },
+                consent: {
+                    required: true,
+                    selector: 'input[name="consent"]',
+                    messages: { required: "Please accept the privacy policy" },
+                },
+            },
+            showSuccessMessage: false,
+            callbacks: {
+                beforeSubmit: () => {
+                    if (btnSubmit) btnSubmit.setAttribute("disabled", "disabled");
+                },
+                onSubmit: formData => {
+                    const ajaxUrl = window.rgData?.ajax_url;
+                    const ajaxNonce = window.rgData?.ajax_nonce;
+                    if (!ajaxUrl || !ajaxNonce) return Promise.reject(new Error("Missing ajax config"));
+
+                    const payload = new URLSearchParams();
+                    payload.append("action", "st_send_form");
+                    payload.append("nonce", ajaxNonce);
+                    payload.append("page_url", window.location.href);
+
+                    Object.entries(formData).forEach(([key, value]) => {
+                        if (Array.isArray(value)) value.forEach(entry => payload.append(key, entry));
+                        else payload.append(key, value);
+                    });
+
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 20000);
+
+                    return fetch(ajaxUrl, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+                        body: payload.toString(),
+                        signal: controller.signal,
+                    })
+                        .then(response => {
+                            clearTimeout(timeoutId);
+                            if (!response.ok) throw new Error("Request failed");
+                            return response.json();
+                        })
+                        .then(result => {
+                            if (!result?.success) throw new Error(result?.data?.message || "Mail error");
+                            if (formContent) formContent.classList.add("send-ok");
+                            if (afterSendContent) afterSendContent.classList.add("active");
+                            return result;
+                        })
+                        .catch(err => {
+                            clearTimeout(timeoutId);
+                            throw err;
+                        });
+                },
+                onSuccess: () => {
+                    if (btnSubmit) btnSubmit.removeAttribute("disabled");
+                    if (formContent) {
+                        gsap.to(formContent, { autoAlpha: 0, duration: 0.35, ease: "power1.out" });
+                    }
+                    if (afterSendContent) {
+                        gsap.set(afterSendContent, { display: "flex" });
+                        gsap.fromTo(
+                            afterSendContent,
+                            { autoAlpha: 0 },
+                            { autoAlpha: 1, duration: 0.4, ease: "power1.out" },
+                        );
+                    }
+                },
+                onError: () => {
+                    if (btnSubmit) btnSubmit.removeAttribute("disabled");
+                },
+            },
+        });
+
+        const okBtn = contactFormContainer.querySelector(".after-send .btn-close");
+        if (okBtn) {
+            okBtn.addEventListener("click", () => {
+                if (afterSendContent) {
+                    afterSendContent.classList.remove("active");
+                    gsap.to(afterSendContent, { autoAlpha: 0, duration: 0.25, ease: "power1.out" });
+                }
+                if (formContent) {
+                    formContent.classList.remove("send-ok");
+                    gsap.to(formContent, { autoAlpha: 1, duration: 0.25, ease: "power1.out" });
+                    const formEl = formContent.querySelector("form");
+                    if (formEl) formEl.reset();
+                }
+            });
+        }
+    }
 }
