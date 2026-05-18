@@ -546,7 +546,7 @@ if ( ! $footer_page_id && is_singular() ) {
                         </svg>
 
                     </a>
-                    <a href="#" class="mail">
+                    <a href="mailto:contact.us@complexwisps.com" class="mail" aria-label="contact.us@complexwisps.com">
                         <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M4.16016 8.66558L10.6073 13.5009C11.7165 14.3327 13.2415 14.3327 14.3508 13.5009L20.7979 8.66553"

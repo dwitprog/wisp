@@ -647,20 +647,21 @@
                     content: "";
                     display: block;
                     position: absolute;
-                    bottom: 0;
                     width: 3px;
                     height: 12px;
                     background: rgba(19, 8, 57, 1);
                 }
 
                 &:before {
-                    left: -2px;
+                    left: -1px;
+                    bottom: -1px;
                     transform-origin: bottom center;
                     transform: rotate(45deg);
                 }
 
                 &:after {
-                    right: -2px;
+                    right: -1px;
+                    bottom: -1px;
                     transform-origin: bottom center;
                     transform: rotate(-45deg);
                 }
