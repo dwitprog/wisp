@@ -21,3 +21,6 @@ if (!defined('ST_YETIFORCE_PASSWORD')) {
 // Basic Auth для запроса Login (логин/пароль в Postman → Authorization → Basic Auth). Если не заданы — используются ST_YETIFORCE_USER и ST_YETIFORCE_PASSWORD.
 // define('ST_YETIFORCE_BASIC_AUTH_USER', 'basic-auth-username');
 // define('ST_YETIFORCE_BASIC_AUTH_PASSWORD', 'basic-auth-password');
+
+// Куда отправлять заявки с форм (wp_mail). По умолчанию: contact.us@complexwisps.com
+// define('ST_SMTP_TO', 'contact.us@complexwisps.com');

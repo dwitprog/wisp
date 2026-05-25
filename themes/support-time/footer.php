@@ -169,30 +169,30 @@
                                         </label>
                                     </div>
                                     <div class="custom-select_item">
-                                        <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="100 000 $"
+                                        <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="5 000 $"
                                                id="services_price_popup_2">
                                         <label for="services_price_popup_2">
                                         <span>
                                         </span>
-                                            100 000 $
+                                            5 000 $
                                         </label>
                                     </div>
                                     <div class="custom-select_item">
-                                        <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="150 000 $"
+                                        <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="10 000 $"
                                                id="services_price_popup_3">
                                         <label for="services_price_popup_3">
                                         <span>
                                         </span>
-                                            150 000 $
+                                            10 000 $
                                         </label>
                                     </div>
                                     <div class="custom-select_item">
-                                        <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="200 000 $"
+                                        <input type="checkbox" class="onlyOne" name="servicesPrice[]" value="15 000 $"
                                                id="services_price_popup_4">
                                         <label for="services_price_popup_4">
                                         <span>
                                         </span>
-                                            200 000 $
+                                            15 000 $
                                         </label>
                                     </div>
                                 </div>

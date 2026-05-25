@@ -317,13 +317,9 @@ function st_send_form(): void
         }
     }
 
-    $to = '';
-
-    if (!defined('ST_SMTP_TO')) {
-        $to = "stastimofeew98@gmail.com";
-    } else {
-        $to = ST_SMTP_TO;
-    }
+    $to = defined('ST_SMTP_TO') && ST_SMTP_TO !== ''
+        ? ST_SMTP_TO
+        : 'contact.us@complexwisps.com';
 
     $subject = 'Новая заявка с сайта ' . wp_specialchars_decode(get_bloginfo('name'), ENT_QUOTES);
     $message = implode("\n", $lines);
@@ -335,6 +331,15 @@ function st_send_form(): void
     }
 
     $headers = [];
+    $reply_email = '';
+    if (isset($raw_fields['email'])) {
+        $reply_email = is_array($raw_fields['email'])
+            ? sanitize_email((string) reset($raw_fields['email']))
+            : sanitize_email((string) $raw_fields['email']);
+    }
+    if ($reply_email !== '' && is_email($reply_email)) {
+        $headers[] = 'Reply-To: ' . $reply_email;
+    }
 
     error_log('[st_send_form] To: ' . $to);
     error_log('[st_send_form] Subject: ' . $subject);
