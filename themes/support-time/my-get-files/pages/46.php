@@ -350,6 +350,7 @@
                             </div>
                         </div>
 
+                        <?php get_template_part('template-parts/form-honeypot'); ?>
                         <label class="consent form-consent-desktop-only">
                             <input type="checkbox" name="consent" value="1" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" data-form-type="other">
                             <span>By clicking the Send button you give your consent to processing of digital data</span>

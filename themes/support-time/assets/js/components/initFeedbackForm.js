@@ -71,6 +71,8 @@
  *
  * @throws {Error} Не выбрасывает исключения, но выводит предупреждения в консоль при ошибках.
  */
+import { isFormHoneypotTriggered } from "./formHoneypot";
+
 export const initFeedbackForm = (containerSelector = ".have-a-questions", options = {}) => {
     // Конфигурация по умолчанию
     const defaultConfig = {
@@ -493,6 +495,11 @@ export const initFeedbackForm = (containerSelector = ".have-a-questions", option
                     if (beforeSubmitResult === false) {
                         return;
                     }
+                }
+
+                if (isFormHoneypotTriggered(formElement)) {
+                    handleFormSuccess(formElement);
+                    return;
                 }
 
                 // Вызываем callback onSubmit для AJAX отправки

@@ -1028,6 +1028,21 @@ footer.footer#footer {
     }
 }
 
+/* Honeypot: скрытый чекбокс «согласие» для ботов */
+.have-a-questions .form .form-honeypot,
+.popupForm .have-a-questions .form .form-honeypot {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    opacity: 0;
+    pointer-events: none;
+}
+
 /* Форма «have a question» на страницах услуг — та же сетка и оформление, что на главной (≥1440px) */
 .page-32.have-a-questions,
 .page-34.have-a-questions,

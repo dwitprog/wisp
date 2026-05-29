@@ -208,6 +208,25 @@ function st_yetiforce_create_lead(array $raw_fields, string $message_text): arra
 }
 
 /**
+ * Honeypot: bots often tick a hidden “privacy” checkbox; humans never see it.
+ */
+function st_form_honeypot_triggered(array $raw_fields): bool
+{
+    if (!isset($raw_fields['privacy_ack'])) {
+        return false;
+    }
+
+    $value = $raw_fields['privacy_ack'];
+    if (is_array($value)) {
+        $value = reset($value);
+    }
+
+    $value = strtolower(trim((string) $value));
+
+    return in_array($value, ['1', 'on', 'true', 'yes'], true);
+}
+
+/**
  * Универсальная отправка формы на почту через AJAX
  */
 function st_send_form(): void
@@ -225,6 +244,14 @@ function st_send_form(): void
 
     $raw_fields = wp_unslash($_POST);
     unset($raw_fields['action'], $raw_fields['nonce']);
+
+    if (st_form_honeypot_triggered($raw_fields)) {
+        error_log('[st_send_form] Honeypot triggered — skip mail and CRM');
+        unset($raw_fields['privacy_ack']);
+        wp_send_json_success(['message' => 'Form sent']);
+    }
+
+    unset($raw_fields['privacy_ack']);
 
     $lines = [];
     $page_url = '';
