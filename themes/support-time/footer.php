@@ -437,6 +437,8 @@ if ( ! $footer_page_id && is_singular() ) {
             <div class="links">
                 <p>
                     <a href="/privacy-policy/">Privacy Policy</a> |
+                    <a href="/california-privacy-policy/">California Privacy</a> |
+                    <a href="/terms-of-use/">Terms of Use</a> |
                     <a href="/cookie-policy/">Cookie</a>
                 </p>
             </div>

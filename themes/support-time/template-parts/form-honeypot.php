@@ -7,6 +7,6 @@
 <div class="form-honeypot" aria-hidden="true">
     <label class="consent">
         <input type="checkbox" name="privacy_ack" value="1" tabindex="-1" autocomplete="off">
-        <span>I agree to the privacy policy and terms of service</span>
+        <span>I agree to the privacy policy and terms of use</span>
     </label>
 </div>

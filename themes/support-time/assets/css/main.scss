@@ -1345,6 +1345,37 @@ footer.footer#footer {
         strong {
             font-weight: 700;
         }
+
+        .legal-table-wrap {
+            overflow-x: auto;
+            margin: 1em 0 1.5em;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.legal-table {
+            width: 100%;
+            min-width: 520px;
+            border-collapse: collapse;
+            font-size: 14px;
+            line-height: 1.45;
+
+            th,
+            td {
+                border: 1px solid rgba(25, 15, 64, 0.15);
+                padding: 10px 12px;
+                text-align: left;
+                vertical-align: top;
+            }
+
+            th {
+                background: rgba(121, 57, 113, 0.08);
+                font-weight: 700;
+            }
+
+            td:first-child {
+                min-width: 140px;
+            }
+        }
     }
 }
 
