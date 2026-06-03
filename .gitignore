@@ -15,6 +15,9 @@ uploads/
 !.github
 !.gitignore
 !README.md
+!deploy.php
+!deploy-config.example.php
+deploy-config.php
 
 node_modules/
 
