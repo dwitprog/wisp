@@ -4,7 +4,10 @@
  * Деплой темы из git (запуск из wp-content на сервере).
  * URL: /wp-content/deploy.php?token=...
  *
- * На сервере: скопируйте deploy-config.example.php → deploy-config.php и задайте token.
+ * Токен на сервере (один из вариантов):
+ * - deploy-config.php (см. deploy-config.example.php)
+ * - файл deploy.token в этой папке (одна строка, без пробелов)
+ * - переменная окружения ST_DEPLOY_TOKEN
  */
 
 declare(strict_types=1);
@@ -21,21 +24,59 @@ if (is_readable($base_dir . '/deploy-config.php')) {
     }
 }
 
-$token = isset($_GET['token']) ? (string) $_GET['token'] : '';
-$expected_token = isset($config['token']) ? (string) $config['token'] : '';
-if ($expected_token === '') {
+/**
+ * @return string
+ */
+function st_deploy_read_token_file(string $path): string
+{
+    if (!is_readable($path)) {
+        return '';
+    }
+
+    $raw = file_get_contents($path);
+    if (!is_string($raw)) {
+        return '';
+    }
+
+    return trim(preg_replace('/\s+/', '', $raw) ?? '');
+}
+
+/**
+ * @param array<string, mixed> $config
+ * @return string
+ */
+function st_deploy_expected_token(string $base_dir, array $config): string
+{
+    if (!empty($config['token']) && is_string($config['token'])) {
+        return trim($config['token']);
+    }
+
     $env_token = getenv('ST_DEPLOY_TOKEN');
     if (is_string($env_token) && $env_token !== '') {
-        $expected_token = $env_token;
+        return trim($env_token);
     }
+
+    foreach (array('deploy.token', '.deploy-token') as $filename) {
+        $from_file = st_deploy_read_token_file($base_dir . '/' . $filename);
+        if ($from_file !== '') {
+            return $from_file;
+        }
+    }
+
+    return '';
 }
+
+$token = isset($_GET['token']) ? trim((string) $_GET['token']) : '';
+$expected_token = st_deploy_expected_token($base_dir, $config);
 
 if ($expected_token === '' || !hash_equals($expected_token, $token)) {
     http_response_code(403);
     echo json_encode(
         array(
             'success' => false,
-            'error' => 'Invalid or missing token',
+            'error' => 'Invalid or missing deploy token',
+            'hint' => 'Создайте wp-content/deploy-config.php (token) или wp-content/deploy.token с одной строкой — вашим токеном из URL. Пример: deploy-config.example.php в репозитории.',
+            'token_configured' => $expected_token !== '',
         ),
         JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
     );

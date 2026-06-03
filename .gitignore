@@ -18,6 +18,8 @@ uploads/
 !deploy.php
 !deploy-config.example.php
 deploy-config.php
+deploy.token
+.deploy-token
 
 node_modules/
 
