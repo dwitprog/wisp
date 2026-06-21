@@ -377,12 +377,26 @@ function st_send_form(): void
 
     error_log('[st_send_form] wp_mail result: ' . ($sent ? 'true' : 'false'));
 
+    if (!$yetiforce_result['ok'] || !$sent) {
+        error_log('[st_send_form] Delivery failed. yetiforce=' . wp_json_encode($yetiforce_result) . ' mail=' . ($sent ? '1' : '0'));
+    }
+
     // Success if lead was created in CRM or email was sent (so user sees success and button unblocks)
     if ($yetiforce_result['ok'] || $sent) {
         wp_send_json_success(['message' => 'Form sent']);
     }
 
-    wp_send_json_error(['message' => 'Mail error']);
+    $error_payload = ['message' => 'Mail error'];
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        $error_payload['yetiforce'] = $yetiforce_result;
+        $error_payload['mail_sent'] = $sent;
+        $error_payload['integration'] = array(
+            'yetiforce_configured' => function_exists('st_form_is_yetiforce_configured') ? st_form_is_yetiforce_configured() : null,
+            'smtp_configured' => function_exists('st_form_is_smtp_configured') ? st_form_is_smtp_configured() : null,
+        );
+    }
+
+    wp_send_json_error($error_payload);
 }
 
 add_action('wp_ajax_st_send_form', 'st_send_form');

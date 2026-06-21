@@ -17,9 +17,11 @@ uploads/
 !README.md
 !deploy.php
 !deploy-config.example.php
+!st-config-local.example.php
 deploy-config.php
 deploy.token
 .deploy-token
+st-config-local.php
 
 node_modules/
 
